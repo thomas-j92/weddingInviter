@@ -24,7 +24,9 @@ Vue.component('person-attending', {
 	template: `
 	<div id="attending">
 		<h2>Attending</h2>
-		<ul><person v-for="user in users" v-bind:name="user.name" v-if="user.attending" v-bind:key="user.id">{{ user.name }}</person></ul>
+		<table class="table">
+			<person v-for="user in users" v-bind:name="user.name" v-if="user.attending" v-bind:key="user.id">{{ user.name }}</person>
+		</table>
 	</div>
 	`,
 
@@ -42,7 +44,7 @@ Vue.component('person-attending', {
 
 Vue.component('person', {
 	props: ['name'],
-	template: `<li><slot></slot> {{ name }} <button>Edit</button></li>`
+	template: `<tr><td><slot></slot> {{ name }} <button>Edit</button></div></td></tr>`
 })
 
 // Vue.component('modal', {

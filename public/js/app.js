@@ -13949,7 +13949,7 @@ window.Vue = __webpack_require__(36);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key)))
 
 Vue.component('person-attending', {
-  template: '\n\t<div id="attending">\n\t\t<h2>Attending</h2>\n\t\t<ul><person v-for="user in users" v-bind:name="user.name" v-if="user.attending" v-bind:key="user.id">{{ user.name }}</person></ul>\n\t</div>\n\t',
+  template: '\n\t<div id="attending">\n\t\t<h2>Attending</h2>\n\t\t<table class="table">\n\t\t\t<person v-for="user in users" v-bind:name="user.name" v-if="user.attending" v-bind:key="user.id">{{ user.name }}</person>\n\t\t</table>\n\t</div>\n\t',
 
   data: function data() {
     return {
@@ -13960,7 +13960,7 @@ Vue.component('person-attending', {
 
 Vue.component('person', {
   props: ['name'],
-  template: '<li><slot></slot> {{ name }} <button>Edit</button></li>'
+  template: '<tr><td><slot></slot> {{ name }} <button>Edit</button></div></td></tr>'
 });
 
 // Vue.component('modal', {
