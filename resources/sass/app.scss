@@ -13,14 +13,8 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
-#test {
-	background-color: red;
-
-	p {
-		color: #FFF;
-	}
-}
-
-.red {
-	background-color: red;
-}
+// drop down
+	.dropdown {
+		display: inline-block;
+	} 
+// end of drop down
