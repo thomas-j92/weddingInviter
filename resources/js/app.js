@@ -25,7 +25,57 @@ Vue.component('person-attending', {
 	<div id="attending">
 		<h2>Attending</h2>
 		<table class="table">
-			<person v-for="user in users" v-bind:name="user.name" v-if="user.attending" v-bind:key="user.id">{{ user.name }}</person>
+			<tbody>
+				<person v-for="user in users" v-bind:name="user.name" v-if="user.attending" v-bind:key="user.id">{{ user.name }}</person>
+			</tbody>
+		</table>
+	</div>
+	`,
+
+	data() {
+		return {
+			users: [
+	            {id: 1, name: "Tommy", rsvp: true, attending: true},
+	            {id: 2, name: "Jessie", rsvp: true, attending: true},
+	            {id: 3, name: "Aaron", rsvp: false, attending: false},
+	            {id: 4, name: "Yasmin", rsvp: false, attending: false},
+	        ]
+		}
+	}
+});
+
+Vue.component('person-awaiting-response', {
+	template: `
+	<div id="attending">
+		<h2>Awaiting Response</h2>
+		<table class="table">
+			<tbody>
+				<person v-for="user in users" v-bind:name="user.name" v-if="! user.rsvp" v-bind:key="user.id">{{ user.name }}</person>
+			</tbody>
+		</table>
+	</div>
+	`,
+
+	data() {
+		return {
+			users: [
+	            {id: 1, name: "Tommy", rsvp: true, attending: true},
+	            {id: 2, name: "Jessie", rsvp: true, attending: true},
+	            {id: 3, name: "Aaron", rsvp: false, attending: false},
+	            {id: 4, name: "Yasmin", rsvp: false, attending: false},
+	        ]
+		}
+	}
+});
+
+Vue.component('person-not-attending', {
+	template: `
+	<div id="attending">
+		<h2>Not Attending</h2>
+		<table class="table">
+			<tbody>
+				<person v-for="user in users" v-bind:name="user.name" v-if="user.rsvp && ! user.attending" v-bind:key="user.id">{{ user.name }}</person>
+			</tbody>
 		</table>
 	</div>
 	`,
@@ -44,7 +94,50 @@ Vue.component('person-attending', {
 
 Vue.component('person', {
 	props: ['name'],
-	template: `<tr><td><slot></slot> {{ name }} <button>Edit</button></div></td></tr>`
+	template: `
+	<tr>
+		<td>
+			<slot></slot>
+		</td>
+		<td>
+			<div class="dropdown show">
+				<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="oi oi-cog" title="icon name" aria-hidden="true"></span>
+				</a>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+					<a class="dropdown-item" href="#" data-toggle="modal" data-target="#editPersonModal">Edit</a>
+				</div>
+			</div>
+		</td>
+	</tr>`
+})
+
+Vue.component('toggle-menu', {
+	template: ``
+})
+
+Vue.component('modal', {
+	props: ['modal_id', 'title'],
+	template: `
+	<div class="modal" v-bind:id="modal_id" tabindex="-1" role="dialog">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title">{{ title }}</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <p>Modal body text goes here.</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary">Save changes</button>
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>`
 })
 
 // Vue.component('modal', {

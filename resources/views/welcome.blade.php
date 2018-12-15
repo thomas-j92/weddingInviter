@@ -9,11 +9,18 @@
         <title>WeddingInviter</title>
 
         <link href="{{ asset("css/app.css") }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset("css/open-iconic/css/open-iconic-bootstrap.min.css") }}" rel="stylesheet" type="text/css">
     </head>
     <body>
         <div class="flex-center position-ref full-height">
             <div id="root">
                 <person-attending></person-attending>
+
+                <person-awaiting-response></person-awaiting-response>
+
+                <person-not-attending></person-not-attending>
+
+                <modal modal_id="editPersonModal" title="Edit Individual"></modal> 
                 {{-- <ul v-bind:class="{'red' : isLoading}">
                     <li v-for="(user, index) in users">
                         @{{user.name}}

@@ -13949,18 +13949,47 @@ window.Vue = __webpack_require__(36);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key)))
 
 Vue.component('person-attending', {
-  template: '\n\t<div id="attending">\n\t\t<h2>Attending</h2>\n\t\t<table class="table">\n\t\t\t<person v-for="user in users" v-bind:name="user.name" v-if="user.attending" v-bind:key="user.id">{{ user.name }}</person>\n\t\t</table>\n\t</div>\n\t',
+	template: '\n\t<div id="attending">\n\t\t<h2>Attending</h2>\n\t\t<table class="table">\n\t\t\t<tbody>\n\t\t\t\t<person v-for="user in users" v-bind:name="user.name" v-if="user.attending" v-bind:key="user.id">{{ user.name }}</person>\n\t\t\t</tbody>\n\t\t</table>\n\t</div>\n\t',
 
-  data: function data() {
-    return {
-      users: [{ id: 1, name: "Tommy", rsvp: true, attending: true }, { id: 2, name: "Jessie", rsvp: true, attending: true }, { id: 3, name: "Aaron", rsvp: false, attending: false }, { id: 4, name: "Yasmin", rsvp: false, attending: false }]
-    };
-  }
+	data: function data() {
+		return {
+			users: [{ id: 1, name: "Tommy", rsvp: true, attending: true }, { id: 2, name: "Jessie", rsvp: true, attending: true }, { id: 3, name: "Aaron", rsvp: false, attending: false }, { id: 4, name: "Yasmin", rsvp: false, attending: false }]
+		};
+	}
+});
+
+Vue.component('person-awaiting-response', {
+	template: '\n\t<div id="attending">\n\t\t<h2>Awaiting Response</h2>\n\t\t<table class="table">\n\t\t\t<tbody>\n\t\t\t\t<person v-for="user in users" v-bind:name="user.name" v-if="! user.rsvp" v-bind:key="user.id">{{ user.name }}</person>\n\t\t\t</tbody>\n\t\t</table>\n\t</div>\n\t',
+
+	data: function data() {
+		return {
+			users: [{ id: 1, name: "Tommy", rsvp: true, attending: true }, { id: 2, name: "Jessie", rsvp: true, attending: true }, { id: 3, name: "Aaron", rsvp: false, attending: false }, { id: 4, name: "Yasmin", rsvp: false, attending: false }]
+		};
+	}
+});
+
+Vue.component('person-not-attending', {
+	template: '\n\t<div id="attending">\n\t\t<h2>Not Attending</h2>\n\t\t<table class="table">\n\t\t\t<tbody>\n\t\t\t\t<person v-for="user in users" v-bind:name="user.name" v-if="user.rsvp && ! user.attending" v-bind:key="user.id">{{ user.name }}</person>\n\t\t\t</tbody>\n\t\t</table>\n\t</div>\n\t',
+
+	data: function data() {
+		return {
+			users: [{ id: 1, name: "Tommy", rsvp: true, attending: true }, { id: 2, name: "Jessie", rsvp: true, attending: true }, { id: 3, name: "Aaron", rsvp: false, attending: false }, { id: 4, name: "Yasmin", rsvp: false, attending: false }]
+		};
+	}
 });
 
 Vue.component('person', {
-  props: ['name'],
-  template: '<tr><td><slot></slot> {{ name }} <button>Edit</button></div></td></tr>'
+	props: ['name'],
+	template: '\n\t<tr>\n\t\t<td>\n\t\t\t<slot></slot>\n\t\t</td>\n\t\t<td>\n\t\t\t<div class="dropdown show">\n\t\t\t\t<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\n\t\t\t\t\t<span class="oi oi-cog" title="icon name" aria-hidden="true"></span>\n\t\t\t\t</a>\n\t\t\t\t<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">\n\t\t\t\t\t<a class="dropdown-item" href="#" data-toggle="modal" data-target="#editPersonModal">Edit</a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</td>\n\t</tr>'
+});
+
+Vue.component('toggle-menu', {
+	template: ''
+});
+
+Vue.component('modal', {
+	props: ['modal_id', 'title'],
+	template: '\n\t<div class="modal" v-bind:id="modal_id" tabindex="-1" role="dialog">\n\t  <div class="modal-dialog" role="document">\n\t    <div class="modal-content">\n\t      <div class="modal-header">\n\t        <h5 class="modal-title">{{ title }}</h5>\n\t        <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n\t          <span aria-hidden="true">&times;</span>\n\t        </button>\n\t      </div>\n\t      <div class="modal-body">\n\t        <p>Modal body text goes here.</p>\n\t      </div>\n\t      <div class="modal-footer">\n\t        <button type="button" class="btn btn-primary">Save changes</button>\n\t        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>\n\t      </div>\n\t    </div>\n\t  </div>\n\t</div>'
 });
 
 // Vue.component('modal', {
@@ -13974,49 +14003,49 @@ Vue.component('person', {
  */
 
 var root = new Vue({
-  el: '#root'
-  // data: {
-  //     user_name: '',
-  //     users: [
-  //         {name: "Tommy", rsvp: true, attending: true},
-  //         {name: "Jessie", rsvp: true, attending: true},
-  //         {name: "Aaron", rsvp: false, attending: false},
-  //         {name: "Yasmin", rsvp: false, attending: false},
-  //     ],
-  //     className: "red",
-  //     isLoading: false
-  // },
-  // methods: {
-  //     addNames: function() {
-  //         this.users.push({
-  //             name: this.user_name,
-  //             rsvp: false,
-  //             attending: false
-  //         });
+	el: '#root'
+	// data: {
+	//     user_name: '',
+	//     users: [
+	//         {name: "Tommy", rsvp: true, attending: true},
+	//         {name: "Jessie", rsvp: true, attending: true},
+	//         {name: "Aaron", rsvp: false, attending: false},
+	//         {name: "Yasmin", rsvp: false, attending: false},
+	//     ],
+	//     className: "red",
+	//     isLoading: false
+	// },
+	// methods: {
+	//     addNames: function() {
+	//         this.users.push({
+	//             name: this.user_name,
+	//             rsvp: false,
+	//             attending: false
+	//         });
 
-  //         this.user_name = '';
-  //     },
-  //     markAsAttending: function(index) {
-  //         this.users[index].attending = true;
-  //     }
-  // },
-  // computed: {
-  //     reversedMessage: function() {
-  //         return this.title.split("").reverse().join('');
-  //     },
-  //     attending: function() {
-  //         return this.users.filter(user => user.attending);
-  //     }
-  // },
-  // mounted() {
-  //     document.querySelector('#add_user_btn').addEventListener('click', () => {
-  //         var input = document.querySelector('#add_user_input');
+	//         this.user_name = '';
+	//     },
+	//     markAsAttending: function(index) {
+	//         this.users[index].attending = true;
+	//     }
+	// },
+	// computed: {
+	//     reversedMessage: function() {
+	//         return this.title.split("").reverse().join('');
+	//     },
+	//     attending: function() {
+	//         return this.users.filter(user => user.attending);
+	//     }
+	// },
+	// mounted() {
+	//     document.querySelector('#add_user_btn').addEventListener('click', () => {
+	//         var input = document.querySelector('#add_user_input');
 
-  //         root.users.push(input.value);
+	//         root.users.push(input.value);
 
-  //         input.value = '';
-  //     })
-  // }
+	//         input.value = '';
+	//     })
+	// }
 });
 
 /***/ }),
