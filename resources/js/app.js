@@ -112,8 +112,61 @@ Vue.component('person', {
 	</tr>`
 })
 
-Vue.component('toggle-menu', {
-	template: ``
+Vue.component('tabs', {
+	template: `
+		<div>
+			<ul class="nav nav-tabs">
+			  <li class="nav-item" v-for="tab in tabs">
+			  	<a class="nav-link" :href="tab.href" @click="selectTab(tab)" :class="{ 'active' : tab.isActive }" data-toggle="tab">{{ tab.title }}</a>
+			  </li>
+			</ul>
+
+			<div class="tab-content">
+			  <slot></slot>
+			</div>
+		</div>
+	`,
+	data() {
+		return {
+			tabs: []
+		}
+	},
+	created() {
+		this.tabs = this.$children;
+	}, 
+	methods: {
+		selectTab(selectedTab) {
+			this.tabs.forEach(tab => {
+				tab.isActive = (tab.tabId == selectedTab.tabId);
+			})
+		}
+	}
+})
+
+Vue.component('tab', {
+	props: {
+		title: {required: true},
+		tabId: {},
+		selected: {default: false}
+	},
+	data() {
+		return {
+			isActive: true
+		}
+	},
+	computed: {
+		href() {
+			return '#' + this.tabId;
+		}
+ 	},
+	template: `
+		 <div class="tab-pane fade" :class="{ 'active show' : this.isActive }" :id="tabId">
+			<slot></slot>
+		 </div>
+	`,
+	mounted() {
+		this.isActive = this.selected;
+	}
 })
 
 Vue.component('modal', {
@@ -129,7 +182,7 @@ Vue.component('modal', {
 	        </button>
 	      </div>
 	      <div class="modal-body">
-	        <p>Modal body text goes here.</p>
+	        <slot></slot>
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-primary">Save changes</button>
@@ -185,13 +238,7 @@ var root = new Vue({
     //         return this.users.filter(user => user.attending);
     //     }
     // },
-    // mounted() {
-    //     document.querySelector('#add_user_btn').addEventListener('click', () => {
-    //         var input = document.querySelector('#add_user_input');
-
-    //         root.users.push(input.value);
-
-    //         input.value = '';
-    //     })
-    // }
+    mounted() {
+        console.log(this.$children);
+    }
 })

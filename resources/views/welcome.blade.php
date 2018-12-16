@@ -10,17 +10,52 @@
 
         <link href="{{ asset("css/app.css") }}" rel="stylesheet" type="text/css">
         <link href="{{ asset("css/open-iconic/css/open-iconic-bootstrap.min.css") }}" rel="stylesheet" type="text/css">
+
     </head>
     <body>
         <div class="flex-center position-ref full-height">
             <div id="root">
+                
+                <tabs>
+                    <tab title="Tab 1" tab-id="tab1" :selected="true">
+                        <p>Tab 1 content</p>
+                    </tab>
+                    <tab title="Tab 2" tab-id="tab2">
+                        <p>Tab 2 content</p>
+                    </tab>
+                    <tab title="Tab 3" tab-id="tab3">
+                        <p>Tab 3 content</p>
+                    </tab>
+                  {{-- <li class="nav-item">
+                    <a class="nav-link active" href="#">Active</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                  </li> --}}
+                </tabs>
+
                 <person-attending></person-attending>
 
                 <person-awaiting-response></person-awaiting-response>
 
                 <person-not-attending></person-not-attending>
 
-                <modal modal_id="editPersonModal" title="Edit Individual"></modal> 
+                <modal modal_id="editPersonModal" title="Edit Individual">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            Name:
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="text" placeholder="Name" name="name">
+                        </div>
+                    </div>              
+                </modal> 
                 {{-- <ul v-bind:class="{'red' : isLoading}">
                     <li v-for="(user, index) in users">
                         @{{user.name}}

@@ -13983,13 +13983,52 @@ Vue.component('person', {
 	template: '\n\t<tr>\n\t\t<td>\n\t\t\t<slot></slot>\n\t\t</td>\n\t\t<td>\n\t\t\t<div class="dropdown show">\n\t\t\t\t<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\n\t\t\t\t\t<span class="oi oi-cog" title="icon name" aria-hidden="true"></span>\n\t\t\t\t</a>\n\t\t\t\t<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">\n\t\t\t\t\t<a class="dropdown-item" href="#" data-toggle="modal" data-target="#editPersonModal">Edit</a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</td>\n\t</tr>'
 });
 
-Vue.component('toggle-menu', {
-	template: ''
+Vue.component('tabs', {
+	template: '\n\t\t<div>\n\t\t\t<ul class="nav nav-tabs">\n\t\t\t  <li class="nav-item" v-for="tab in tabs">\n\t\t\t  \t<a class="nav-link" :href="tab.href" @click="selectTab(tab)" :class="{ \'active\' : tab.isActive }" data-toggle="tab">{{ tab.title }}</a>\n\t\t\t  </li>\n\t\t\t</ul>\n\n\t\t\t<div class="tab-content">\n\t\t\t  <slot></slot>\n\t\t\t</div>\n\t\t</div>\n\t',
+	data: function data() {
+		return {
+			tabs: []
+		};
+	},
+	created: function created() {
+		this.tabs = this.$children;
+	},
+
+	methods: {
+		selectTab: function selectTab(selectedTab) {
+			this.tabs.forEach(function (tab) {
+				tab.isActive = tab.tabId == selectedTab.tabId;
+			});
+		}
+	}
+});
+
+Vue.component('tab', {
+	props: {
+		title: { required: true },
+		tabId: {},
+		selected: { default: false }
+	},
+	data: function data() {
+		return {
+			isActive: true
+		};
+	},
+
+	computed: {
+		href: function href() {
+			return '#' + this.tabId;
+		}
+	},
+	template: '\n\t\t <div class="tab-pane fade" :class="{ \'active show\' : this.isActive }" :id="tabId">\n\t\t\t<slot></slot>\n\t\t </div>\n\t',
+	mounted: function mounted() {
+		this.isActive = this.selected;
+	}
 });
 
 Vue.component('modal', {
 	props: ['modal_id', 'title'],
-	template: '\n\t<div class="modal" v-bind:id="modal_id" tabindex="-1" role="dialog">\n\t  <div class="modal-dialog" role="document">\n\t    <div class="modal-content">\n\t      <div class="modal-header">\n\t        <h5 class="modal-title">{{ title }}</h5>\n\t        <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n\t          <span aria-hidden="true">&times;</span>\n\t        </button>\n\t      </div>\n\t      <div class="modal-body">\n\t        <p>Modal body text goes here.</p>\n\t      </div>\n\t      <div class="modal-footer">\n\t        <button type="button" class="btn btn-primary">Save changes</button>\n\t        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>\n\t      </div>\n\t    </div>\n\t  </div>\n\t</div>'
+	template: '\n\t<div class="modal" v-bind:id="modal_id" tabindex="-1" role="dialog">\n\t  <div class="modal-dialog" role="document">\n\t    <div class="modal-content">\n\t      <div class="modal-header">\n\t        <h5 class="modal-title">{{ title }}</h5>\n\t        <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n\t          <span aria-hidden="true">&times;</span>\n\t        </button>\n\t      </div>\n\t      <div class="modal-body">\n\t        <slot></slot>\n\t      </div>\n\t      <div class="modal-footer">\n\t        <button type="button" class="btn btn-primary">Save changes</button>\n\t        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>\n\t      </div>\n\t    </div>\n\t  </div>\n\t</div>'
 });
 
 // Vue.component('modal', {
@@ -14003,7 +14042,7 @@ Vue.component('modal', {
  */
 
 var root = new Vue({
-	el: '#root'
+	el: '#root',
 	// data: {
 	//     user_name: '',
 	//     users: [
@@ -14037,15 +14076,9 @@ var root = new Vue({
 	//         return this.users.filter(user => user.attending);
 	//     }
 	// },
-	// mounted() {
-	//     document.querySelector('#add_user_btn').addEventListener('click', () => {
-	//         var input = document.querySelector('#add_user_input');
-
-	//         root.users.push(input.value);
-
-	//         input.value = '';
-	//     })
-	// }
+	mounted: function mounted() {
+		console.log(this.$children);
+	}
 });
 
 /***/ }),
