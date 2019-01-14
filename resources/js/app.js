@@ -26,7 +26,7 @@ Vue.component('person-attending', {
 		<h2>Attending</h2>
 		<table class="table">
 			<tbody>
-				<person v-for="user in users" v-bind:name="user.name" v-if="user.attending" v-bind:key="user.id">{{ user.name }}</person>
+				<person v-for="user in users" v-bind:name="user.name" v-if="user.attending" v-bind:uid="user.id" v-bind:key="user.id">{{ user.name }}</person>
 			</tbody>
 		</table>
 	</div>
@@ -50,7 +50,7 @@ Vue.component('person-awaiting-response', {
 		<h2>Awaiting Response</h2>
 		<table class="table">
 			<tbody>
-				<person v-for="user in users" v-bind:name="user.name" v-if="! user.rsvp" v-bind:key="user.id">{{ user.name }}</person>
+				<person v-for="user in users" v-bind:name="user.name" v-if="! user.rsvp" v-bind:uid="user.id" v-bind:key="user.id">{{ user.name }}</person>
 			</tbody>
 		</table>
 	</div>
@@ -74,7 +74,7 @@ Vue.component('person-not-attending', {
 		<h2>Not Attending</h2>
 		<table class="table">
 			<tbody>
-				<person v-for="user in users" v-bind:name="user.name" v-if="user.rsvp && ! user.attending" v-bind:key="user.id">{{ user.name }}</person>
+				<person v-for="user in users" v-bind:name="user.name" v-if="user.rsvp && ! user.attending" v-bind:uid="user.id" v-bind:key="user.id">{{ user.name }}</person>
 			</tbody>
 		</table>
 	</div>
@@ -93,7 +93,7 @@ Vue.component('person-not-attending', {
 });
 
 Vue.component('person', {
-	props: ['name'],
+	props: ['name', 'uid'],
 	template: `
 	<tr>
 		<td>
@@ -105,11 +105,16 @@ Vue.component('person', {
 					<span class="oi oi-cog" title="icon name" aria-hidden="true"></span>
 				</a>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-					<a class="dropdown-item" href="#" data-toggle="modal" data-target="#editPersonModal">Edit</a>
+					<a class="dropdown-item" href="#" data-toggle="modal" data-gaaaah="{{ uid ]}" v-on:click="updateUserModal(uid)" data-target="#editPersonModal">Edit</a>
 				</div>
 			</div>
 		</td>
-	</tr>`
+	</tr>`,
+	methods: {
+		updateUserModal: function(id) {
+			console.log(id);
+		}
+	}
 })
 
 Vue.component('tabs', {
@@ -202,7 +207,7 @@ Vue.component('modal', {
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
+var people;
 var root = new Vue({
     el: '#root',
     // data: {
@@ -239,6 +244,14 @@ var root = new Vue({
     //     }
     // },
     mounted() {
-        console.log(this.$children);
+        $.ajax({
+        	url: '/people',
+        	type: 'get',
+        	success: function(data) {
+        		people = data;
+
+        		console.log(people);
+        	}
+        })
     }
 })

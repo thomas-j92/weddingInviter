@@ -13949,7 +13949,7 @@ window.Vue = __webpack_require__(36);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key)))
 
 Vue.component('person-attending', {
-	template: '\n\t<div id="attending">\n\t\t<h2>Attending</h2>\n\t\t<table class="table">\n\t\t\t<tbody>\n\t\t\t\t<person v-for="user in users" v-bind:name="user.name" v-if="user.attending" v-bind:key="user.id">{{ user.name }}</person>\n\t\t\t</tbody>\n\t\t</table>\n\t</div>\n\t',
+	template: '\n\t<div id="attending">\n\t\t<h2>Attending</h2>\n\t\t<table class="table">\n\t\t\t<tbody>\n\t\t\t\t<person v-for="user in users" v-bind:name="user.name" v-if="user.attending" v-bind:uid="user.id" v-bind:key="user.id">{{ user.name }}</person>\n\t\t\t</tbody>\n\t\t</table>\n\t</div>\n\t',
 
 	data: function data() {
 		return {
@@ -13959,7 +13959,7 @@ Vue.component('person-attending', {
 });
 
 Vue.component('person-awaiting-response', {
-	template: '\n\t<div id="attending">\n\t\t<h2>Awaiting Response</h2>\n\t\t<table class="table">\n\t\t\t<tbody>\n\t\t\t\t<person v-for="user in users" v-bind:name="user.name" v-if="! user.rsvp" v-bind:key="user.id">{{ user.name }}</person>\n\t\t\t</tbody>\n\t\t</table>\n\t</div>\n\t',
+	template: '\n\t<div id="attending">\n\t\t<h2>Awaiting Response</h2>\n\t\t<table class="table">\n\t\t\t<tbody>\n\t\t\t\t<person v-for="user in users" v-bind:name="user.name" v-if="! user.rsvp" v-bind:uid="user.id" v-bind:key="user.id">{{ user.name }}</person>\n\t\t\t</tbody>\n\t\t</table>\n\t</div>\n\t',
 
 	data: function data() {
 		return {
@@ -13969,7 +13969,7 @@ Vue.component('person-awaiting-response', {
 });
 
 Vue.component('person-not-attending', {
-	template: '\n\t<div id="attending">\n\t\t<h2>Not Attending</h2>\n\t\t<table class="table">\n\t\t\t<tbody>\n\t\t\t\t<person v-for="user in users" v-bind:name="user.name" v-if="user.rsvp && ! user.attending" v-bind:key="user.id">{{ user.name }}</person>\n\t\t\t</tbody>\n\t\t</table>\n\t</div>\n\t',
+	template: '\n\t<div id="attending">\n\t\t<h2>Not Attending</h2>\n\t\t<table class="table">\n\t\t\t<tbody>\n\t\t\t\t<person v-for="user in users" v-bind:name="user.name" v-if="user.rsvp && ! user.attending" v-bind:uid="user.id" v-bind:key="user.id">{{ user.name }}</person>\n\t\t\t</tbody>\n\t\t</table>\n\t</div>\n\t',
 
 	data: function data() {
 		return {
@@ -13979,8 +13979,13 @@ Vue.component('person-not-attending', {
 });
 
 Vue.component('person', {
-	props: ['name'],
-	template: '\n\t<tr>\n\t\t<td>\n\t\t\t<slot></slot>\n\t\t</td>\n\t\t<td>\n\t\t\t<div class="dropdown show">\n\t\t\t\t<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\n\t\t\t\t\t<span class="oi oi-cog" title="icon name" aria-hidden="true"></span>\n\t\t\t\t</a>\n\t\t\t\t<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">\n\t\t\t\t\t<a class="dropdown-item" href="#" data-toggle="modal" data-target="#editPersonModal">Edit</a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</td>\n\t</tr>'
+	props: ['name', 'uid'],
+	template: '\n\t<tr>\n\t\t<td>\n\t\t\t<slot></slot>\n\t\t</td>\n\t\t<td>\n\t\t\t<div class="dropdown show">\n\t\t\t\t<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\n\t\t\t\t\t<span class="oi oi-cog" title="icon name" aria-hidden="true"></span>\n\t\t\t\t</a>\n\t\t\t\t<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">\n\t\t\t\t\t<a class="dropdown-item" href="#" data-toggle="modal" data-gaaaah="{{ uid ]}" v-on:click="updateUserModal(uid)" data-target="#editPersonModal">Edit</a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</td>\n\t</tr>',
+	methods: {
+		updateUserModal: function updateUserModal(id) {
+			console.log(id);
+		}
+	}
 });
 
 Vue.component('tabs', {
@@ -14040,7 +14045,7 @@ Vue.component('modal', {
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
+var people;
 var root = new Vue({
 	el: '#root',
 	// data: {
@@ -14077,7 +14082,15 @@ var root = new Vue({
 	//     }
 	// },
 	mounted: function mounted() {
-		console.log(this.$children);
+		$.ajax({
+			url: '/people',
+			type: 'get',
+			success: function success(data) {
+				people = data;
+
+				console.log(people);
+			}
+		});
 	}
 });
 
