@@ -17,11 +17,8 @@ Route::get('/', function () {
 
 
 Route::get('/people', function () {
-    return [
-    	'Tommy',
-    	'Jess',
-    	'Aaron',
-    	'Yasmin'
-    ];
+	$people = DB::table('people')->get();
+
+	return $people;
 });
 

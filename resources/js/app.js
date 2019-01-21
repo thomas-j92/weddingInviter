@@ -26,20 +26,24 @@ Vue.component('person-attending', {
 		<h2>Attending</h2>
 		<table class="table">
 			<tbody>
-				<person v-for="user in users" v-bind:name="user.name" v-if="user.attending" v-bind:uid="user.id" v-bind:key="user.id">{{ user.name }}</person>
+				<person v-for="p in people" v-bind:name="p.first_name" v-if="p.attending" v-bind:uid="p.id" v-bind:key="p.id">{{ p.first_name }}</person>
 			</tbody>
 		</table>
 	</div>
 	`,
-
+	mounted: function() {
+		var self = this;
+		$.ajax({
+				url: '/people',
+				type: 'get',
+				success: function(data) {
+					self.people = data;
+				}
+			});
+	},
 	data() {
 		return {
-			users: [
-	            {id: 1, name: "Tommy", rsvp: true, attending: true},
-	            {id: 2, name: "Jessie", rsvp: true, attending: true},
-	            {id: 3, name: "Aaron", rsvp: false, attending: false},
-	            {id: 4, name: "Yasmin", rsvp: false, attending: false},
-	        ]
+			people: []
 		}
 	}
 });
@@ -50,20 +54,24 @@ Vue.component('person-awaiting-response', {
 		<h2>Awaiting Response</h2>
 		<table class="table">
 			<tbody>
-				<person v-for="user in users" v-bind:name="user.name" v-if="! user.rsvp" v-bind:uid="user.id" v-bind:key="user.id">{{ user.name }}</person>
+				<person v-for="p in people" v-bind:name="p.first_name" v-if="!p.rsvp" v-bind:uid="p.id" v-bind:key="p.id">{{ p.first_name }}</person>
 			</tbody>
 		</table>
 	</div>
 	`,
-
+	mounted: function() {
+		var self = this;
+		$.ajax({
+				url: '/people',
+				type: 'get',
+				success: function(data) {
+					self.people = data;
+				}
+			});
+	},
 	data() {
 		return {
-			users: [
-	            {id: 1, name: "Tommy", rsvp: true, attending: true},
-	            {id: 2, name: "Jessie", rsvp: true, attending: true},
-	            {id: 3, name: "Aaron", rsvp: false, attending: false},
-	            {id: 4, name: "Yasmin", rsvp: false, attending: false},
-	        ]
+			people: []
 		}
 	}
 });
@@ -74,20 +82,24 @@ Vue.component('person-not-attending', {
 		<h2>Not Attending</h2>
 		<table class="table">
 			<tbody>
-				<person v-for="user in users" v-bind:name="user.name" v-if="user.rsvp && ! user.attending" v-bind:uid="user.id" v-bind:key="user.id">{{ user.name }}</person>
+				<person v-for="p in people" v-bind:name="p.first_name" v-if="p.rsvp && !p.attending" v-bind:uid="p.id" v-bind:key="p.id">{{ p.first_name }}</person>
 			</tbody>
 		</table>
 	</div>
 	`,
-
+	mounted: function() {
+		var self = this;
+		$.ajax({
+				url: '/people',
+				type: 'get',
+				success: function(data) {
+					self.people = data;
+				}
+			});
+	},
 	data() {
 		return {
-			users: [
-	            {id: 1, name: "Tommy", rsvp: true, attending: true},
-	            {id: 2, name: "Jessie", rsvp: true, attending: true},
-	            {id: 3, name: "Aaron", rsvp: false, attending: false},
-	            {id: 4, name: "Yasmin", rsvp: false, attending: false},
-	        ]
+			people: []
 		}
 	}
 });
@@ -201,13 +213,30 @@ Vue.component('modal', {
 // Vue.component('modal', {
 // 	template: 
 // })
+// 
+
+// define a mixin object
+Vue.mixin({
+	methods: {
+		getPeople: function () {
+			$.ajax({
+				url: '/people',
+				type: 'get',
+				success: function(data) {
+					// console.log(data);
+					return data;
+				}
+			});
+		}
+	}
+});
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-var people;
+
 var root = new Vue({
     el: '#root',
     // data: {
@@ -236,22 +265,15 @@ var root = new Vue({
     //     }
     // },
     // computed: {
-    //     reversedMessage: function() {
-    //         return this.title.split("").reverse().join('');
+    //     getPeople: function() {
+        	
+    //         // return this.title.split("").reverse().join('');
     //     },
     //     attending: function() {
     //         return this.users.filter(user => user.attending);
     //     }
     // },
-    mounted() {
-        $.ajax({
-        	url: '/people',
-        	type: 'get',
-        	success: function(data) {
-        		people = data;
-
-        		console.log(people);
-        	}
-        })
-    }
+    // created: function() {
+        
+    // }
 })
