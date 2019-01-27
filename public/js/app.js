@@ -14007,10 +14007,19 @@ Vue.component('person-not-attending', {
 
 Vue.component('person', {
 	props: ['name', 'uid'],
-	template: '\n\t<tr>\n\t\t<td>\n\t\t\t<slot></slot>\n\t\t</td>\n\t\t<td>\n\t\t\t<div class="dropdown show">\n\t\t\t\t<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\n\t\t\t\t\t<span class="oi oi-cog" title="icon name" aria-hidden="true"></span>\n\t\t\t\t</a>\n\t\t\t\t<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">\n\t\t\t\t\t<a class="dropdown-item" href="#" data-toggle="modal" data-gaaaah="{{ uid ]}" v-on:click="updateUserModal(uid)" data-target="#editPersonModal">Edit</a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</td>\n\t</tr>',
+	template: '\n\t<tr>\n\t\t<td>\n\t\t\t<slot></slot>\n\t\t</td>\n\t\t<td>\n\t\t\t<div class="dropdown show">\n\t\t\t\t<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\n\t\t\t\t\t<span class="oi oi-cog" title="icon name" aria-hidden="true"></span>\n\t\t\t\t</a>\n\t\t\t\t<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">\n\t\t\t\t\t<a class="dropdown-item" href="#" data-toggle="modal" v-on:click="updateUserModal(uid)" data-target="#editPersonModal">Edit</a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</td>\n\t</tr>',
 	methods: {
 		updateUserModal: function updateUserModal(id) {
-			console.log(id);
+			var self = this;
+			var test = this.$root;
+			console.log(test);
+			$.ajax({
+				url: '/people/' + id,
+				type: 'get',
+				success: function success(data) {
+					self.$root.userMdlFirstName = data.first_name;
+				}
+			});
 		}
 	}
 });
@@ -14091,7 +14100,7 @@ Vue.mixin({
  */
 
 var root = new Vue({
-	el: '#root'
+	el: '#root',
 	// data: {
 	//     user_name: '',
 	//     users: [
@@ -14129,6 +14138,9 @@ var root = new Vue({
 	// created: function() {
 
 	// }
+	data: {
+		userMdlFirstName: ''
+	}
 });
 
 /***/ }),

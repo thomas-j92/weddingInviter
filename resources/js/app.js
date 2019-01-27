@@ -117,16 +117,25 @@ Vue.component('person', {
 					<span class="oi oi-cog" title="icon name" aria-hidden="true"></span>
 				</a>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-					<a class="dropdown-item" href="#" data-toggle="modal" data-gaaaah="{{ uid ]}" v-on:click="updateUserModal(uid)" data-target="#editPersonModal">Edit</a>
+					<a class="dropdown-item" href="#" data-toggle="modal" v-on:click="updateUserModal(uid)" data-target="#editPersonModal">Edit</a>
 				</div>
 			</div>
 		</td>
 	</tr>`,
 	methods: {
 		updateUserModal: function(id) {
-			console.log(id);
+			var self = this;
+			var test = this.$root;
+			console.log(test);
+			$.ajax({
+				url: '/people/'+id,
+				type: 'get',
+				success: function(data) {
+					self.$root.userMdlFirstName = data.first_name;
+				}
+			});
 		}
-	}
+	},
 })
 
 Vue.component('tabs', {
@@ -276,4 +285,7 @@ var root = new Vue({
     // created: function() {
         
     // }
+    data: {
+    	userMdlFirstName: ''
+    }
 })

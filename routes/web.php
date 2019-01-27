@@ -11,14 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// main admin control panel
+Route::get('/admin', 'AdminController@index');
 
+// get all people 
+Route::get('/people', 'PeopleController@get_all');
 
-Route::get('/people', function () {
-	$people = DB::table('people')->get();
-
-	return $people;
-});
-
+// get specific persons details
+Route::get('/people/{id}', 'PeopleController@get');

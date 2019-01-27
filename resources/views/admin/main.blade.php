@@ -30,10 +30,10 @@
                 <modal modal_id="editPersonModal" title="Edit Individual">
                     <div class="row">
                         <div class="col-sm-6">
-                            Name:
+                            First name:
                         </div>
                         <div class="col-sm-6">
-                            <input type="text" placeholder="Name" name="name">
+                            <input type="text" id="mdl_first_name" v-model="userMdlFirstName" placeholder="Name" name="name">
                         </div>
                     </div>              
                 </modal> 
