@@ -10466,13 +10466,18 @@ a.text-dark:focus {
   }
 }
 
-.navbar-laravel {
-  background-color: #fff;
-  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+html,
+body {
+  height: 100%;
 }
 
-.dropdown {
-  display: inline-block;
+body {
+  background: url("/images/main_bg.jpg");
+  background-size: 100%;
+}
+
+.main-container {
+  background-color: #FFF;
+  height: 100%;
 }
 

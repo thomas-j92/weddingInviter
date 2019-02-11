@@ -18,11 +18,28 @@ class AdminController extends Controller
     }
 
     public function guests($type = 'all') {
+    	$people_model = new \App\People;
+
+    	$data = array();
     	switch($type) {
     		case 'attending':
-    			// $guests = App\People::attending();
-    			// var_dump($guests);
+    			$data['title']  = 'Attending';
+    			$data['guests'] = $people_model::where('attending', 1)
+    										   ->get();
+    		break;
+    		case 'not_attending':
+    			$data['title']  = 'Not Attending';
+    			$data['guests'] = $people_model::where('attending', 0)
+    										   ->where('rsvp', 1)
+    										   ->get();
+    		break;
+    		case 'awaiting_reply':
+    			$data['title']  = 'Awaiting Reply';
+    			$data['guests'] = $people_model::where('rsvp', 0)
+    										   ->get();
     		break;
     	}
+
+    	return view('admin.guests', $data);
     }
 }
