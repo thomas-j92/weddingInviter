@@ -1,12 +1,30 @@
-html,
-body {
-	height: 100%;
-}
-body {
-	background: url("/images/main_bg.jpg");
-    background-size: 100%;
-}
-.main-container {
-	background-color: #FFF;
-	height: 100%;
-}
+/* All pages */
+	html,
+	body {
+		height: 100%;
+	}
+	body {
+		background: url("/images/main_bg.jpg");
+	    background-size: 100%;
+	}
+	.main-container {
+		background-color: #FFF;
+		height: 100%;
+	}
+/* End of all pages */
+
+/* Useful classes */
+	.full-width {
+		width: 100%;
+	}
+/* End of useful classes */
+
+/* Extra options dropdown */
+	.extra-options {
+		a {
+			&:hover {
+				cursor: pointer;
+			}
+		}
+	}
+/* End of extra options dropdown */

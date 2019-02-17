@@ -26,3 +26,6 @@
 
 Route::get('/admin', 'AdminController@index');
 Route::get('/admin/guests/{type}', 'AdminController@guests');
+
+// AJAX route to get person
+Route::get('/People/get_ajax/{id}', 'PeopleController@get_ajax');
