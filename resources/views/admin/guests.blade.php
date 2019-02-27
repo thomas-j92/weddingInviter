@@ -44,6 +44,7 @@
 		@slot('title', 'Quick Edit')
 		@slot('url', url('/People/quick_edit'))
 		
+		<input type="hidden" class="where-val" name="id">
 		<div class="row">
 			<div class="col-sm-4">
 				<p>First Name</p>

@@ -29,3 +29,9 @@ Route::get('/admin/guests/{type}', 'AdminController@guests');
 
 // AJAX route to get person
 Route::get('/People/get_ajax/{id}', 'PeopleController@get_ajax');
+
+// AJAX route to quick update person
+Route::post('/People/quick_edit/', 'PeopleController@quick_edit');
+
+// AJAX route to get HTML code for a specific view
+Route::post('/returnMessageCode', 'ViewController@returnMessageCode');

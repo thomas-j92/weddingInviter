@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-
+use Response;
 use \App\People;
 
 class PeopleController extends Controller
@@ -39,6 +40,24 @@ class PeopleController extends Controller
 		$person = People::find($id);
 
 		return json_encode($person);
+	}
+
+	/**
+	 * Edits a persons basic details.
+	 * @param  Request $request [description]
+	 * @return [JSON] Contains feedback to wether update took place.
+	 */
+	public function quick_edit(Request $request) {
+		$update = DB::table('people')
+            		->where('id', $request->where)
+            		->update($request->updates);
+
+        $response['success'] = FALSE;
+        if($update > 0) {
+        	$response['success'] = TRUE;
+        }
+
+       	return Response::json($response);
 	}
 
 }

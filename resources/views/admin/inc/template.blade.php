@@ -23,6 +23,7 @@
 	@include('admin.inc.nav')
 
 	<div class="container main-container">
+		<div class="message_container"></div>
 		@yield('content')
 	</div>
 </body>
