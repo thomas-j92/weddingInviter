@@ -7,16 +7,20 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-      	@isset($form_url)
-      	<form action="{{ $form_url }}"></form>
-      	@endisset
-        <p>{{ $slot }} </p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="modal-submit-btn">Save changes</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
+      @isset($form_url)
+        <form action="{{ $form_url }}" method="post">
+          @csrf
+      @endisset
+        <div class="modal-body">
+            <p>{{ $slot }} </p>
+        </div>
+        <div class="modal-footer">
+          <input type="submit" class="btn btn-primary" id="modal-submit-btn" value="Save changes">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      @isset($form_url)
+        </form>
+      @endisset
     </div>
   </div>
 

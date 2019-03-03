@@ -7,6 +7,16 @@
 
 require('./bootstrap');
 
+$(function() {
+	var alerts = $('.message_container .alert');
+
+	if(alerts.length > 0) {
+		setTimeout(function() {
+			alerts.fadeOut();
+		}, 3000);
+	}
+})
+
 // Attempt to auto populate modal via AJAX call
 $(document).on('click', '[data-target]:not([data-target=""])', function() {
 	var el 			= $(this);

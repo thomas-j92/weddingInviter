@@ -48,16 +48,37 @@ class PeopleController extends Controller
 	 * @return [JSON] Contains feedback to wether update took place.
 	 */
 	public function quick_edit(Request $request) {
-		$update = DB::table('people')
-            		->where('id', $request->where)
-            		->update($request->updates);
+		if(isset($request->id)) {
+			
+			$update_arr = array(
+				'first_name' 	=> $request->first_name,
+				'last_name' 	=> $request->last_name,
+				'email' 		=> $request->email,
+			);
 
-        $response['success'] = FALSE;
-        if($update > 0) {
-        	$response['success'] = TRUE;
-        }
+			$update = DB::table('people')
+	            		->where('id', $request->id)
+	            		->update($update_arr);
 
-       	return Response::json($response);
+	        $success = FALSE;
+	        if($update > 0) {
+	        	$success = TRUE;
+	        }
+
+	        // Set up flashdata
+	        if($success) {
+	        	$request->session()->flash('success', 'Individual was updated successfully');
+	        } else {
+	        	$request->session()->flash('error', "Individual couldn't be updated");
+	        }
+	    }
+
+	    // Redirect back to page request was made.
+       	return redirect()->back();
+	}
+
+	public function edit($id) {
+		return view('admin.edit_person');
 	}
 
 }

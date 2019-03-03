@@ -60,170 +60,18 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(1);
-module.exports = __webpack_require__(2);
-
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
-__webpack_require__(17);
-
-// Attempt to auto populate modal via AJAX call
-$(document).on('click', '[data-target]:not([data-target=""])', function () {
-	var el = $(this);
-	var ajaxUrl = el.data('get');
-	var modal_id = el.data('target');
-	var modal = $(modal_id);
-
-	// Only attempt to get data if URL is provided
-	if (ajaxUrl !== '') {
-		// Make an AJAX call
-		$.ajax({
-			url: ajaxUrl,
-			type: 'get',
-			success: function success(data) {
-				var json = $.parseJSON(data);
-
-				// Loop through JSON 
-				$.each(json, function (i, obj) {
-					var input = modal.find('input[name="' + i + '"]');
-
-					// If inputs are found with same name as index in results within the corresponding modal, update input value
-					var input_val = '';
-					if (input.length == 1) {
-						input_val = obj;
-					}
-					input.val(input_val);
-				});
-			}
-
-		});
-	}
-});
-
-// Attempt AJAX call whenever submit button in modal is clicked
-$(document).on('click', '.modal #modal-submit-btn', function () {
-	var btn = $(this);
-	var container = btn.closest('.modal');
-	var submitUrl = container.find('.hidden_url').data('url');
-	var inputs = container.find('input.update-val');
-	var where = container.find('input.where-val').val();
-
-	// Only attempt AJAX call if url is provided
-	if (submitUrl !== '') {
-		// Only attempt AJAX update if inputs were found with update class
-		var input_obj = {};
-		$.each(inputs, function (i) {
-			var input = $(this);
-			var input_name = input.attr('name');
-
-			input_obj[input_name] = input.val();
-		});
-
-		// Setup AJAX call
-		$.ajax({
-			headers: {
-				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-			},
-			data: {
-				updates: input_obj,
-				where: where
-			},
-			type: "POST",
-			url: submitUrl,
-			success: function success(data) {
-				var message;
-				var message_type;
-
-				// Give feedback to user (dependant on outcome of update)
-				if (data.success == true) {
-					message = 'Success! Record has been updated';
-					message_type = 'success';
-				} else {
-					message = 'Error! Record could not be updated';
-					message_type = 'danger';
-				}
-				showMessage(message, message_type);
-
-				// Close modal 
-				container.modal('toggle');
-			}
-		});
-	}
-});
-
-/**
- * Show specific type of message on screen.
- * @param  {String} message Message to be shown on screen.
- * @param  {String} message_type Type of message - this will change the styling of message.
- */
-function showMessage(message, message_type) {
-	var message_container = $('.message_container');
-
-	$.ajax({
-		headers: {
-			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-		},
-		url: '/returnMessageCode',
-		data: {
-			message: message,
-			type: message_type
-		},
-		type: 'POST',
-		success: function success(data) {
-			if (data != '') {
-				message_container.html(data);
-
-				// Get all alerts within message container and fade them in
-				var alerts = message_container.find('.alert');
-				alerts.fadeIn('slow', function () {
-					// Fade out/remove alerts after a few seconds.
-					setTimeout(function () {
-						alerts.fadeOut('slow', function () {
-							alerts.remove();
-						});
-					}, 3000);
-				});
-			}
-		}
-	});
-}
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 
-var bind = __webpack_require__(12);
-var isBuffer = __webpack_require__(23);
+var bind = __webpack_require__(5);
+var isBuffer = __webpack_require__(18);
 
 /*global toString:true*/
 
@@ -526,14 +374,14 @@ module.exports = {
 
 
 /***/ }),
-/* 8 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(7);
-var normalizeHeaderName = __webpack_require__(26);
+var utils = __webpack_require__(0);
+var normalizeHeaderName = __webpack_require__(21);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -549,10 +397,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(13);
+    adapter = __webpack_require__(6);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(13);
+    adapter = __webpack_require__(6);
   }
   return adapter;
 }
@@ -627,10 +475,10 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)))
 
 /***/ }),
-/* 9 */
+/* 2 */
 /***/ (function(module, exports) {
 
 var g;
@@ -657,7 +505,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 10 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3244,10 +3092,10 @@ Popper.Defaults = Defaults;
 /* harmony default export */ __webpack_exports__["default"] = (Popper);
 //# sourceMappingURL=popper.js.map
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(9)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(2)))
 
 /***/ }),
-/* 11 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -13618,7 +13466,7 @@ return jQuery;
 
 
 /***/ }),
-/* 12 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13636,19 +13484,19 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 13 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(7);
-var settle = __webpack_require__(27);
-var buildURL = __webpack_require__(29);
-var parseHeaders = __webpack_require__(30);
-var isURLSameOrigin = __webpack_require__(31);
-var createError = __webpack_require__(14);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(32);
+var utils = __webpack_require__(0);
+var settle = __webpack_require__(22);
+var buildURL = __webpack_require__(24);
+var parseHeaders = __webpack_require__(25);
+var isURLSameOrigin = __webpack_require__(26);
+var createError = __webpack_require__(7);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(27);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -13745,7 +13593,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(33);
+      var cookies = __webpack_require__(28);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -13823,13 +13671,13 @@ module.exports = function xhrAdapter(config) {
 
 
 /***/ }),
-/* 14 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var enhanceError = __webpack_require__(28);
+var enhanceError = __webpack_require__(23);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -13848,7 +13696,7 @@ module.exports = function createError(message, config, code, request, response) 
 
 
 /***/ }),
-/* 15 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13860,7 +13708,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 16 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13886,11 +13734,163 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 17 */
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(11);
+module.exports = __webpack_require__(36);
+
+
+/***/ }),
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-window._ = __webpack_require__(18);
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ */
+
+__webpack_require__(12);
+
+$(function () {
+	var alerts = $('.message_container .alert');
+
+	if (alerts.length > 0) {
+		setTimeout(function () {
+			alerts.fadeOut();
+		}, 3000);
+	}
+});
+
+// Attempt to auto populate modal via AJAX call
+$(document).on('click', '[data-target]:not([data-target=""])', function () {
+	var el = $(this);
+	var ajaxUrl = el.data('get');
+	var modal_id = el.data('target');
+	var modal = $(modal_id);
+
+	// Only attempt to get data if URL is provided
+	if (ajaxUrl !== '') {
+		// Make an AJAX call
+		$.ajax({
+			url: ajaxUrl,
+			type: 'get',
+			success: function success(data) {
+				var json = $.parseJSON(data);
+
+				// Loop through JSON 
+				$.each(json, function (i, obj) {
+					var input = modal.find('input[name="' + i + '"]');
+
+					// If inputs are found with same name as index in results within the corresponding modal, update input value
+					var input_val = '';
+					if (input.length == 1) {
+						input_val = obj;
+					}
+					input.val(input_val);
+				});
+			}
+
+		});
+	}
+});
+
+// Attempt AJAX call whenever submit button in modal is clicked
+$(document).on('click', '.modal #modal-submit-btn', function () {
+	var btn = $(this);
+	var container = btn.closest('.modal');
+	var submitUrl = container.find('.hidden_url').data('url');
+	var inputs = container.find('input.update-val');
+	var where = container.find('input.where-val').val();
+
+	// Only attempt AJAX call if url is provided
+	if (submitUrl !== '') {
+		// Only attempt AJAX update if inputs were found with update class
+		var input_obj = {};
+		$.each(inputs, function (i) {
+			var input = $(this);
+			var input_name = input.attr('name');
+
+			input_obj[input_name] = input.val();
+		});
+
+		// Setup AJAX call
+		$.ajax({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			},
+			data: {
+				updates: input_obj,
+				where: where
+			},
+			type: "POST",
+			url: submitUrl,
+			success: function success(data) {
+				var message;
+				var message_type;
+
+				// Give feedback to user (dependant on outcome of update)
+				if (data.success == true) {
+					message = 'Success! Record has been updated';
+					message_type = 'success';
+				} else {
+					message = 'Error! Record could not be updated';
+					message_type = 'danger';
+				}
+				showMessage(message, message_type);
+
+				// Close modal 
+				container.modal('toggle');
+			}
+		});
+	}
+});
+
+/**
+ * Show specific type of message on screen.
+ * @param  {String} message Message to be shown on screen.
+ * @param  {String} message_type Type of message - this will change the styling of message.
+ */
+function showMessage(message, message_type) {
+	var message_container = $('.message_container');
+
+	$.ajax({
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		},
+		url: '/returnMessageCode',
+		data: {
+			message: message,
+			type: message_type
+		},
+		type: 'POST',
+		success: function success(data) {
+			if (data != '') {
+				message_container.html(data);
+
+				// Get all alerts within message container and fade them in
+				var alerts = message_container.find('.alert');
+				alerts.fadeIn('slow', function () {
+					// Fade out/remove alerts after a few seconds.
+					setTimeout(function () {
+						alerts.fadeOut('slow', function () {
+							alerts.remove();
+						});
+					}, 3000);
+				});
+			}
+		}
+	});
+}
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+window._ = __webpack_require__(13);
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -13899,10 +13899,10 @@ window._ = __webpack_require__(18);
  */
 
 try {
-  window.Popper = __webpack_require__(10).default;
-  window.$ = window.jQuery = __webpack_require__(11);
+  window.Popper = __webpack_require__(3).default;
+  window.$ = window.jQuery = __webpack_require__(4);
 
-  __webpack_require__(20);
+  __webpack_require__(15);
 } catch (e) {}
 
 /**
@@ -13911,7 +13911,7 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = __webpack_require__(21);
+window.axios = __webpack_require__(16);
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -13947,7 +13947,7 @@ if (token) {
 // });
 
 /***/ }),
-/* 18 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -31059,10 +31059,10 @@ if (token) {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(19)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(14)(module)))
 
 /***/ }),
-/* 19 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -31090,7 +31090,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 20 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -31099,7 +31099,7 @@ module.exports = function(module) {
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
   */
 (function (global, factory) {
-   true ? factory(exports, __webpack_require__(11), __webpack_require__(10)) :
+   true ? factory(exports, __webpack_require__(4), __webpack_require__(3)) :
   typeof define === 'function' && define.amd ? define(['exports', 'jquery', 'popper.js'], factory) :
   (global = global || self, factory(global.bootstrap = {}, global.jQuery, global.Popper));
 }(this, function (exports, $, Popper) { 'use strict';
@@ -35531,22 +35531,22 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 21 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(22);
+module.exports = __webpack_require__(17);
 
 /***/ }),
-/* 22 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(7);
-var bind = __webpack_require__(12);
-var Axios = __webpack_require__(24);
-var defaults = __webpack_require__(8);
+var utils = __webpack_require__(0);
+var bind = __webpack_require__(5);
+var Axios = __webpack_require__(19);
+var defaults = __webpack_require__(1);
 
 /**
  * Create an instance of Axios
@@ -35579,15 +35579,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(16);
-axios.CancelToken = __webpack_require__(39);
-axios.isCancel = __webpack_require__(15);
+axios.Cancel = __webpack_require__(9);
+axios.CancelToken = __webpack_require__(34);
+axios.isCancel = __webpack_require__(8);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(40);
+axios.spread = __webpack_require__(35);
 
 module.exports = axios;
 
@@ -35596,7 +35596,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 23 */
+/* 18 */
 /***/ (function(module, exports) {
 
 /*!
@@ -35623,16 +35623,16 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 24 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var defaults = __webpack_require__(8);
-var utils = __webpack_require__(7);
-var InterceptorManager = __webpack_require__(34);
-var dispatchRequest = __webpack_require__(35);
+var defaults = __webpack_require__(1);
+var utils = __webpack_require__(0);
+var InterceptorManager = __webpack_require__(29);
+var dispatchRequest = __webpack_require__(30);
 
 /**
  * Create a new instance of Axios
@@ -35709,7 +35709,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 25 */
+/* 20 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -35899,13 +35899,13 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 26 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(7);
+var utils = __webpack_require__(0);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -35918,13 +35918,13 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 27 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(14);
+var createError = __webpack_require__(7);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -35951,7 +35951,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 28 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35979,13 +35979,13 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 29 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(7);
+var utils = __webpack_require__(0);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -36052,13 +36052,13 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 30 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(7);
+var utils = __webpack_require__(0);
 
 // Headers whose duplicates are ignored by node
 // c.f. https://nodejs.org/api/http.html#http_message_headers
@@ -36112,13 +36112,13 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 31 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(7);
+var utils = __webpack_require__(0);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -36187,7 +36187,7 @@ module.exports = (
 
 
 /***/ }),
-/* 32 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36230,13 +36230,13 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 33 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(7);
+var utils = __webpack_require__(0);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -36290,13 +36290,13 @@ module.exports = (
 
 
 /***/ }),
-/* 34 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(7);
+var utils = __webpack_require__(0);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -36349,18 +36349,18 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 35 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(7);
-var transformData = __webpack_require__(36);
-var isCancel = __webpack_require__(15);
-var defaults = __webpack_require__(8);
-var isAbsoluteURL = __webpack_require__(37);
-var combineURLs = __webpack_require__(38);
+var utils = __webpack_require__(0);
+var transformData = __webpack_require__(31);
+var isCancel = __webpack_require__(8);
+var defaults = __webpack_require__(1);
+var isAbsoluteURL = __webpack_require__(32);
+var combineURLs = __webpack_require__(33);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -36442,13 +36442,13 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 36 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(7);
+var utils = __webpack_require__(0);
 
 /**
  * Transform the data for a request or a response
@@ -36469,7 +36469,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 37 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36490,7 +36490,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 38 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36511,13 +36511,13 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 39 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(16);
+var Cancel = __webpack_require__(9);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -36575,7 +36575,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 40 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36607,6 +36607,12 @@ module.exports = function spread(callback) {
   };
 };
 
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

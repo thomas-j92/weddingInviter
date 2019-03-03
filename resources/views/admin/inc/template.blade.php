@@ -23,7 +23,22 @@
 	@include('admin.inc.nav')
 
 	<div class="container main-container">
-		<div class="message_container"></div>
-		@yield('content')
+		<div class="message_container">
+			@if(session('success'))
+				@component('components.messages')
+					@slot('type', 'success')
+					@slot('message', session('success'))
+				@endcomponent
+			@endif
+			@if(session('error'))
+				@component('components.messages')
+					@slot('type', 'danger')
+					@slot('message', session('error'))
+				@endcomponent
+			@endif
+		</div>
+		<div class="content-container">
+			@yield('content')
+		</div>
 	</div>
 </body>

@@ -25,6 +25,7 @@
 							  </button>
 							  <div class="dropdown-menu extra-options" aria-labelledby="dropdownMenuButton">
 							    <a class="dropdown-item" data-toggle="modal" data-get='{{ url("People/get_ajax/$guest->id") }}' data-target="#editGuest"><i class="fas fa-edit"></i> Quick Edit</a>
+							    <a class="dropdown-item" href='{{ url("People/edit/$guest->id") }}' target="_blank"><i class="fas fa-edit"></i> Edit</a>
 							  </div>
 							</div>
 						</td>
@@ -42,7 +43,7 @@
 	@component('components.modal')
 		@slot('id', 'editGuest')
 		@slot('title', 'Quick Edit')
-		@slot('url', url('/People/quick_edit'))
+		@slot('form_url', url('/People/quick_edit'))
 		
 		<input type="hidden" class="where-val" name="id">
 		<div class="row">
