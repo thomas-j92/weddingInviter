@@ -36,5 +36,8 @@ Route::post('/People/quick_edit/', 'PeopleController@quick_edit');
 // Person page
 Route::get('/People/edit/{id}', 'PeopleController@edit');
 
+// Edit post submit
+Route::post('/People/edit_submit/', 'PeopleController@edit_submit');
+
 // AJAX route to get HTML code for a specific view
 Route::post('/returnMessageCode', 'ViewController@returnMessageCode');

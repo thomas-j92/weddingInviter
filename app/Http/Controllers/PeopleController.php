@@ -77,8 +77,36 @@ class PeopleController extends Controller
        	return redirect()->back();
 	}
 
+	/**
+	 * Show edit page.
+	 * @param  [Integer] $id Person ID.
+	 */
 	public function edit($id) {
-		return view('admin.edit_person');
+		$people_model = new \App\People;
+
+		// get person details
+		$data['person'] 	= $this->get($id);
+
+    	// store ID
+    	$data['person_id'] 	= $id;
+
+    	// grant ability to add plus ones 
+    	// show logs for user
+    	// show emails sent
+
+		return view('admin.edit_person', $data);
+	}
+
+	public function edit_submit(Request $request) {
+		// ensure person ID is always passed
+		if(isset($request->person_id)) {
+			$person = $this->get($request->person_id);
+
+			// check each value has changed and add to logs table if changed
+
+			dd($person->first_name);
+		}
+		dd($request->person_id);
 	}
 
 }
