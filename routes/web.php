@@ -24,7 +24,7 @@
 // get specific persons details
 // Route::get('/people/{id}', 'PeopleController@get');
 
-Route::get('/admin', 'AdminController@index');
+Route::get('/admin/main', 'AdminController@main');
 Route::get('/admin/guests/{type}', 'AdminController@guests');
 
 // AJAX route to get person
@@ -41,3 +41,7 @@ Route::post('/People/edit_submit/', 'PeopleController@edit_submit');
 
 // AJAX route to get HTML code for a specific view
 Route::post('/returnMessageCode', 'ViewController@returnMessageCode');
+
+Auth::routes();
+
+Route::get('/admin', 'AdminController@main')->name('home');

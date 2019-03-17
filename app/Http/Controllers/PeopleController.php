@@ -82,6 +82,8 @@ class PeopleController extends Controller
 	 * @param  [Integer] $id Person ID.
 	 */
 	public function edit($id) {
+		
+
 		$people_model = new \App\People;
 
 		// get person details

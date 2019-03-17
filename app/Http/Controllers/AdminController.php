@@ -6,10 +6,14 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {	
+    public function __construct(){
+        $this->middleware('auth');
+    }
+
 	/**
 	 * Main admin view. Will show all people information etc.
 	 */
-    public function index() {
+    public function main() {
     	return view('admin.main');
     }
 
