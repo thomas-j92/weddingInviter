@@ -49,17 +49,16 @@ class PeopleController extends Controller
 	 */
 	public function quick_edit(Request $request) {
 		if(isset($request->id)) {
-			
+
+			// Store all values that potentially need editting in an array.
 			$update_arr = array(
 				'first_name' 	=> $request->first_name,
 				'last_name' 	=> $request->last_name,
 				'email' 		=> $request->email,
 			);
+			$update = People::find($request->id)->batch_edit($update_arr);
 
-			$update = DB::table('people')
-	            		->where('id', $request->id)
-	            		->update($update_arr);
-
+			// Use $success variable to calculate wether update was successful (show relevant messages) 
 	        $success = FALSE;
 	        if($update > 0) {
 	        	$success = TRUE;
@@ -82,9 +81,7 @@ class PeopleController extends Controller
 	 * @param  [Integer] $id Person ID.
 	 */
 	public function edit($id) {
-		
-
-		$people_model = new \App\People;
+		$people_model = new People;
 
 		// get person details
 		$data['person'] 	= $this->get($id);
@@ -102,13 +99,30 @@ class PeopleController extends Controller
 	public function edit_submit(Request $request) {
 		// ensure person ID is always passed
 		if(isset($request->person_id)) {
-			$person = $this->get($request->person_id);
+			// Store all values that potentially need editting in an array.
+			$update_arr = array(
+				'first_name' 	=> $request->first_name,
+				'last_name' 	=> $request->last_name,
+				'email' 		=> $request->email,
+			);
+			$update = People::find($request->person_id)->batch_edit($update_arr);
 
-			// check each value has changed and add to logs table if changed
+			// Use $success variable to calculate wether update was successful (show relevant messages) 
+	        $success = FALSE;
+	        if($update > 0) {
+	        	$success = TRUE;
+	        }
 
-			dd($person->first_name);
+	        // Set up flashdata
+	        if($success) {
+	        	$request->session()->flash('success', 'Individual was updated successfully');
+	        } else {
+	        	$request->session()->flash('error', "Individual couldn't be updated");
+	        }
 		}
-		dd($request->person_id);
+		
+		// Redirect back to page request was made.
+       	return redirect()->back();
 	}
 
 }

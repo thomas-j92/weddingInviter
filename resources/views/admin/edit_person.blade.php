@@ -3,6 +3,7 @@
 @section('content')
 <h2>Edit</h2>
 
+
 <div class="row">
 	<div class="col-sm-12">
 		<h3>General Information</h3>
@@ -44,6 +45,15 @@
 				</div>
 			</div>
 		</form>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-sm-12">
+		<h3>Invite</h3>
+	</div>
+	<div class="col-sm-12">
+		<p>No invite has been setup for this person. But don't worry, child. You can <a href="">setup an invite</a> here.</p>
 	</div>
 </div>
 
