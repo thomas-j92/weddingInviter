@@ -20,8 +20,6 @@ class PeopleTableSeeder extends Seeder
 	            'first_name' 	=> $faker->firstName,
 	            'last_name' 	=> $faker->lastName,
 	            'email' 		=> $faker->email,
-	            'attending' 	=> $faker->boolean,
-	            'rsvp' 			=> $faker->boolean,
 	            'created_at' 	=> date('Y-m-d H:i:s')
 	        ]);
     	}

@@ -11,20 +11,10 @@
 |
 */
 
-// main admin control panel
-// Route::get('/admin/{name}', 'AdminController@{$name}');
-
-// Route::get('foo', 'AdminController@method');
-
-// Route::resource('admin', 'AdminController');
-
-// get all people 
-// Route::get('/people', 'PeopleController@get_all');
-
-// get specific persons details
-// Route::get('/people/{id}', 'PeopleController@get');
-
+// Admin dashboard
 Route::get('/admin/main', 'AdminController@main');
+
+// Admin guests page
 Route::get('/admin/guests/{type}', 'AdminController@guests');
 
 // AJAX route to get person
@@ -42,6 +32,9 @@ Route::post('/People/edit_submit/', 'PeopleController@edit_submit');
 // AJAX route to get HTML code for a specific view
 Route::post('/returnMessageCode', 'ViewController@returnMessageCode');
 
+// Admin login
 Auth::routes();
-
 Route::get('/admin', 'AdminController@main')->name('home');
+
+// Invite creator page
+Route::get('/Invite/create/{id}', 'InviteController@create');

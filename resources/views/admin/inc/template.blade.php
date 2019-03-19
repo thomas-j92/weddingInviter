@@ -38,6 +38,10 @@
 			@endif
 		</div>
 		<div class="content-container">
+			@if(isset($breadcrumbs))
+				@component('components.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
+				@endcomponent
+			@endif
 			@yield('content')
 		</div>
 	</div>

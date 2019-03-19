@@ -53,7 +53,7 @@
 		<h3>Invite</h3>
 	</div>
 	<div class="col-sm-12">
-		<p>No invite has been setup for this person. But don't worry, child. You can <a href="">setup an invite</a> here.</p>
+		<p>No invite has been setup for this person. But don't worry, child. You can <a href="{{ url('/Invite/create/'.$person_id) }}">setup an invite</a> here.</p>
 	</div>
 </div>
 

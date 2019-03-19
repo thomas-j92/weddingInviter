@@ -9,6 +9,9 @@ use \App\People;
 
 class PeopleController extends Controller
 {
+	public function __construct(){
+        $this->middleware('auth');
+    }
 	
 	/**
 	 * Get all people in DB.
