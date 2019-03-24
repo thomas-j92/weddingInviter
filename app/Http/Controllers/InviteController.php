@@ -8,8 +8,15 @@ class InviteController extends Controller
 {
     public function create($person_id) {
     	// Create new Invite
-    	$invite = \App\Invite::create();
-    	
+    	$invite         = \App\Invite::create();
+        
+        // Create new InviteGuest - links Invite and Person together
+        $create_arr     = array(
+            'person_id' => $person_id,
+            'invite_id' => $invite->id
+        );
+        $invite_guest   = \App\InviteGuests::create($create_arr);
+
     	dd($invite->id);
 
     	

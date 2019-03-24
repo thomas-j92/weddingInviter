@@ -102,7 +102,7 @@ class People extends Model
 						$guests_arr['not_attending'][] = $guest;
 					}
 				} else {
-					$guests_arr['not_responded'] = $guest;
+					$guests_arr['not_responded'][] = $guest;
 				}
 			} else {
 				// Person isn't currently assigned to an Invite

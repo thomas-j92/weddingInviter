@@ -17,8 +17,8 @@ class CreateInviteGuestsTable extends Migration
             $table->increments('id');
             $table->integer('invite_id');
             $table->integer('person_id');
-            $table->boolean('rsvp');
-            $table->boolean('attending');
+            $table->boolean('rsvp')->default(0);
+            $table->boolean('attending')->default(0);
             $table->dateTime('rsvp_date');
             $table->timestamps();
 
