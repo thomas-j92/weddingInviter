@@ -22,26 +22,26 @@ class AdminController extends Controller
     }
 
     public function guests($type = 'all') {
-    	$people_model = new \App\People;
+        $all_guests  = \App\People::getAll();
 
     	$data = array();
     	switch($type) {
     		case 'attending':
     			$data['title']  = 'Attending';
-    			$data['guests'] = $people_model::where('attending', 1)
-    										   ->get();
+    			$data['guests'] = $all_guests['attending'];
     		break;
     		case 'not_attending':
     			$data['title']  = 'Not Attending';
-    			$data['guests'] = $people_model::where('attending', 0)
-    										   ->where('rsvp', 1)
-    										   ->get();
+    			$data['guests'] = $all_guests['not_attending'];
     		break;
     		case 'awaiting_reply':
     			$data['title']  = 'Awaiting Reply';
-    			$data['guests'] = $people_model::where('rsvp', 0)
-    										   ->get();
+    			$data['guests'] = $all_guests['not_responded'];
     		break;
+            case 'not_invited':
+                $data['title']  = 'Not Invited';
+                $data['guests'] = $all_guests['not_invited'];
+            break;
     	}
 
     	return view('admin.guests', $data);

@@ -18,6 +18,7 @@
             <a class="dropdown-item" href="{{url('/admin/guests/attending')}}">Attending</a>
             <a class="dropdown-item" href="{{url('/admin/guests/not_attending')}}">Not Attending</a>
             <a class="dropdown-item" href="{{url('/admin/guests/awaiting_reply')}}">Awaiting Reply</a>
+            <a class="dropdown-item" href="{{url('/admin/guests/not_invited')}}">Not Invited</a>
           </div>
         </li>
         <li class="nav-item">
