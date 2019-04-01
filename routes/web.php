@@ -38,3 +38,6 @@ Route::get('/admin', 'AdminController@main')->name('home');
 
 // Invite creator page
 Route::get('/Invite/create/{id}', 'InviteController@create');
+
+// View invite page
+Route::get('/Invite/view/{id}', 'InviteController@view');

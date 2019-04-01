@@ -53,7 +53,25 @@
 		<h3>Invite</h3>
 	</div>
 	<div class="col-sm-12">
+		@isset($invite)
+			<table>
+				<thead>
+					<tr>
+						<th>Created</th>
+						<th>Sent on</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{{ $invite->created_at }}</td>
+						<td><a href="{{ url('/Invite/view/'.$invite->id) }}">View</a></td>
+					</tr>
+				</tbody>
+			</table>
+		<p>invite found</p>
+		@else:
 		<p>No invite has been setup for this person. But don't worry, child. You can <a href="{{ url('/Invite/create/'.$person_id) }}">setup an invite</a> here.</p>
+		@endisset
 	</div>
 </div>
 

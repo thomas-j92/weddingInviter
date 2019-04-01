@@ -92,9 +92,9 @@ class PeopleController extends Controller
     	// store ID
     	$data['person_id'] 	= $id;
 
-    	// grant ability to add plus ones 
-    	// show logs for user
-    	// show emails sent
+    	// get Invite (if any) 
+    	$invite 			= \App\InviteGuests::where('person_id', $id);
+    	$data['invite']  	= ($invite->count() > 0) ? $invite->first() : null;
 
 		return view('admin.edit_person', $data);
 	}

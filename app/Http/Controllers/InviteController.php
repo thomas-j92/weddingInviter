@@ -6,34 +6,37 @@ use Illuminate\Http\Request;
 
 class InviteController extends Controller
 {
+    /**
+     * Assign Person to new Invite, if already assigned to Invite, redirect to view Invite page.
+     * @param  [Integer] $person_id Person ID.
+     */
     public function create($person_id) {
-    	// Create new Invite
-    	$invite         = \App\Invite::create();
-        
-        // Create new InviteGuest - links Invite and Person together
-        $create_arr     = array(
-            'person_id' => $person_id,
-            'invite_id' => $invite->id
-        );
-        $invite_guest   = \App\InviteGuests::create($create_arr);
+        $invite_check   = \App\InviteGuests::where('person_id', $person_id);
 
-    	dd($invite->id);
+        // Only create Invite if not assigned to another Invite
+        $invite_id;
+        if($invite_check->count() == 0) {
+        	// Create new Invite
+        	$invite         = \App\Invite::create();
+            $invite_id      = $invite_id;
+            
+            // Create new InviteGuest - links Invite and Person together
+            $create_arr     = array(
+                'person_id' => $person_id,
+                'invite_id' => $invite_id
+            );
+            $invite_guest   = \App\InviteGuests::create($create_arr);
+        } else {
+            $invite_id = $invite_check->first()->invite_id;
+        }
 
-    	
+    	return redirect('Invite/view/'.$invite_id);
     }
 
     public function view($invite_id) {
-    	// Get main person Invite is concerned with
-    	$main_person  = \App\People::find($person_id);
-    	$data['person'] = $main_person;
+    	// Get Invite
+    	$data['invite']  = \App\Invite::find($invite_id);
 
-    	// Setup breadcrumbs
-    	$full_name = $main_person->first_name . ' ' . $main_person->last_name;
-    	$data['breadcrumbs'] = array(
-    		"$full_name" 	=> url("People/edit/$person_id"),
-    		'Invite'		=> url()->current()
-    	);
-
-    	return view('admin.invites.create', $data);
+    	return view('admin.invites.view', $data);
     }
 }
