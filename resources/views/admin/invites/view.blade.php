@@ -1,5 +1,7 @@
 @extends('admin.inc.template')
 
+@section('title', 'Invite')
+
 @section('content')
 	<h2>Invite</h2>
 
@@ -41,23 +43,27 @@
 		@slot('title', 'Assign Guest to Invite')
 		@slot('form_url', url('/Invite/assignGuestToInvite'))
 		
-		<div class="row text-center">
+		<div class="row text-center" id="guest-type-container">
 			<div class="col-sm-6">
-				<button type="button" class="btn btn-primary btn-lg">Existing Guest</button>
+				<button type="button" class="btn btn-primary btn-lg" data-click-show="existing-guest-container" data-click-hide="guest-type-container">Existing Guest</button>
 			</div>
 			<div class="col-sm-6">
 				<button type="button" class="btn btn-primary btn-lg">New Guest</button>
 			</div>
 		</div>
 
-		<div class="row" id="existing-guest-container">
+		<div class="row hidden" id="existing-guest-container">
+			<div class="col-sm-12">
+				<a href="" class="back-btn">Back</a>
+			</div>
+
 			<div class="col-sm-12">
 				<h5>Existing Guest</h5>
 			</div>
 			
 			<div class="col-sm-12">
-			<input type="text" name="guest-search">
-			<div class="search_results"></div>
+				@component('components.person-search')
+				@endcomponent
 			</div>
 		</div>
 	

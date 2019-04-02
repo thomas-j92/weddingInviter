@@ -41,3 +41,6 @@ Route::get('/Invite/create/{id}', 'InviteController@create');
 
 // View invite page
 Route::get('/Invite/view/{id}', 'InviteController@view');
+
+// AJAX route to People search
+Route::post('/People/ajax_search/', 'PeopleController@ajax_search');

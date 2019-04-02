@@ -12,7 +12,7 @@
           @csrf
       @endisset
         <div class="modal-body">
-            <p>{{ $slot }} </p>
+            {{ $slot }}
         </div>
         <div class="modal-footer">
           <input type="submit" class="btn btn-primary" id="modal-submit-btn" value="Save changes">

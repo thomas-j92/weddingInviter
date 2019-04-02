@@ -13772,7 +13772,7 @@ $(document).on('click', '[data-target]:not([data-target=""])', function () {
 	var modal = $(modal_id);
 
 	// Only attempt to get data if URL is provided
-	if (ajaxUrl !== '') {
+	if (ajaxUrl !== '' && ajaxUrl !== undefined) {
 		// Make an AJAX call
 		$.ajax({
 			url: ajaxUrl,
@@ -13884,6 +13884,74 @@ function showMessage(message, message_type) {
 		}
 	});
 }
+
+// AJAX Person search
+$(document).on('keyup', '.search-function .search-input', function () {
+	// Get search string
+	var input = $(this);
+	var search_string = input.val();
+
+	// Get AJAX url
+	var container = input.closest('.search-function');
+	var ajax_url = container.find('.ajax-url').val();
+
+	// Results container
+	var results = container.find('.search_results');
+
+	// Make AJAX call
+	$.ajax({
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		},
+		url: ajax_url,
+		data: { search_string: search_string },
+		type: 'POST',
+		success: function success(resp) {
+			var json = $.parseJSON(resp);
+
+			// Show results if any were found
+			var html = '';
+			if (json.length > 0) {
+				html += '<table class="table">';
+				$.each(json, function (i, d) {
+					html += '<tr>';
+					html += '<td>' + d.first_name + ' ' + d.last_name + '</td>';
+					html += '<td><button type="addPersonBtn" class="btn btn-secondary">Add</button></td>';
+					html += '</tr>';
+				});
+				html += '</table>';
+			} else {
+				html += '<p>No results found.</p>';
+			}
+
+			results.html(html);
+		}
+	});
+});
+
+$(document).on('click', '[data-click-show]', function () {
+	var el = $(this);
+
+	// Show element - element that will be shown
+	var show_element_class = el.data('click-show');
+	var show_element = $('#' + show_element_class);
+
+	// Hide element - element that will be shown
+	var hide_element_class = el.data('click-hide');
+
+	if (hide_element_class !== undefined) {
+		var hide_element = $('#' + hide_element_class);
+
+		hide_element.fadeOut("fast", function () {
+			show_element.fadeIn("fast");
+		});
+	} else {
+		show_element.fadeIn("fast");
+	}
+
+	// console.log(show_element_class);
+	// console.log(hide_element_class);
+});
 
 /***/ }),
 /* 12 */

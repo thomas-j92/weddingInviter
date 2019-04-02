@@ -99,6 +99,9 @@ class PeopleController extends Controller
 		return view('admin.edit_person', $data);
 	}
 
+	/**
+	 * Edit a Person's details.
+	 */
 	public function edit_submit(Request $request) {
 		// ensure person ID is always passed
 		if(isset($request->person_id)) {
@@ -128,4 +131,20 @@ class PeopleController extends Controller
        	return redirect()->back();
 	}
 
+	/**
+	 * AJAX search for People.
+	 * @return [String] JSON encoded array.
+	 */
+	public function ajax_search(Request $request) {
+		$search = $request->search_string;
+		
+		// Search first name, last name & email for search string
+		$people = \App\People::where('first_name', 'like', '%'.$search.'%')
+							 ->orWhere('last_name', 'like', '%'.$search.'%')
+							 ->orWhere('email', 'like', '%'.$search.'%')
+							 ->limit(5)
+							 ->get();
+
+		return json_encode($people);
+	}
 }

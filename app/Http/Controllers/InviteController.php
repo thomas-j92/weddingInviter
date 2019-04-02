@@ -34,8 +34,9 @@ class InviteController extends Controller
     }
 
     public function view($invite_id) {
-    	// Get Invite
-    	$data['invite']  = \App\Invite::find($invite_id);
+        // Get Invite
+        $invite             = \App\Invite::find($invite_id);
+        $data['invite']     = $invite;
 
     	return view('admin.invites.view', $data);
     }
