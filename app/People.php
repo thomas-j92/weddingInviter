@@ -112,4 +112,15 @@ class People extends Model
 
 		return $guests_arr;
 	}
+
+	public function scopeInsert($q, $inserts) {
+		$this->first_name 	= $inserts['first_name'];
+		$this->last_name 	= $inserts['last_name'];
+		$this->email 		= $inserts['email'];
+		$this->save();
+
+		// ADD LOGIC FOR UNIQUE EMAILS
+		// EMAIL VALIDATION 
+		// ASSIGN PERSON TO INVITE
+	}
 }

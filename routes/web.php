@@ -44,3 +44,10 @@ Route::get('/Invite/view/{id}', 'InviteController@view');
 
 // AJAX route to People search
 Route::post('/People/ajax_search/', 'PeopleController@ajax_search');
+
+// Assign existing guest to invite
+Route::post('/Invite/assignGuestToInvite', 'InviteController@assignToInvite');
+
+// Assign new guest to invite
+Route::post('/Invite/AssignNewPerson', 'InviteController@assignNewPerson');
+

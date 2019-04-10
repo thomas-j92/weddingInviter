@@ -13916,7 +13916,7 @@ $(document).on('keyup', '.search-function .search-input', function () {
 				$.each(json, function (i, d) {
 					html += '<tr>';
 					html += '<td>' + d.first_name + ' ' + d.last_name + '</td>';
-					html += '<td><button type="addPersonBtn" class="btn btn-secondary">Add</button></td>';
+					html += '<td><button type="addPersonBtn" name="person_id" value="' + d.id + '" class="btn btn-secondary">Add</button></td>';
 					html += '</tr>';
 				});
 				html += '</table>';
@@ -13926,6 +13926,18 @@ $(document).on('keyup', '.search-function .search-input', function () {
 
 			results.html(html);
 		}
+	});
+});
+
+// Assign guest container - back button
+$(document).on('click', '#assignGuest .back-btn', function () {
+	var $this = $(this);
+	var back = $this.closest('.guest-type');
+
+	console.log(back);
+
+	back.fadeOut("fast", function () {
+		$('#guest-type-container').fadeIn("fast");
 	});
 });
 

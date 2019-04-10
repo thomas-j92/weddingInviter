@@ -41,34 +41,57 @@
 	@component('components.modal')
 		@slot('id', 'assignGuest')
 		@slot('title', 'Assign Guest to Invite')
-		@slot('form_url', url('/Invite/assignGuestToInvite'))
+		{{-- @slot('form_url', url('/Invite/assignGuestToInvite')) --}}
 		
+
 		<div class="row text-center" id="guest-type-container">
 			<div class="col-sm-6">
 				<button type="button" class="btn btn-primary btn-lg" data-click-show="existing-guest-container" data-click-hide="guest-type-container">Existing Guest</button>
 			</div>
 			<div class="col-sm-6">
-				<button type="button" class="btn btn-primary btn-lg">New Guest</button>
+				<button type="button" class="btn btn-primary btn-lg" data-click-show="new-guest-container" data-click-hide="guest-type-container">New Guest</button>
 			</div>
 		</div>
 
-		<div class="row hidden" id="existing-guest-container">
-			<div class="col-sm-12">
-				<a href="" class="back-btn">Back</a>
-			</div>
+		<form action="{{ url('/Invite/assignGuestToInvite') }}" method="POST">
+			@csrf
+			<input type="hidden" name="invite_id" value="{{ $invite->id }}">
+			<div class="row hidden guest-type" id="existing-guest-container">
+				<div class="col-sm-12">
+					<a class="back-btn">Back</a>
+				</div>
 
-			<div class="col-sm-12">
-				<h5>Existing Guest</h5>
+				<div class="col-sm-12">
+					<h5>Existing Guest</h5>
+				</div>
+				
+				<div class="col-sm-12">
+					@component('components.person-search')
+					@endcomponent
+				</div>
 			</div>
-			
-			<div class="col-sm-12">
-				@component('components.person-search')
-				@endcomponent
-			</div>
-		</div>
+		</form>
 	
-		<div id="new-guest-container">
-			
+		<div class="row hidden guest-type" id="new-guest-container">
+			<div class="col-sm-12">
+				<a class="back-btn">Back</a>
+			</div>
+
+			<div class="col-sm-12">
+				<h5>New Guest</h5>
+			</div>
+
+			<div class="col-sm-12">
+				<form action="{{ url('Invite/AssignNewPerson') }}" method="POST">
+					@csrf
+					<input type="hidden" name="invite_id" value="{{ $invite->id }}">
+					
+					@component('components.person-new')
+					@endcomponent
+
+					<input type="submit" value="Add & Assign">
+				</form>
+			</div>
 		</div>
 		
 		<input type="hidden" class="where-val" name="id">
