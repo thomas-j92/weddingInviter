@@ -15,8 +15,10 @@
             {{ $slot }}
         </div>
         <div class="modal-footer">
-          <input type="submit" class="btn btn-primary" id="modal-submit-btn" value="Save changes">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          @isset($form_url)
+            <input type="submit" class="btn btn-primary" id="modal-submit-btn" value="Save changes">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          @endisset
         </div>
       @isset($form_url)
         </form>

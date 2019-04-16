@@ -51,3 +51,9 @@ Route::post('/Invite/assignGuestToInvite', 'InviteController@assignToInvite');
 // Assign new guest to invite
 Route::post('/Invite/AssignNewPerson', 'InviteController@assignNewPerson');
 
+// Remove guest from Invite
+Route::get('/Invite/removeGuest/{invite_id}/{person_id}', 'InviteController@removeGuestFromInvite');
+
+// Send Invite to People
+Route::get('/Invite/send/{id}', 'InviteController@send');
+

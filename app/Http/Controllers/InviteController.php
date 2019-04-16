@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Mail;
+use App\Mail\Invite;
 
 class InviteController extends Controller
 {
@@ -69,6 +71,9 @@ class InviteController extends Controller
         return redirect('Invite/view/'.$request->invite_id);
     }
 
+    /**
+     * Assign new Person to existing Invite.
+     */
     public function assignNewPerson(Request $request) {
         if($request->invite_id) {
             if($request->first_name != '' && $request->last_name != '' && $request->email != '') {
@@ -78,14 +83,47 @@ class InviteController extends Controller
                     'last_name'     => $request->last_name,
                     'email'         => $request->email
                 );
-                $p  = \App\People::insert($insert_arr);
+                $person_id  = \App\People::insertGetId($insert_arr);
+                // Create new InviteGuest - links Invite and Person together
+                $create_arr     = array(
+                    'person_id' => $person_id,
+                    'invite_id' => $request->invite_id
+                );
+                $invite_guest   = \App\InviteGuests::create($create_arr);
 
-                die;
+                // Setup flashdata
+                $request->session()->flash('success', "$request->first_name $request->last_name added to invite.");
             } else {
                 $request->session()->flash('error', "First name, last name & email cannot be empty");
             }
         } else {
             $request->session()->flash('error', "No Invite ID provided");
         }
+
+        return redirect('Invite/view/'.$request->invite_id);
+    }
+
+    /**
+     * Remove a Person from an Invite.
+     * @param  [Integer] $invite_id Invite ID.
+     * @param  [Integer] $person_id Person ID.
+     */
+    public function removeGuestFromInvite($invite_id, $person_id) {
+        $affectedRows = \App\InviteGuests::where('invite_id', $invite_id)
+                                         ->where('person_id', $person_id)
+                                         ->delete();
+
+        if($affectedRows > 0) {
+            \Session::flash('success', "Person has been deleted from invite.");
+        } else {
+            \Session::flash('error', "An error occurred");
+        }
+
+        return redirect('Invite/view/'.$invite_id);
+    }
+
+    public function send($invite_id) {
+        $email = 'tommy_jinks@hotmail.co.uk';
+        Mail::to($email)->send(new Invite());
     }
 }
