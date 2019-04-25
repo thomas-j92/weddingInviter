@@ -122,8 +122,30 @@ class InviteController extends Controller
         return redirect('Invite/view/'.$invite_id);
     }
 
+    /**
+     * Send Invite.
+     * @param  [Integer] $invite_id Invite ID.
+     */
     public function send($invite_id) {
-        $email = 'tommy_jinks@hotmail.co.uk';
-        Mail::to($email)->send(new Invite());
+        $invite_guests = \App\InviteGuests::where('invite_id', $invite_id)
+                                          ->get();
+        
+        // send email to all guests
+        foreach($invite_guests as $guest) {
+            $person     = \App\People::find($guest->person_id);
+            $invite     = \App\Invite::find($invite_id);
+
+            $code       = str_random(40);
+            $update     = \App\InviteGuests::find($guest->id)
+                                           ->update([
+                                                'code' => $code
+                                           ]);
+            
+            Mail::to($person->email)->send(new Invite($person, $invite, $code));
+        }
+
+        \Session::flash('success', "Invite sent.");
+        return redirect('Invite/view/'.$invite_id);
+
     }
 }
