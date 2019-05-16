@@ -218,3 +218,47 @@ $(document).on('click', '[data-click-show]', function() {
 	// console.log(show_element_class);
 	// console.log(hide_element_class);
 });
+
+// Vue
+// import Vue from 'vue';
+// import VueRouter from 'vue-router';
+// Vue.use(VueRouter);
+
+// import VueAxios from 'vue-axios';
+// import axios from 'axios';
+// Vue.use(VueAxios, axios);
+
+// window.Vue = require('vue');
+
+// Load Vue JS
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import BootstrapVue from 'bootstrap-vue'
+
+Vue.use(VueRouter)
+Vue.use(BootstrapVue)
+
+// Vue.component('test', 
+//   require('./components/admin/viewer.vue'));
+
+const router = new VueRouter({
+	mode: 'history',
+	routes: [
+		// dynamic segments start with a colon
+		{
+			path: '/admin/', 
+			component: require('./components/admin/viewer'),
+			children: [
+		        {
+		          path: 'dashboard',
+		          component: require('./components/admin/dashboard/main')
+		        },
+	        ]
+		}
+	]
+})
+
+const app = new Vue({
+	el:'#app',
+    router: router,
+});

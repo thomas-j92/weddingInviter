@@ -5,12 +5,8 @@
 
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<link rel="stylesheet" href="{{ mix('/css/app.css') }}">
-	<script type="text/javascript" src="{{ URL::asset('js/app.js') }}"></script>
 	
-	<!-- Datatables -->
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css"/>
-	<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script>
-	<!-- End of Datatables -->
+	
 
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -22,7 +18,15 @@
 	<div id="background"></div>
 	@include('admin.inc.nav')
 
-	<div class="container main-container">
+	<div class="main-content">
+		
+		<div id="app">
+			<router-view></router-view>
+		</div>
+	
+	</div>
+
+	<div class="container main-container" style="display: none;">
 		<div class="message_container">
 			@if(session('success'))
 				@component('components.messages')
@@ -42,7 +46,14 @@
 				@component('components.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
 				@endcomponent
 			@endif
-			@yield('content')
+			<div id="app2">
+				@yield('content')
+			</div>
 		</div>
 	</div>
+	<script type="text/javascript" src="{{ URL::asset('js/app.js') }}"></script>
+	<!-- Datatables -->
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css"/>
+	<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script>
+	<!-- End of Datatables -->
 </body>
