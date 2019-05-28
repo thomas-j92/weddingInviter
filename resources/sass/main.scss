@@ -13,12 +13,27 @@
 	}
 /* End of all pages */
 
+/* Nav */
+	.sidebar {
+		position: fixed;
+	    top: 0;
+	    bottom: 0;
+	    left: 0;
+	    z-index: 100;
+	    padding: 60px 0 0;
+	    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+	}
+/* End of Nav */
+
 /* Useful classes */
 	.full-width {
 		width: 100%;
 	}
 	.hidden {
 		display: none;
+	}
+	.right {
+		float: right;
 	}
 /* End of useful classes */
 

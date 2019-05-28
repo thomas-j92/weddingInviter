@@ -1,11 +1,11 @@
 @extends('admin.inc.template')
 
-@section('title', 'Dashboard')
+@section('title', 'Admin')
 
 
 <!-- JavaScript -->
 @section('content')
-<test></test>	
+
   This is the dashboard
         
 @stop

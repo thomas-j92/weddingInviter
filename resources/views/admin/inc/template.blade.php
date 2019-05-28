@@ -18,7 +18,7 @@
 	<div id="background"></div>
 	@include('admin.inc.nav')
 
-	<div class="main-content">
+	<div class="container-fluid">
 		
 		<div id="app">
 			<router-view></router-view>

@@ -57,4 +57,4 @@
 Auth::routes();
 
 // Admin router
-Route::get('/admin/{section?}', 'AdminController@main')->name('home');
+Route::get('/admin/{section?}/', 'AdminController@main')->name('home');
