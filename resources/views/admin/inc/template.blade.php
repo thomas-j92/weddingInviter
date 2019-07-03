@@ -4,6 +4,7 @@
 	<title>WeddingInviter - @yield('title')</title>
 
 	<meta name="csrf-token" content="{{ csrf_token() }}">
+	<meta name="api-base-url" content="{{ url('') }}" />
 	<link rel="stylesheet" href="{{ mix('/css/app.css') }}">
 	
 	
@@ -16,9 +17,8 @@
 
 <body>
 	<div id="background"></div>
-	@include('admin.inc.nav')
 
-	<div class="container-fluid">
+	<div class="container-fluid p-0">
 		
 		<div id="app">
 			<router-view></router-view>

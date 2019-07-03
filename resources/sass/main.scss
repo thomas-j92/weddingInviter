@@ -1,27 +1,50 @@
+/* Fonts */
+@font-face {
+    font-family: 'Handlee';
+    src: url('/fonts/Handlee-Regular.ttf');
+}
+@font-face {
+    font-family: 'Montserrat';
+    src: url('/fonts/Montserrat-Regular.ttf');
+}
+/* End of Fonts */
+
 /* All pages */
-	html,
 	body {
-		height: 100%;
+		background-color: #eee;
+		font-family: "Montserrat",sans-serif;
 	}
-	body {
-		background: url("/images/main_bg.jpg");
-	    background-size: 100%;
-	}
-	.main-container {
-		background-color: #FFF;
-		height: 100%;
+	.content-container {
+		padding-left: 23em;
+		.content {
+			padding-left: 2em;
+		}
 	}
 /* End of all pages */
 
 /* Nav */
-	.sidebar {
-		position: fixed;
-	    top: 0;
-	    bottom: 0;
-	    left: 0;
-	    z-index: 100;
-	    padding: 60px 0 0;
-	    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+	#admin-header {
+		background-color: #FFF;
+		padding: 1em 0em;
+		#sign-out {
+			margin-top: 1.4em;
+			.item {
+				display: inline-block;
+			}
+		}
+		#title-container {
+			padding-top: 0.4em;
+			.logo {
+				width: 4em;
+			}
+			.logo,
+			.main-title {
+				display: inline-block;
+				float: left;
+				margin: 0;
+				padding-left: 0.2em;
+			}
+		}
 	}
 /* End of Nav */
 
@@ -35,6 +58,13 @@
 	.right {
 		float: right;
 	}
+	.main-title {
+		color: #748c73;
+	    font-size: 2em;
+	    line-height: 50px;
+	    font-family: "Handlee",cursive;
+        text-transform: capitalize;
+	}
 /* End of useful classes */
 
 /* Extra options dropdown */
@@ -46,3 +76,12 @@
 		}
 	}
 /* End of extra options dropdown */
+
+/* Sidebar modifications */
+	.v-sidebar-menu {
+		padding-bottom: 0 !important;
+		.collapse-btn {
+			display: none !important;
+		}
+	}
+/* End of sidebar modifcations */

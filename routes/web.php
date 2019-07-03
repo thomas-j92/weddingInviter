@@ -56,5 +56,10 @@
 // Admin Auth
 Auth::routes();
 
+Route::get('/logout', 'Auth\LoginController@logout');
+
+// Get user details
+Route::get('user/get/', 'AuthController@get');
+
 // Admin router
 Route::get('/admin/{section?}/', 'AdminController@main')->name('home');

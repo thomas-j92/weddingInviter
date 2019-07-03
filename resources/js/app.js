@@ -229,17 +229,35 @@ $(document).on('click', '[data-click-show]', function() {
 // Vue.use(VueAxios, axios);
 
 // window.Vue = require('vue');
+// 
+
 
 // Load Vue JS
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import VueAxios from 'vue-axios'
 import BootstrapVue from 'bootstrap-vue'
-
 Vue.use(VueRouter)
+Vue.use(VueAxios, axios)
 Vue.use(BootstrapVue)
 
-// Vue.component('test', 
-//   require('./components/admin/viewer.vue'));
+// Sidebar
+import VueSidebarMenu from 'vue-sidebar-menu'
+import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
+Vue.use(VueSidebarMenu)
+
+// Mixin
+if(document.head.querySelector('meta[name="api-base-url"]')) {
+	Vue.axios.defaults.baseURL = document.head.querySelector('meta[name="api-base-url"]').content;
+	Vue.mixin({
+	  data: function() {
+	    return {
+	      baseUrl:Vue.axios.defaults.baseURL,
+
+	    }
+	  },
+	});
+}
 
 const router = new VueRouter({
 	mode: 'history',

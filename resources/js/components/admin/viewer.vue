@@ -1,9 +1,16 @@
 <template>
-	<div>
-		<!-- <admin-header></admin-header> -->
-		<links></links>
+	<div class="admin-container">
 
-		<router-view></router-view>
+		<links></links>
+		
+		<div class="content-container">
+			<admin-header></admin-header>
+			<div class="content">
+				<router-view></router-view>
+			</div>
+		</div>
+			
+
 	</div>
 </template>
 
@@ -15,6 +22,6 @@
 		components: {
 			links,
 			adminHeader
-		}
+		},
 	}
 </script>

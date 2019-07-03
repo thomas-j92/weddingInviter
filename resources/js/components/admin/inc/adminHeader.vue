@@ -1,21 +1,48 @@
 <template>
-	<div>
-		<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-	      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company name</a>
-
-	      <ul class="navbar-nav px-3">
-	        <li class="nav-item text-nowrap">
-	          <a class="nav-link" href="#">Sign out</a>
-	        </li>
-	      </ul>
-
-	      
-	    </nav>
+	<div class="nav" id="admin-header">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-8" id="title-container">
+					<img src="/images/mill-logo.png" class="logo" alt="Logo">
+					<p class="main-title">The Jinks Wedding</p>
+				</div>
+				
+				<div class="col-sm-4">
+					<div id="sign-out">
+						<div class="row">
+							<div class="col-sm-6 offset-sm-2">
+								<p class="item text-right">{{ user.name }}</p>
+							</div>
+							<div class="col-sm-4">
+								<a class="item text-left" href="/logout">Sign out</a>
+							</div>
+						</div>
+					</div>
+				</div>
+		    </div>
+	    </div>
 	</div>
 </template>
 
 <script>
 	export default {
-		name: 'adminHeader'
+		name: 'adminHeader',
+		data() {
+			return {
+				user: false,
+			}
+		},
+		methods: {
+			getUser: function() {
+				axios.get(this.baseUrl + '/user/get')
+					 .then((resp) => {
+					 		this.user = resp.data;
+					 })
+				console.log('here');
+			}
+		},
+		mounted() {
+			this.getUser();
+		}
 	}
 </script>
