@@ -272,7 +272,7 @@ const router = new VueRouter({
 		          component: require('./components/admin/dashboard/main'),
 		        },
 		        {
-		          path: 'guests',
+		          path: 'guests/:filter',
 		          component: require('./components/admin/guests/main')
 		        },
 		        {

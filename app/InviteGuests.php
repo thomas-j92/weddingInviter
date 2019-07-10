@@ -10,6 +10,6 @@ class InviteGuests extends Model
 	protected $fillable = ['person_id', 'invite_id', 'code'];
 
 	public function person() {
-    	return $this->hasOne('App\People', 'id', 'person_id');
+    	return $this->belongsTo('App\People', 'person_id');
     }
 }

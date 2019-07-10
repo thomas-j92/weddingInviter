@@ -1,14 +1,7 @@
 <template>
 	<div>
-	<!-- <b-nav vertical class="w-25">
-		<b-nav-item to="/admin/dashboard">Dashboard</b-nav-item>
-		<b-nav-item to="/admin/guests">Guests</b-nav-item>
-		<b-nav-item to="/admin/reports">Reports</b-nav-item>
-		<b-nav-item to="/admin/emails">Emails</b-nav-item>
-	</b-nav> -->
-
-	<sidebar-menu :menu="menu" />
-</div>
+	   <sidebar-menu :menu="menu" />
+    </div>
 </template>
 
 <script>
@@ -51,9 +44,27 @@
                         */
                     },
                     {
-                        href: '/admin/guests',
+                        href: '/admin/guests/all',
                         title: 'Guests',
                         icon: 'fa fa-users',
+                        child: [
+                            {
+                                href: '/admin/guests/attending',
+                                title: 'Attending',
+                            },
+                            {
+                                href: '/admin/guests/not_attending',
+                                title: 'Not Attending',
+                            },
+                            {
+                                href: '/admin/guests/awaiting_reply',
+                                title: 'Awaiting Reply',
+                            },
+                            {
+                                href: '/admin/guests/not_invited',
+                                title: 'Not Invited',
+                            }
+                        ]
                     },
                     {
                         href: '/admin/reports',

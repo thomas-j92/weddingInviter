@@ -32021,7 +32021,7 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
 			path: 'dashboard',
 			component: __webpack_require__(350)
 		}, {
-			path: 'guests',
+			path: 'guests/:filter',
 			component: __webpack_require__(353)
 		}, {
 			path: 'reports',
@@ -82904,13 +82904,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'admin.links',
@@ -82948,9 +82941,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
                 */
             }, {
-                href: '/admin/guests',
+                href: '/admin/guests/all',
                 title: 'Guests',
-                icon: 'fa fa-users'
+                icon: 'fa fa-users',
+                child: [{
+                    href: '/admin/guests/attending',
+                    title: 'Attending'
+                }, {
+                    href: '/admin/guests/not_attending',
+                    title: 'Not Attending'
+                }, {
+                    href: '/admin/guests/awaiting_reply',
+                    title: 'Awaiting Reply'
+                }, {
+                    href: '/admin/guests/not_invited',
+                    title: 'Not Invited'
+                }]
             }, {
                 href: '/admin/reports',
                 title: 'Reports',
@@ -83079,7 +83085,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			axios.get(this.baseUrl + '/user/get').then(function (resp) {
 				_this.user = resp.data;
 			});
-			console.log('here');
 		}
 	},
 	mounted: function mounted() {
@@ -83336,9 +83341,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	name: 'admin.guests.main'
+	name: 'admin.guests.main',
+	created: function created() {
+		this.getAll();
+	},
+	data: function data() {
+		return {
+			fields: ['first_name', 'last_name', 'email', { key: 'options', label: '' }],
+			people: []
+		};
+	},
+
+	computed: {
+		filter: function filter() {
+			return this.$route.params.filter;
+		}
+	},
+	watch: {
+		'$route': function $route(to, from) {
+			this.getAll();
+		}
+	},
+	methods: {
+		getAll: function getAll() {
+			var self = this;
+			axios.get(this.baseUrl + '/api/people/showAll/' + this.filter).then(function (resp) {
+				if (resp.data) {
+					self.people = resp.data;
+				}
+			});
+		}
+	}
 });
 
 /***/ }),
@@ -83349,7 +83398,49 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("\n\tGuests\n")])
+  return _c(
+    "div",
+    [
+      _vm._v("\n\tGuests\n\n\t"),
+      _c(
+        "b-card",
+        [
+          _c("b-table", {
+            attrs: { fields: _vm.fields, items: _vm.people },
+            scopedSlots: _vm._u([
+              {
+                key: "options",
+                fn: function(data) {
+                  return [
+                    _c(
+                      "b-dropdown",
+                      { staticClass: "m-md-2", attrs: { text: "Options" } },
+                      [
+                        _c("b-dropdown-item", [_vm._v("First Action")]),
+                        _vm._v(" "),
+                        _c("b-dropdown-item", [_vm._v("Second Action")]),
+                        _vm._v(" "),
+                        _c("b-dropdown-item", [_vm._v("Third Action")]),
+                        _vm._v(" "),
+                        _c("b-dropdown-divider"),
+                        _vm._v(" "),
+                        _c("b-dropdown-item", { attrs: { disabled: "" } }, [
+                          _vm._v("Disabled action")
+                        ])
+                      ],
+                      1
+                    )
+                  ]
+                }
+              }
+            ])
+          })
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

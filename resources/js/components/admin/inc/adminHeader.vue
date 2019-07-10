@@ -38,7 +38,6 @@
 					 .then((resp) => {
 					 		this.user = resp.data;
 					 })
-				console.log('here');
 			}
 		},
 		mounted() {
