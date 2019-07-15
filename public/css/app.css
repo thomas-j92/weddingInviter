@@ -23196,6 +23196,27 @@ body {
 
 /* End of Nav */
 
+/* Loading gif */
+
+.loading {
+  text-align: center;
+}
+
+.loading p {
+  font-weight: bold;
+  margin-bottom: 0.8em;
+}
+
+/* End of loading gif */
+
+/* Card */
+
+.card .card-body .card-title {
+  margin-bottom: 1.5em;
+}
+
+/* End of card */
+
 /* Useful classes */
 
 .full-width {

@@ -246,6 +246,12 @@ import VueSidebarMenu from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
 Vue.use(VueSidebarMenu)
 
+// Loading gif
+import loading from './components/useful/loading'
+
+// No data text
+import no_data from './components/useful/no-data'
+
 // Mixin
 if(document.head.querySelector('meta[name="api-base-url"]')) {
 	Vue.axios.defaults.baseURL = document.head.querySelector('meta[name="api-base-url"]').content;
@@ -256,6 +262,10 @@ if(document.head.querySelector('meta[name="api-base-url"]')) {
 
 	    }
 	  },
+	  components: {
+	  	loading,
+	  	'no-data': no_data
+	  }
 	});
 }
 
