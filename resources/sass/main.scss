@@ -68,6 +68,23 @@
 	}
 /* End of card */
 
+/* Toast */
+	.toast {
+		&.success {
+			.toast-header {
+				background-color: #71cc97;
+    			color: #FFF;
+			}
+		}
+		&.error {
+			.toast-header {
+				background-color: #cc7171;
+				color: #FFF;
+			}
+		}
+	}
+/* End of toast */
+
 /* Useful classes */
 	.full-width {
 		width: 100%;
@@ -84,6 +101,13 @@
 	    line-height: 50px;
 	    font-family: "Handlee",cursive;
         text-transform: capitalize;
+	}
+	.confirm-element {
+		background-color: #ccc;
+	    font-size: 0.9em;
+	    padding: 0em 0.2em;
+	    border-radius: 0.2em;
+	    font-weight: bold;
 	}
 /* End of useful classes */
 

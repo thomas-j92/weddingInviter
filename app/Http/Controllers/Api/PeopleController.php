@@ -10,6 +10,9 @@ use App\Http\Controllers\Controller;
 // Load models
 use App\People;
 
+// Load libaries 
+use Validator;
+
 class PeopleController extends Controller
 {
     /**
@@ -40,7 +43,33 @@ class PeopleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'firstName'     => 'required',
+            'lastName'      => 'required',
+            'email'         => 'required',
+        ]);
+
+        $response = array(
+            'response'  => false,
+            'message'   => 'An error occurred'
+        );
+
+        // ensure all required data has been provided
+        if(!$validator->fails()) {
+            // create People element
+            $insert = People::create([
+                'first_name'    => $request->firstName,
+                'last_name'     => $request->lastName,
+                'email'         => $request->email,
+                'status'        => 'active'
+            ]);
+            if($insert) {
+                $response['response']   = true;
+                $response['message']    = 'New guest added';
+            }
+        }
+
+        return response()->json($response);
     }
 
     /**
@@ -117,6 +146,23 @@ class PeopleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $person = People::find($id);
+
+
+        $response = array(
+            'response'  => false
+        );
+        if($person) {
+            $updated = $person->update([
+                'status'    => 'disabled'
+            ]);
+
+            if($updated) {
+                $response['response']   = true;
+                $response['message']    = 'Guest has been removed';
+            }
+        }
+
+        return response()->json($response);
     }
 }

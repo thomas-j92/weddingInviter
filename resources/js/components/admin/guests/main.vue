@@ -7,11 +7,9 @@
 					<b-table :fields="fields" :items="people" v-if="people.length > 0">
 						<template slot="options" slot-scope="data">
 							<b-dropdown text="Options" class="m-md-2">
-							    <b-dropdown-item>First Action</b-dropdown-item>
-							    <b-dropdown-item>Second Action</b-dropdown-item>
-							    <b-dropdown-item>Third Action</b-dropdown-item>
+							    <b-dropdown-item>Action</b-dropdown-item>
 							    <b-dropdown-divider></b-dropdown-divider>
-							    <b-dropdown-item disabled>Disabled action</b-dropdown-item>
+							    <b-dropdown-item v-b-modal.remove-guest @click="selected = data.item"><i class="fas fa-times-circle"></i> Remove</b-dropdown-item>
 							  </b-dropdown>
 						</template>
 					</b-table>
@@ -21,7 +19,10 @@
 			</b-card-body>
 		</b-card>
 
-		<b-modal id="create-guest" title="Create Guest">
+		<b-modal 
+		id="create-guest"
+		title="Create Guest"
+		@ok="createGuest">
 			<div class="d-block text-center">
 				<b-container fluid>
 					<b-row class="my-1" v-for="(item_type, item_name)  in create.inputs" :key="item_name">
@@ -34,6 +35,13 @@
 					</b-row>
 				</b-container>
 			</div>
+		</b-modal>
+
+		<b-modal 
+		id="remove-guest"
+		title="Remove Guest"
+		@ok="removeGuest">
+			<p>Are you sure you want to remove <span class="confirm-element">{{ selected.first_name }} {{ selected.last_name }}</span>?</p>
 		</b-modal>
 	</div>
 </template>
@@ -59,12 +67,17 @@
 				create: {
 					inputs: {
 						'first_name': 'text',
+						'last_name': 'text',
+						'email': 'text'
 					},
 					models: {
 						'first_name': '',
+						'last_name': '',
+						'email':''
 					}
 				},
 				isLoaded: false,
+				selected: false,
 			}
 		},
 		computed: {
@@ -122,6 +135,39 @@
 
 					 		// mark component as loaded - will stop loading gif
 					 		self.isLoaded 	= true;
+					 	}
+					 })
+			},
+			createGuest: function() {
+				const self = this;
+
+				let insertObj = {
+					firstName: self.create.models.first_name,
+					lastName: self.create.models.last_name,
+					email: self.create.models.email
+				};
+
+				axios.post(this.baseUrl+'/api/people/', insertObj)
+					 .then((resp) => {
+					 	if(resp.data.response) {
+					 		self.toast('Added', resp.data.message, 'success');
+					 	} else {
+					 		self.toast('Error', resp.data.message, 'error');
+					 	}
+
+					 	// refresh list
+					 	self.getAll();
+					 });
+			},
+			removeGuest: function() {
+				const self = this;
+
+				axios.delete(this.baseUrl+'/api/people/'+this.selected.id)
+					 .then((resp) => {
+					 	if(resp.data.response) {
+					 		self.toast('Removed', resp.data.message, 'error');
+					 	} else {
+					 		self.toast('Error', resp.data.message, 'error');
 					 	}
 					 })
 			}

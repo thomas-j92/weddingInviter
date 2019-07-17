@@ -19,6 +19,7 @@ class PeopleTableSeeder extends Seeder
 	        DB::table('people')->insert([
 	            'first_name' 	=> $faker->firstName,
 	            'last_name' 	=> $faker->lastName,
+                'status'        => 'active',
 	            'email' 		=> $faker->email,
 	            'created_at' 	=> date('Y-m-d H:i:s')
 	        ]);

@@ -49,6 +49,10 @@
                         icon: 'fa fa-users',
                         child: [
                             {
+                                href: '/admin/guests/all',
+                                title: 'All',
+                            },
+                            {
                                 href: '/admin/guests/attending',
                                 title: 'Attending',
                             },

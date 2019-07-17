@@ -265,6 +265,37 @@ if(document.head.querySelector('meta[name="api-base-url"]')) {
 	  components: {
 	  	loading,
 	  	'no-data': no_data
+	  },
+	  methods: {
+	  	toast(title, message = '', overrideClass = null) {  
+	      let toastClass = 'success'; 
+
+	      if(title == 'error'){
+	        toastClass = 'danger';
+
+	        // Get http errors
+	        if(typeof message === 'object'){
+	          if(message.hasOwnProperty('response') && message.response.data.hasOwnProperty('message')){
+	            message = message.response.data.message;
+	          }else if(message.hasOwnProperty('message')){
+	            message = message.message;
+	          }
+
+	        }
+
+	      }
+
+	      if(overrideClass) {
+	        toastClass = overrideClass;
+	      }
+
+	      this.$bvToast.toast(message, {
+	        title: title,
+	        autoHideDelay: 6000,
+	        appendToast: true,
+	        toastClass:toastClass
+	      })
+	    },
 	  }
 	});
 }
