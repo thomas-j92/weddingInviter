@@ -2037,189 +2037,6 @@ exports.default = _default;
 
 /***/ }),
 /* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.__esModule = true;
-exports.default = void 0;
-
-var _identity = _interopRequireDefault(__webpack_require__(133));
-
-var _inspect = __webpack_require__(1);
-
-var _object = __webpack_require__(6);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Given an array of properties or an object of property keys,
- * plucks all the values off the target object, returning a new object
- * that has props that reference the original prop values
- *
- * @param {{}|string[]} keysToPluck
- * @param {{}} objToPluck
- * @param {Function} transformFn
- * @return {{}}
- */
-var pluckProps = function pluckProps(keysToPluck, objToPluck) {
-  var transformFn = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _identity.default;
-  return ((0, _inspect.isArray)(keysToPluck) ? keysToPluck.slice() : (0, _object.keys)(keysToPluck)).reduce(function (memo, prop) {
-    memo[transformFn(prop)] = objToPluck[prop];
-    return memo;
-  }, {});
-};
-
-var _default = pluckProps;
-exports.default = _default;
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.__esModule = true;
-exports.default = void 0;
-
-var _object = __webpack_require__(6);
-
-var _inspect = __webpack_require__(1);
-
-// Assumes both a and b are arrays!
-// Handles when arrays are "sparse" (array.every(...) doesn't handle sparse)
-var compareArrays = function compareArrays(a, b) {
-  if (a.length !== b.length) {
-    return false;
-  }
-
-  var equal = true;
-
-  for (var i = 0; equal && i < a.length; i++) {
-    equal = looseEqual(a[i], b[i]);
-  }
-
-  return equal;
-};
-/**
- * Check if two values are loosely equal - that is,
- * if they are plain objects, do they have the same shape?
- * Returns boolean true or false
- */
-
-
-var looseEqual = function looseEqual(a, b) {
-  if (a === b) {
-    return true;
-  }
-
-  var aValidType = (0, _inspect.isDate)(a);
-  var bValidType = (0, _inspect.isDate)(b);
-
-  if (aValidType || bValidType) {
-    return aValidType && bValidType ? a.getTime() === b.getTime() : false;
-  }
-
-  aValidType = (0, _inspect.isArray)(a);
-  bValidType = (0, _inspect.isArray)(b);
-
-  if (aValidType || bValidType) {
-    return aValidType && bValidType ? compareArrays(a, b) : false;
-  }
-
-  aValidType = (0, _inspect.isObject)(a);
-  bValidType = (0, _inspect.isObject)(b);
-
-  if (aValidType || bValidType) {
-    /* istanbul ignore if: this if will probably never be called */
-    if (!aValidType || !bValidType) {
-      return false;
-    }
-
-    var aKeysCount = (0, _object.keys)(a).length;
-    var bKeysCount = (0, _object.keys)(b).length;
-
-    if (aKeysCount !== bKeysCount) {
-      return false;
-    }
-
-    for (var key in a) {
-      var aHasKey = a.hasOwnProperty(key);
-      var bHasKey = b.hasOwnProperty(key);
-
-      if (aHasKey && !bHasKey || !aHasKey && bHasKey || !looseEqual(a[key], b[key])) {
-        return false;
-      }
-    }
-  }
-
-  return String(a) === String(b);
-};
-
-var _default = looseEqual;
-exports.default = _default;
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.__esModule = true;
-exports.default = void 0;
-
-/* Form control contextual state class computation
- *
- * Returned class is either 'is-valid' or 'is-invalid' based on the 'state' prop
- * state can be one of five values:
- *  - true or 'valid' for is-valid
- *  - false or 'invalid' for is-invalid
- *  - null (or empty string) for no contextual state
- */
-// @vue/component
-var _default = {
-  props: {
-    state: {
-      // true/'valid', false/'invalid', '',null
-      // The order must be String first, then Boolean!
-      type: [String, Boolean],
-      default: null
-    }
-  },
-  computed: {
-    computedState: function computedState() {
-      var state = this.state;
-
-      if (state === '') {
-        return null;
-      } else if (state === true || state === 'valid') {
-        return true;
-      } else if (state === false || state === 'invalid') {
-        return false;
-      }
-
-      return null;
-    },
-    stateClass: function stateClass() {
-      var state = this.computedState;
-
-      if (state === true) {
-        return 'is-valid';
-      } else if (state === false) {
-        return 'is-invalid';
-      }
-
-      return null;
-    }
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 18 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -2326,6 +2143,189 @@ module.exports = function normalizeComponent (
   }
 }
 
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+exports.default = void 0;
+
+var _identity = _interopRequireDefault(__webpack_require__(133));
+
+var _inspect = __webpack_require__(1);
+
+var _object = __webpack_require__(6);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Given an array of properties or an object of property keys,
+ * plucks all the values off the target object, returning a new object
+ * that has props that reference the original prop values
+ *
+ * @param {{}|string[]} keysToPluck
+ * @param {{}} objToPluck
+ * @param {Function} transformFn
+ * @return {{}}
+ */
+var pluckProps = function pluckProps(keysToPluck, objToPluck) {
+  var transformFn = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _identity.default;
+  return ((0, _inspect.isArray)(keysToPluck) ? keysToPluck.slice() : (0, _object.keys)(keysToPluck)).reduce(function (memo, prop) {
+    memo[transformFn(prop)] = objToPluck[prop];
+    return memo;
+  }, {});
+};
+
+var _default = pluckProps;
+exports.default = _default;
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+exports.default = void 0;
+
+var _object = __webpack_require__(6);
+
+var _inspect = __webpack_require__(1);
+
+// Assumes both a and b are arrays!
+// Handles when arrays are "sparse" (array.every(...) doesn't handle sparse)
+var compareArrays = function compareArrays(a, b) {
+  if (a.length !== b.length) {
+    return false;
+  }
+
+  var equal = true;
+
+  for (var i = 0; equal && i < a.length; i++) {
+    equal = looseEqual(a[i], b[i]);
+  }
+
+  return equal;
+};
+/**
+ * Check if two values are loosely equal - that is,
+ * if they are plain objects, do they have the same shape?
+ * Returns boolean true or false
+ */
+
+
+var looseEqual = function looseEqual(a, b) {
+  if (a === b) {
+    return true;
+  }
+
+  var aValidType = (0, _inspect.isDate)(a);
+  var bValidType = (0, _inspect.isDate)(b);
+
+  if (aValidType || bValidType) {
+    return aValidType && bValidType ? a.getTime() === b.getTime() : false;
+  }
+
+  aValidType = (0, _inspect.isArray)(a);
+  bValidType = (0, _inspect.isArray)(b);
+
+  if (aValidType || bValidType) {
+    return aValidType && bValidType ? compareArrays(a, b) : false;
+  }
+
+  aValidType = (0, _inspect.isObject)(a);
+  bValidType = (0, _inspect.isObject)(b);
+
+  if (aValidType || bValidType) {
+    /* istanbul ignore if: this if will probably never be called */
+    if (!aValidType || !bValidType) {
+      return false;
+    }
+
+    var aKeysCount = (0, _object.keys)(a).length;
+    var bKeysCount = (0, _object.keys)(b).length;
+
+    if (aKeysCount !== bKeysCount) {
+      return false;
+    }
+
+    for (var key in a) {
+      var aHasKey = a.hasOwnProperty(key);
+      var bHasKey = b.hasOwnProperty(key);
+
+      if (aHasKey && !bHasKey || !aHasKey && bHasKey || !looseEqual(a[key], b[key])) {
+        return false;
+      }
+    }
+  }
+
+  return String(a) === String(b);
+};
+
+var _default = looseEqual;
+exports.default = _default;
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+exports.default = void 0;
+
+/* Form control contextual state class computation
+ *
+ * Returned class is either 'is-valid' or 'is-invalid' based on the 'state' prop
+ * state can be one of five values:
+ *  - true or 'valid' for is-valid
+ *  - false or 'invalid' for is-invalid
+ *  - null (or empty string) for no contextual state
+ */
+// @vue/component
+var _default = {
+  props: {
+    state: {
+      // true/'valid', false/'invalid', '',null
+      // The order must be String first, then Boolean!
+      type: [String, Boolean],
+      default: null
+    }
+  },
+  computed: {
+    computedState: function computedState() {
+      var state = this.state;
+
+      if (state === '') {
+        return null;
+      } else if (state === true || state === 'valid') {
+        return true;
+      } else if (state === false || state === 'invalid') {
+        return false;
+      }
+
+      return null;
+    },
+    stateClass: function stateClass() {
+      var state = this.computedState;
+
+      if (state === true) {
+        return 'is-valid';
+      } else if (state === false) {
+        return 'is-invalid';
+      }
+
+      return null;
+    }
+  }
+};
+exports.default = _default;
 
 /***/ }),
 /* 19 */
@@ -7199,7 +7199,7 @@ var _vue = _interopRequireDefault(__webpack_require__(0));
 
 var _vueFunctionalDataMerge = __webpack_require__(2);
 
-var _pluckProps = _interopRequireDefault(__webpack_require__(15));
+var _pluckProps = _interopRequireDefault(__webpack_require__(16));
 
 var _array = __webpack_require__(9);
 
@@ -26435,7 +26435,7 @@ var _vue = _interopRequireDefault(__webpack_require__(0));
 
 var _vueFunctionalDataMerge = __webpack_require__(2);
 
-var _pluckProps = _interopRequireDefault(__webpack_require__(15));
+var _pluckProps = _interopRequireDefault(__webpack_require__(16));
 
 var _link = _interopRequireWildcard(__webpack_require__(14));
 
@@ -26602,7 +26602,7 @@ var _prefixPropName = _interopRequireDefault(__webpack_require__(41));
 
 var _copyProps = _interopRequireDefault(__webpack_require__(42));
 
-var _pluckProps = _interopRequireDefault(__webpack_require__(15));
+var _pluckProps = _interopRequireDefault(__webpack_require__(16));
 
 var _cardMixin = _interopRequireDefault(__webpack_require__(43));
 
@@ -27535,7 +27535,7 @@ exports.default = _default;
 exports.__esModule = true;
 exports.default = void 0;
 
-var _looseEqual = _interopRequireDefault(__webpack_require__(16));
+var _looseEqual = _interopRequireDefault(__webpack_require__(17));
 
 var _dom = __webpack_require__(5);
 
@@ -28696,7 +28696,7 @@ exports.default = void 0;
 
 var _vue = _interopRequireDefault(__webpack_require__(0));
 
-var _looseEqual = _interopRequireDefault(__webpack_require__(16));
+var _looseEqual = _interopRequireDefault(__webpack_require__(17));
 
 var _looseIndexOf = _interopRequireDefault(__webpack_require__(280));
 
@@ -28708,7 +28708,7 @@ var _formRadioCheck = _interopRequireDefault(__webpack_require__(160));
 
 var _formSize = _interopRequireDefault(__webpack_require__(24));
 
-var _formState = _interopRequireDefault(__webpack_require__(17));
+var _formState = _interopRequireDefault(__webpack_require__(18));
 
 var _id = _interopRequireDefault(__webpack_require__(10));
 
@@ -29246,13 +29246,13 @@ var _id = _interopRequireDefault(__webpack_require__(10));
 
 var _form = _interopRequireDefault(__webpack_require__(21));
 
-var _formState = _interopRequireDefault(__webpack_require__(17));
+var _formState = _interopRequireDefault(__webpack_require__(18));
 
 var _formSize = _interopRequireDefault(__webpack_require__(24));
 
 var _formRadioCheck = _interopRequireDefault(__webpack_require__(160));
 
-var _looseEqual = _interopRequireDefault(__webpack_require__(16));
+var _looseEqual = _interopRequireDefault(__webpack_require__(17));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31730,7 +31730,7 @@ exports.default = _default;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(181);
-module.exports = __webpack_require__(368);
+module.exports = __webpack_require__(371);
 
 
 /***/ }),
@@ -32066,16 +32066,21 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
 		component: __webpack_require__(347),
 		children: [{
 			path: 'dashboard',
+			name: 'admin.dashboard',
 			component: __webpack_require__(356)
 		}, {
 			path: 'guests/:filter',
+			name: 'admin.guests',
 			component: __webpack_require__(359)
 		}, {
-			path: 'reports',
+			path: 'invite/:personId?/:inviteId?',
 			component: __webpack_require__(362)
 		}, {
-			path: 'emails',
+			path: 'reports',
 			component: __webpack_require__(365)
+		}, {
+			path: 'emails',
+			component: __webpack_require__(368)
 		}]
 	}]
 });
@@ -71495,7 +71500,7 @@ var _vueFunctionalDataMerge = __webpack_require__(2);
 
 var _config = __webpack_require__(4);
 
-var _pluckProps = _interopRequireDefault(__webpack_require__(15));
+var _pluckProps = _interopRequireDefault(__webpack_require__(16));
 
 var _link = _interopRequireWildcard(__webpack_require__(14));
 
@@ -71976,7 +71981,7 @@ var _unprefixPropName = _interopRequireDefault(__webpack_require__(258));
 
 var _copyProps = _interopRequireDefault(__webpack_require__(42));
 
-var _pluckProps = _interopRequireDefault(__webpack_require__(15));
+var _pluckProps = _interopRequireDefault(__webpack_require__(16));
 
 var _normalizeSlot = __webpack_require__(19);
 
@@ -74325,7 +74330,7 @@ var _inspect = __webpack_require__(1);
 
 var _object = __webpack_require__(6);
 
-var _formState = _interopRequireDefault(__webpack_require__(17));
+var _formState = _interopRequireDefault(__webpack_require__(18));
 
 var _id = _interopRequireDefault(__webpack_require__(10));
 
@@ -74799,7 +74804,7 @@ exports.default = _default;
 exports.__esModule = true;
 exports.default = void 0;
 
-var _looseEqual = _interopRequireDefault(__webpack_require__(16));
+var _looseEqual = _interopRequireDefault(__webpack_require__(17));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -74839,7 +74844,7 @@ var _formRadioCheckGroup = _interopRequireDefault(__webpack_require__(161));
 
 var _formSize = _interopRequireDefault(__webpack_require__(24));
 
-var _formState = _interopRequireDefault(__webpack_require__(17));
+var _formState = _interopRequireDefault(__webpack_require__(18));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -74903,7 +74908,7 @@ var _formRadioCheckGroup = _interopRequireDefault(__webpack_require__(161));
 
 var _formSize = _interopRequireDefault(__webpack_require__(24));
 
-var _formState = _interopRequireDefault(__webpack_require__(17));
+var _formState = _interopRequireDefault(__webpack_require__(18));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -74958,7 +74963,7 @@ var _form = _interopRequireDefault(__webpack_require__(21));
 
 var _formSize = _interopRequireDefault(__webpack_require__(24));
 
-var _formState = _interopRequireDefault(__webpack_require__(17));
+var _formState = _interopRequireDefault(__webpack_require__(18));
 
 var _formText = _interopRequireDefault(__webpack_require__(163));
 
@@ -75128,7 +75133,7 @@ var _form = _interopRequireDefault(__webpack_require__(21));
 
 var _formSize = _interopRequireDefault(__webpack_require__(24));
 
-var _formState = _interopRequireDefault(__webpack_require__(17));
+var _formState = _interopRequireDefault(__webpack_require__(18));
 
 var _formText = _interopRequireDefault(__webpack_require__(163));
 
@@ -75369,7 +75374,7 @@ var _formCustom = _interopRequireDefault(__webpack_require__(166));
 
 var _form = _interopRequireDefault(__webpack_require__(21));
 
-var _formState = _interopRequireDefault(__webpack_require__(17));
+var _formState = _interopRequireDefault(__webpack_require__(18));
 
 var _id = _interopRequireDefault(__webpack_require__(10));
 
@@ -75731,7 +75736,7 @@ var _form = _interopRequireDefault(__webpack_require__(21));
 
 var _formSize = _interopRequireDefault(__webpack_require__(24));
 
-var _formState = _interopRequireDefault(__webpack_require__(17));
+var _formState = _interopRequireDefault(__webpack_require__(18));
 
 var _formCustom = _interopRequireDefault(__webpack_require__(166));
 
@@ -76088,7 +76093,7 @@ var _vue = _interopRequireDefault(__webpack_require__(0));
 
 var _vueFunctionalDataMerge = __webpack_require__(2);
 
-var _pluckProps = _interopRequireDefault(__webpack_require__(15));
+var _pluckProps = _interopRequireDefault(__webpack_require__(16));
 
 var _array = __webpack_require__(9);
 
@@ -76440,7 +76445,7 @@ var _dropdown2 = _interopRequireDefault(__webpack_require__(155));
 
 var _normalizeSlot = _interopRequireDefault(__webpack_require__(7));
 
-var _pluckProps = _interopRequireDefault(__webpack_require__(15));
+var _pluckProps = _interopRequireDefault(__webpack_require__(16));
 
 var _html = __webpack_require__(11);
 
@@ -76654,7 +76659,7 @@ var _vue = _interopRequireDefault(__webpack_require__(0));
 
 var _vueFunctionalDataMerge = __webpack_require__(2);
 
-var _pluckProps = _interopRequireDefault(__webpack_require__(15));
+var _pluckProps = _interopRequireDefault(__webpack_require__(16));
 
 var _nav = __webpack_require__(94);
 
@@ -76712,7 +76717,7 @@ var _link = _interopRequireWildcard(__webpack_require__(14));
 
 var _vueFunctionalDataMerge = __webpack_require__(2);
 
-var _pluckProps = _interopRequireDefault(__webpack_require__(15));
+var _pluckProps = _interopRequireDefault(__webpack_require__(16));
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
@@ -77011,7 +77016,7 @@ exports.default = void 0;
 
 var _vue = _interopRequireDefault(__webpack_require__(0));
 
-var _looseEqual = _interopRequireDefault(__webpack_require__(16));
+var _looseEqual = _interopRequireDefault(__webpack_require__(17));
 
 var _toString = _interopRequireDefault(__webpack_require__(29));
 
@@ -77676,7 +77681,7 @@ exports.default = void 0;
 
 var _vue = _interopRequireDefault(__webpack_require__(0));
 
-var _looseEqual = _interopRequireDefault(__webpack_require__(16));
+var _looseEqual = _interopRequireDefault(__webpack_require__(17));
 
 var _id = _interopRequireDefault(__webpack_require__(10));
 
@@ -78092,7 +78097,7 @@ exports.default = _default;
 exports.__esModule = true;
 exports.default = void 0;
 
-var _looseEqual = _interopRequireDefault(__webpack_require__(16));
+var _looseEqual = _interopRequireDefault(__webpack_require__(17));
 
 var _warn = _interopRequireDefault(__webpack_require__(8));
 
@@ -79841,7 +79846,7 @@ exports.default = _default;
 exports.__esModule = true;
 exports.default = void 0;
 
-var _looseEqual = _interopRequireDefault(__webpack_require__(16));
+var _looseEqual = _interopRequireDefault(__webpack_require__(17));
 
 var _array = __webpack_require__(9);
 
@@ -80039,7 +80044,7 @@ exports.default = _default2;
 exports.__esModule = true;
 exports.default = void 0;
 
-var _looseEqual = _interopRequireDefault(__webpack_require__(16));
+var _looseEqual = _interopRequireDefault(__webpack_require__(17));
 
 var _warn = _interopRequireDefault(__webpack_require__(8));
 
@@ -82813,7 +82818,7 @@ module.exports = function (css) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(18)
+var normalizeComponent = __webpack_require__(15)
 /* script */
 var __vue_script__ = __webpack_require__(342)
 /* template */
@@ -82910,7 +82915,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(18)
+var normalizeComponent = __webpack_require__(15)
 /* script */
 var __vue_script__ = __webpack_require__(345)
 /* template */
@@ -83003,7 +83008,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(18)
+var normalizeComponent = __webpack_require__(15)
 /* script */
 var __vue_script__ = __webpack_require__(348)
 /* template */
@@ -83087,7 +83092,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(18)
+var normalizeComponent = __webpack_require__(15)
 /* script */
 var __vue_script__ = __webpack_require__(350)
 /* template */
@@ -83235,7 +83240,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(18)
+var normalizeComponent = __webpack_require__(15)
 /* script */
 var __vue_script__ = __webpack_require__(353)
 /* template */
@@ -83443,7 +83448,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(18)
+var normalizeComponent = __webpack_require__(15)
 /* script */
 var __vue_script__ = __webpack_require__(357)
 /* template */
@@ -83527,7 +83532,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(18)
+var normalizeComponent = __webpack_require__(15)
 /* script */
 var __vue_script__ = __webpack_require__(360)
 /* template */
@@ -83575,6 +83580,31 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -83728,6 +83758,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				self.getAll();
 			});
 		},
+		changeSelected: function changeSelected(newEl) {
+			this.selected = Object.assign({}, newEl);
+		},
 		removeGuest: function removeGuest() {
 			var self = this;
 
@@ -83737,6 +83770,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				} else {
 					self.toast('Error', resp.data.message, 'error');
 				}
+
+				// reload data					 	
+				self.getAll();
+			});
+		},
+		editGuest: function editGuest() {
+			var self = this;
+			var editArr = {
+				first_name: this.selected.first_name,
+				last_name: this.selected.last_name,
+				email: this.selected.email
+			};
+			axios.patch(this.baseUrl + "/api/people/" + this.selected.id, editArr).then(function (resp) {
+				if (resp.data.response) {
+					self.toast('Updated', resp.data.message, 'success');
+				} else {
+					self.toast('Error', resp.data.message, 'error');
+				}
+
+				// reload data					 	
+				self.getAll();
 			});
 		}
 	}
@@ -83803,42 +83857,112 @@ var render = function() {
                                       _c(
                                         "b-dropdown",
                                         {
-                                          staticClass: "m-md-2",
+                                          staticClass: "m-md-2 guest-dropdown",
                                           attrs: { text: "Options" }
                                         },
                                         [
-                                          _c("b-dropdown-item", [
-                                            _vm._v("Action")
-                                          ]),
-                                          _vm._v(" "),
-                                          _c("b-dropdown-divider"),
+                                          _c(
+                                            "b-dropdown-group",
+                                            [
+                                              _c(
+                                                "b-dropdown-text",
+                                                {
+                                                  staticClass: "dropdown-title"
+                                                },
+                                                [_vm._v("Person")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "b-dropdown-item",
+                                                {
+                                                  directives: [
+                                                    {
+                                                      name: "b-modal",
+                                                      rawName:
+                                                        "v-b-modal.edit-guest",
+                                                      modifiers: {
+                                                        "edit-guest": true
+                                                      }
+                                                    }
+                                                  ],
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.changeSelected(
+                                                        data.item
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c("i", {
+                                                    staticClass: "fas fa-edit"
+                                                  }),
+                                                  _vm._v(" Edit")
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "b-dropdown-item",
+                                                {
+                                                  directives: [
+                                                    {
+                                                      name: "b-modal",
+                                                      rawName:
+                                                        "v-b-modal.remove-guest",
+                                                      modifiers: {
+                                                        "remove-guest": true
+                                                      }
+                                                    }
+                                                  ],
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.changeSelected(
+                                                        data.item
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c("i", {
+                                                    staticClass:
+                                                      "fas fa-times-circle"
+                                                  }),
+                                                  _vm._v(" Remove")
+                                                ]
+                                              )
+                                            ],
+                                            1
+                                          ),
                                           _vm._v(" "),
                                           _c(
-                                            "b-dropdown-item",
-                                            {
-                                              directives: [
-                                                {
-                                                  name: "b-modal",
-                                                  rawName:
-                                                    "v-b-modal.remove-guest",
-                                                  modifiers: {
-                                                    "remove-guest": true
-                                                  }
-                                                }
-                                              ],
-                                              on: {
-                                                click: function($event) {
-                                                  _vm.selected = data.item
-                                                }
-                                              }
-                                            },
+                                            "b-dropdown-group",
                                             [
-                                              _c("i", {
-                                                staticClass:
-                                                  "fas fa-times-circle"
-                                              }),
-                                              _vm._v(" Remove")
-                                            ]
+                                              _c(
+                                                "b-dropdown-text",
+                                                {
+                                                  staticClass: "dropdown-title"
+                                                },
+                                                [_vm._v("Invite")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "b-dropdown-item",
+                                                {
+                                                  attrs: {
+                                                    to:
+                                                      "/admin/invite/" +
+                                                      data.item.id
+                                                  }
+                                                },
+                                                [
+                                                  _c("i", {
+                                                    staticClass: "fas fa-edit"
+                                                  }),
+                                                  _vm._v(" Invite...")
+                                                ]
+                                              )
+                                            ],
+                                            1
                                           )
                                         ],
                                         1
@@ -83849,7 +83973,7 @@ var render = function() {
                               ],
                               null,
                               false,
-                              3296383218
+                              2013449984
                             )
                           })
                         : _c("no-data")
@@ -83921,6 +84045,60 @@ var render = function() {
       _c(
         "b-modal",
         {
+          attrs: { id: "edit-guest", title: "Edit Guest" },
+          on: { ok: _vm.editGuest }
+        },
+        [
+          _c(
+            "div",
+            { staticClass: "d-block text-center" },
+            [
+              _c(
+                "b-container",
+                { attrs: { fluid: "" } },
+                _vm._l(_vm.create.inputs, function(item_type, item_name) {
+                  return _c(
+                    "b-row",
+                    { key: item_name, staticClass: "my-1" },
+                    [
+                      _c("b-col", { attrs: { sm: "3" } }, [
+                        _c("label", { attrs: { for: "type-" + item_name } }, [
+                          _vm._v(_vm._s(_vm._f("prettify")(item_name)) + ":")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "b-col",
+                        { attrs: { sm: "9" } },
+                        [
+                          _c("b-form-input", {
+                            attrs: { id: "type-" + item_name, type: item_type },
+                            model: {
+                              value: _vm.selected[item_name],
+                              callback: function($$v) {
+                                _vm.$set(_vm.selected, item_name, $$v)
+                              },
+                              expression: "selected[item_name]"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                }),
+                1
+              )
+            ],
+            1
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
           attrs: { id: "remove-guest", title: "Remove Guest" },
           on: { ok: _vm.removeGuest }
         },
@@ -83957,11 +84135,419 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(18)
+var normalizeComponent = __webpack_require__(15)
 /* script */
 var __vue_script__ = __webpack_require__(363)
 /* template */
 var __vue_template__ = __webpack_require__(364)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/admin/invite/main.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0d2e4c04", Component.options)
+  } else {
+    hotAPI.reload("data-v-0d2e4c04", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 363 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	name: 'admin.invite.main',
+	computed: {
+		personId: function personId() {
+			return this.$route.params.personId;
+		},
+		inviteId: function inviteId() {
+			return this.$route.params.inviteId;
+		},
+		rows: function rows() {
+			return this.additional.data.length;
+		},
+		breadcrumbs: function breadcrumbs() {
+			var crumbs = [];
+
+			if (this.person) {
+				crumbs = [{
+					text: 'Admin',
+					to: { name: 'admin.dashboard' }
+				}, {
+					text: "Guests",
+					to: { name: 'admin.guests', params: { 'filter': this.person.invite_status } }
+				}, {
+					text: 'Invite',
+					href: '#'
+				}];
+			}
+
+			return crumbs;
+		}
+	},
+	filters: {
+		capitalize: function capitalize(value) {
+			if (!value) return '';
+			value = value.toString();
+			return value.charAt(0).toUpperCase() + value.slice(1);
+		}
+	},
+	data: function data() {
+		return {
+			person: null,
+			personLoading: true,
+			additional: {
+				data: null,
+				loading: true,
+				perPage: 3,
+				currentPage: 1,
+				fields: [{
+					key: 'check',
+					label: ''
+				}, {
+					key: 'name',
+					label: 'Name',
+					sortable: true
+				}, {
+					key: 'email',
+					label: 'Email',
+					sortable: true
+				}]
+			}
+		};
+	},
+	mounted: function mounted() {
+		// get person that will be assigned to invite
+		this.getPerson();
+	},
+
+	methods: {
+		getPerson: function getPerson() {
+			var _this = this;
+
+			var self = this;
+
+			// start loading
+			this.personLoading = true;
+
+			// get person details
+			axios.get(this.baseUrl + "/api/people/" + this.personId).then(function (resp) {
+				if (resp.data) {
+					self.person = resp.data;
+
+					// stop loading
+					self.personLoading = false;
+
+					// get additional guests that can be assigned to invite
+					_this.getAdditional();
+				}
+			});
+		},
+		getAdditional: function getAdditional() {
+			var self = this;
+
+			// start loading
+			this.additional.loading = true;
+
+			// get list of additional guests that can be assigned to invite
+			axios.get(this.baseUrl + "/api/people/showAll/not_invited").then(function (resp) {
+				if (resp.data) {
+					// filter all not invited guests
+					var additionalArr = [];
+					$.each(resp.data, function (i, guest) {
+						if (guest.id !== self.person.id) {
+							// add full name
+							guest.name = guest.first_name + " " + guest.last_name;
+
+							// add column for radio button
+							guest.check = '';
+
+							// add to array
+							additionalArr.push(guest);
+						}
+					});
+					self.additional.data = additionalArr;
+				}
+
+				// stop loading
+				self.additional.loading = false;
+			});
+		}
+	}
+});
+
+/***/ }),
+/* 364 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("section", [
+    _vm.inviteId
+      ? _c("div", [_c("h2", [_vm._v("Invite")])])
+      : _c(
+          "div",
+          [
+            _c(
+              "b-card",
+              [
+                _c("b-breadcrumb", { attrs: { items: _vm.breadcrumbs } }),
+                _vm._v(" "),
+                _c("b-card-title", [_vm._v("Setup Invite")]),
+                _vm._v(" "),
+                _c("b-card-text", [
+                  _vm._v(
+                    "\n\t\t\t\t\tSetup a new invite. You can assign multiple guests to the same invite using the 'Additional Guests' section. Only the main guest will be able to RSVP for everyone assigned to the invite.\n\t\t\t\t"
+                  )
+                ])
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "b-card",
+              [
+                _c("b-card-header", [_vm._v("Guest")]),
+                _vm._v(" "),
+                _c("b-card-body", [
+                  !_vm.personLoading
+                    ? _c(
+                        "div",
+                        [
+                          _c(
+                            "b-row",
+                            [
+                              _c("b-col", { attrs: { sm: "3" } }, [
+                                _c("h5", [_vm._v("First Name")]),
+                                _vm._v(" "),
+                                _c("p", [_vm._v(_vm._s(_vm.person.first_name))])
+                              ]),
+                              _vm._v(" "),
+                              _c("b-col", { attrs: { sm: "3" } }, [
+                                _c("h5", [_vm._v("Last Name")]),
+                                _vm._v(" "),
+                                _c("p", [_vm._v(_vm._s(_vm.person.last_name))])
+                              ]),
+                              _vm._v(" "),
+                              _c("b-col", { attrs: { sm: "6" } }, [
+                                _c("h5", [_vm._v("Email")]),
+                                _vm._v(" "),
+                                _c("p", [_vm._v(_vm._s(_vm.person.email))])
+                              ])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    : _c("div", [_c("loading")], 1)
+                ])
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "b-card",
+              [
+                _c("b-card-header", [
+                  _vm._v("\n\t\t\t\t\tAdditional Guests\n\t\t\t\t")
+                ]),
+                _vm._v(" "),
+                _c("b-card-body", [
+                  !_vm.additional.loading
+                    ? _c(
+                        "div",
+                        [
+                          _c("b-table", {
+                            attrs: {
+                              items: _vm.additional.data,
+                              fields: _vm.additional.fields,
+                              id: "additionalGuests_tbl",
+                              "per-page": _vm.additional.perPage,
+                              "current-page": _vm.additional.currentPage
+                            },
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "check",
+                                  fn: function(data) {
+                                    return [
+                                      _c("b-form-checkbox", {
+                                        attrs: {
+                                          name: "additionalGuest",
+                                          switch: ""
+                                        }
+                                      })
+                                    ]
+                                  }
+                                }
+                              ],
+                              null,
+                              false,
+                              2018766163
+                            )
+                          }),
+                          _vm._v(" "),
+                          _c("b-pagination", {
+                            attrs: {
+                              "total-rows": _vm.rows,
+                              "per-page": _vm.additional.perPage,
+                              "aria-controls": "additionalGuests_tbl",
+                              align: "center"
+                            },
+                            model: {
+                              value: _vm.additional.currentPage,
+                              callback: function($$v) {
+                                _vm.$set(_vm.additional, "currentPage", $$v)
+                              },
+                              expression: "additional.currentPage"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    : _c("div", [_c("loading")], 1)
+                ])
+              ],
+              1
+            )
+          ],
+          1
+        )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-0d2e4c04", module.exports)
+  }
+}
+
+/***/ }),
+/* 365 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(15)
+/* script */
+var __vue_script__ = __webpack_require__(366)
+/* template */
+var __vue_template__ = __webpack_require__(367)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -84000,7 +84586,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 363 */
+/* 366 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -84017,7 +84603,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 364 */
+/* 367 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -84037,15 +84623,15 @@ if (false) {
 }
 
 /***/ }),
-/* 365 */
+/* 368 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(18)
+var normalizeComponent = __webpack_require__(15)
 /* script */
-var __vue_script__ = __webpack_require__(366)
+var __vue_script__ = __webpack_require__(369)
 /* template */
-var __vue_template__ = __webpack_require__(367)
+var __vue_template__ = __webpack_require__(370)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -84084,7 +84670,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 366 */
+/* 369 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -84101,7 +84687,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 367 */
+/* 370 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -84121,7 +84707,7 @@ if (false) {
 }
 
 /***/ }),
-/* 368 */
+/* 371 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

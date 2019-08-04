@@ -23211,6 +23211,10 @@ body {
 
 /* Card */
 
+.card {
+  margin: 1em;
+}
+
 .card .card-body .card-title {
   margin-bottom: 1.5em;
 }
@@ -23282,4 +23286,28 @@ body {
 }
 
 /* End of sidebar modifcations */
+
+/* Dropdown */
+
+.dropdown .dropdown-title {
+  background-color: #CCC;
+  font-size: 0.8em;
+  color: #545b62;
+}
+
+.dropdown.guest-dropdown .dropdown-menu {
+  padding: 0;
+}
+
+/* End of dropdown */
+
+/* Breadcrumbs */
+
+.breadcrumb {
+  background: none;
+  padding: 0;
+  padding-bottom: 1em;
+}
+
+/* End of Breadcrumbs */
 

@@ -80,37 +80,42 @@ class PeopleController extends Controller
      */
     public function show($id)
     {
-        
+        $people = People::find($id);
+
+        return response()->json($people);
     }
 
     /**
      * Get all active People.
      */
     public function showAll($filter) {
-        $people = People::all();
+        $people = People::active();
 
         switch($filter) {
             case 'attending':
-                $people = People::whereHas('rsvp_status', function($query) {
+                $people = People::whereHas('invite', function($query) {
                     $query->where('rsvp', '1')
                           ->where('attending', '1');
-                })->get();
+                })->active();
             break;
             case 'not_attending':
-                $people = People::whereHas('rsvp_status', function($query) {
+                $people = People::whereHas('invite', function($query) {
                     $query->where('rsvp', '1')
                           ->where('attending', '0');
-                })->get();
+                })->active();
             break;
             case 'awaiting_reply':
-                $people = People::whereHas('rsvp_status', function($query) {
+                $people = People::whereHas('invite', function($query) {
                     $query->where('rsvp', '0');
-                })->get();
+                })->active();
             break;
             case 'not_invited':
-                $people = People::doesntHave('rsvp_status')->get();
+                $people = People::doesntHave('invite')->active();
             break;
         }
+
+        // get results
+        $people = $people->get();
 
         return response()->json($people);
     }
@@ -123,7 +128,7 @@ class PeopleController extends Controller
      */
     public function edit($id)
     {
-        //
+        
     }
 
     /**
@@ -135,7 +140,27 @@ class PeopleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // find Person
+        $person = People::find($id);
+
+        $response = array(
+            'response'  => false,
+            'message'   => 'An error occursed'
+        );
+
+        // update Person
+        $updated = $person->update([
+            'first_name'    => $request->first_name,
+            'last_name'     => $request->last_name,
+            'email'         => $request->email,
+        ]);
+        // if updated, display message
+        if($updated) {
+            $response['response']   = true;
+            $response['message']    = 'Guest updated';
+        }
+
+        return response()->json($response);
     }
 
     /**

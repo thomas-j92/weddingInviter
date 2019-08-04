@@ -19,6 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 // People
-Route::apiResource('people/', 'Api\PeopleController', ['as' => 'api']);
-Route::delete('/people/{id}', 'Api\PeopleController@destroy');
 Route::get('people/showAll/{filter?}', 'Api\PeopleController@showAll');
+Route::apiResource('people', 'Api\PeopleController', ['as' => 'api']);

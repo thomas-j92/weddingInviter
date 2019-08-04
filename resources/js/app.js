@@ -309,20 +309,26 @@ const router = new VueRouter({
 			component: require('./components/admin/viewer'),
 			children: [
 		        {
-		          path: 'dashboard',
-		          component: require('./components/admin/dashboard/main'),
+		         	path: 'dashboard',
+		         	name: 'admin.dashboard',
+		        	component: require('./components/admin/dashboard/main'),
 		        },
 		        {
-		          path: 'guests/:filter',
-		          component: require('./components/admin/guests/main')
+		         	path: 'guests/:filter',
+		         	name: 'admin.guests',
+		        	component: require('./components/admin/guests/main')
 		        },
 		        {
-		          path: 'reports',
-		          component: require('./components/admin/reports/main')
+		        	path: 'invite/:personId?/:inviteId?',
+		        	component: require('./components/admin/invite/main')
 		        },
 		        {
-		          path: 'emails',
-		          component: require('./components/admin/emails/main')
+		        	path: 'reports',
+		        	component: require('./components/admin/reports/main')
+		        },
+		        {
+		        	path: 'emails',
+		        	component: require('./components/admin/emails/main')
 		        },
 	        ]
 		}

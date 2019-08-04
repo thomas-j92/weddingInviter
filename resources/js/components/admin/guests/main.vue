@@ -6,10 +6,17 @@
 				<div v-if="isLoaded">
 					<b-table :fields="fields" :items="people" v-if="people.length > 0">
 						<template slot="options" slot-scope="data">
-							<b-dropdown text="Options" class="m-md-2">
-							    <b-dropdown-item>Action</b-dropdown-item>
-							    <b-dropdown-divider></b-dropdown-divider>
-							    <b-dropdown-item v-b-modal.remove-guest @click="selected = data.item"><i class="fas fa-times-circle"></i> Remove</b-dropdown-item>
+							<b-dropdown text="Options" class="m-md-2 guest-dropdown">
+								<b-dropdown-group>
+									<b-dropdown-text class="dropdown-title">Person</b-dropdown-text>
+								    <b-dropdown-item v-b-modal.edit-guest @click="changeSelected(data.item)"><i class="fas fa-edit"></i> Edit</b-dropdown-item>
+								    <b-dropdown-item v-b-modal.remove-guest @click="changeSelected(data.item)"><i class="fas fa-times-circle"></i> Remove</b-dropdown-item>
+								</b-dropdown-group>
+								
+								<b-dropdown-group>
+								    <b-dropdown-text class="dropdown-title">Invite</b-dropdown-text>
+								    <b-dropdown-item :to="'/admin/invite/'+data.item.id"><i class="fas fa-edit"></i> Invite...</b-dropdown-item>
+								</b-dropdown-group>
 							  </b-dropdown>
 						</template>
 					</b-table>
@@ -31,6 +38,24 @@
 					  </b-col>
 					  <b-col sm="9">
 					    <b-form-input :id="`type-${item_name}`" :type="item_type" v-model="create.models[item_name]"></b-form-input>
+					  </b-col>
+					</b-row>
+				</b-container>
+			</div>
+		</b-modal>
+
+		<b-modal 
+		id="edit-guest"
+		title="Edit Guest"
+		@ok="editGuest">
+			<div class="d-block text-center">
+				<b-container fluid>
+					<b-row class="my-1" v-for="(item_type, item_name)  in create.inputs" :key="item_name">
+					  <b-col sm="3">
+					    <label :for="`type-${item_name}`">{{ item_name | prettify }}:</label>
+					  </b-col>
+					  <b-col sm="9">
+					    <b-form-input :id="`type-${item_name}`" :type="item_type" v-model="selected[item_name]"></b-form-input>
 					  </b-col>
 					</b-row>
 				</b-container>
@@ -159,6 +184,9 @@
 					 	self.getAll();
 					 });
 			},
+			changeSelected: function(newEl) {
+				this.selected = Object.assign({}, newEl);
+			},
 			removeGuest: function() {
 				const self = this;
 
@@ -169,6 +197,28 @@
 					 	} else {
 					 		self.toast('Error', resp.data.message, 'error');
 					 	}
+						
+						// reload data					 	
+					 	self.getAll();
+					 })
+			},
+			editGuest: function() {
+				let self = this;
+				let editArr = {
+					first_name: this.selected.first_name,
+					last_name: this.selected.last_name,
+					email: this.selected.email
+				}
+				axios.patch(this.baseUrl+"/api/people/"+this.selected.id, editArr)
+					 .then((resp) => {
+					 	if(resp.data.response) {
+					 		self.toast('Updated', resp.data.message, 'success');
+					 	} else {
+					 		self.toast('Error', resp.data.message, 'error');
+					 	}
+						
+						// reload data					 	
+					 	self.getAll();
 					 })
 			}
 		}
