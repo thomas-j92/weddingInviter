@@ -84263,6 +84263,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'admin.invite.main',
@@ -84323,6 +84348,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					label: 'Email',
 					sortable: true
 				}]
+			},
+			form: {
+				type: {
+					day: true,
+					night: true
+				},
+				plus_ones: 0,
+				additionalGuest: []
 			}
 		};
 	},
@@ -84382,6 +84415,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				// stop loading
 				self.additional.loading = false;
 			});
+		},
+		makeInvite: function makeInvite() {
+			var self = this;
+
+			// collect data to be stored
+			var inviteArr = {
+				type: self.form.type,
+				additionalGuests: self.form.additionalGuest
+
+				// Create Invite
+			};axios.post(this.baseUrl + "/api/invite", inviteArr).then(function (resp) {
+				console.log(resp);
+			});
 		}
 	}
 });
@@ -84430,22 +84476,106 @@ var render = function() {
                             "b-row",
                             [
                               _c("b-col", { attrs: { sm: "3" } }, [
-                                _c("h5", [_vm._v("First Name")]),
+                                _c("h5", [_vm._v("Name")]),
                                 _vm._v(" "),
-                                _c("p", [_vm._v(_vm._s(_vm.person.first_name))])
+                                _c("p", [
+                                  _vm._v(
+                                    _vm._s(_vm.person.first_name) +
+                                      " " +
+                                      _vm._s(_vm.person.last_name)
+                                  )
+                                ])
                               ]),
                               _vm._v(" "),
-                              _c("b-col", { attrs: { sm: "3" } }, [
-                                _c("h5", [_vm._v("Last Name")]),
-                                _vm._v(" "),
-                                _c("p", [_vm._v(_vm._s(_vm.person.last_name))])
-                              ]),
-                              _vm._v(" "),
-                              _c("b-col", { attrs: { sm: "6" } }, [
+                              _c("b-col", { attrs: { sm: "5" } }, [
                                 _c("h5", [_vm._v("Email")]),
                                 _vm._v(" "),
                                 _c("p", [_vm._v(_vm._s(_vm.person.email))])
-                              ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "b-col",
+                                { attrs: { sm: "4" } },
+                                [
+                                  _c("h5", [_vm._v("Type")]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "b-row",
+                                    [
+                                      _c(
+                                        "b-col",
+                                        [
+                                          _c(
+                                            "b-form-checkbox",
+                                            {
+                                              attrs: {
+                                                name: "check-button",
+                                                switch: ""
+                                              },
+                                              on: {
+                                                change: function($event) {
+                                                  _vm.form.type.night = true
+                                                }
+                                              },
+                                              model: {
+                                                value: _vm.form.type.day,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.form.type,
+                                                    "day",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression: "form.type.day"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n\t\t\t\t\t\t\t\t\t      Day\n\t\t\t\t\t\t\t\t\t    "
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "b-col",
+                                        [
+                                          _c(
+                                            "b-form-checkbox",
+                                            {
+                                              attrs: {
+                                                name: "check-button",
+                                                switch: ""
+                                              },
+                                              model: {
+                                                value: _vm.form.type.night,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.form.type,
+                                                    "night",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression: "form.type.night"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n\t\t\t\t\t\t\t\t\t      Night\n\t\t\t\t\t\t\t\t\t    "
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
                             ],
                             1
                           )
@@ -84486,8 +84616,23 @@ var render = function() {
                                     return [
                                       _c("b-form-checkbox", {
                                         attrs: {
-                                          name: "additionalGuest",
+                                          value: data.item.id,
                                           switch: ""
+                                        },
+                                        model: {
+                                          value:
+                                            _vm.form.additionalGuest[
+                                              data.item.id
+                                            ],
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.form.additionalGuest,
+                                              data.item.id,
+                                              $$v
+                                            )
+                                          },
+                                          expression:
+                                            "form.additionalGuest[data.item.id]"
                                         }
                                       })
                                     ]
@@ -84496,7 +84641,7 @@ var render = function() {
                               ],
                               null,
                               false,
-                              2018766163
+                              2681314641
                             )
                           }),
                           _vm._v(" "),
@@ -84520,6 +84665,57 @@ var render = function() {
                       )
                     : _c("div", [_c("loading")], 1)
                 ])
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "b-card",
+              [
+                _c("b-card-header", [
+                  _vm._v("\n\t\t\t\t\tPlus Ones\n\t\t\t\t")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "b-card-body",
+                  [
+                    _c("b-form-input", {
+                      attrs: {
+                        id: "range-1",
+                        type: "range",
+                        min: "0",
+                        max: "2"
+                      },
+                      model: {
+                        value: _vm.form.plus_ones,
+                        callback: function($$v) {
+                          _vm.$set(_vm.form, "plus_ones", $$v)
+                        },
+                        expression: "form.plus_ones"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "mt-2" }, [
+                      _vm._v("Value: " + _vm._s(_vm.form.plus_ones))
+                    ])
+                  ],
+                  1
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "b-card",
+              [
+                _c(
+                  "b-button",
+                  {
+                    attrs: { block: "", variant: "primary" },
+                    on: { click: _vm.makeInvite }
+                  },
+                  [_vm._v("Make Invite")]
+                )
               ],
               1
             )

@@ -15,6 +15,11 @@ class CreateInvitesTable extends Migration
     {
         Schema::create('invites', function (Blueprint $table) {
             $table->increments('id');
+
+            $table->boolean('day');
+            $table->boolean('night');
+            $table->date('rsvp_on')->nullable();
+
             $table->timestamps();
         });
     }

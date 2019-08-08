@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInviteGuestsTable extends Migration
+class CreatePlusOnesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,18 @@ class CreateInviteGuestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('invite_guests', function (Blueprint $table) {
+        Schema::create('plus_ones', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('invite_id');
-            $table->integer('person_id');
-            $table->string('type');
-            $table->boolean('rsvp')->default(0);
+            $table->string('first_name');
+            $table->string('last_name');
             $table->boolean('attending')->default(0);
-            $table->string('code')->nullable();
+            $table->boolean('vegetarian')->default(0);
+            $table->boolean('vegan')->default(0);
+            $table->longText('dietary_requirements')->nullable();
             $table->timestamps();
 
-            // Add foreign keys
             $table->foreign('invite_id')->references('id')->on('invites');
-            $table->foreign('person_id')->references('id')->on('people');
         });
     }
 
@@ -36,6 +35,6 @@ class CreateInviteGuestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('invite_guests');
+        Schema::dropIfExists('plus_ones');
     }
 }

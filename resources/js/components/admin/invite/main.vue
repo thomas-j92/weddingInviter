@@ -19,16 +19,27 @@
 					<div v-if="!personLoading">
 						<b-row>
 							<b-col sm="3">
-								<h5>First Name</h5>
-								<p>{{ person.first_name }}</p>
+								<h5>Name</h5>
+								<p>{{ person.first_name }} {{ person.last_name }}</p>
 							</b-col>
-							<b-col sm="3">
-								<h5>Last Name</h5>
-								<p>{{ person.last_name }}</p>
-							</b-col>
-							<b-col sm="6">
+							<b-col sm="5">
 								<h5>Email</h5>
 								<p>{{ person.email }}</p>
+							</b-col>
+							<b-col sm="4">
+								<h5>Type</h5>
+								<b-row>
+									<b-col>
+										<b-form-checkbox v-model="form.type.day" name="check-button" @change="form.type.night = true" switch>
+									      Day
+									    </b-form-checkbox>
+									</b-col>
+									<b-col>
+										<b-form-checkbox v-model="form.type.night" name="check-button" switch>
+									      Night
+									    </b-form-checkbox>
+									</b-col>
+								</b-row>
 							</b-col>
 						</b-row>
 					</div>
@@ -45,8 +56,6 @@
 
 				<b-card-body>
 					<div v-if="!additional.loading">
-						
-
 						<b-table 
 							:items="additional.data"
 							:fields="additional.fields"
@@ -55,7 +64,7 @@
       						:current-page="additional.currentPage"
 						>
 							<template slot="check" slot-scope="data">
-								<b-form-checkbox name="additionalGuest" switch>
+								<b-form-checkbox v-model="form.additionalGuest[data.item.id]" :value="data.item.id" switch>
 							      
 							    </b-form-checkbox>
 							</template>
@@ -73,6 +82,22 @@
 						<loading></loading>
 					</div>
 				</b-card-body>
+			</b-card>
+
+			<b-card>
+				<b-card-header>
+					Plus Ones
+				</b-card-header>
+
+				<b-card-body>
+					<b-form-input id="range-1" v-model="form.plus_ones" type="range" min="0" max="2"></b-form-input>
+
+					<div class="mt-2">Value: {{ form.plus_ones }}</div>
+				</b-card-body>
+			</b-card>
+
+			<b-card>
+				<b-button block variant="primary" @click="makeInvite">Make Invite</b-button>
 			</b-card>
 		</div>
 	</section>
@@ -146,6 +171,14 @@
 							sortable: true
 						},
 			        ],
+				},
+				form: {
+					type: {
+						day: true,
+						night: true
+					},
+					plus_ones: 0,
+					additionalGuest: [],
 				}
 			}
 		},
@@ -204,6 +237,21 @@
 					 	// stop loading
 					 	self.additional.loading = false;
 					 });
+			},
+			makeInvite: function() {
+				const self = this;
+
+				// collect data to be stored
+				let inviteArr = {
+					type: self.form.type,
+					additionalGuests: self.form.additionalGuest
+				}
+
+				// Create Invite
+				axios.post(this.baseUrl+"/api/invite", inviteArr)
+					 .then((resp) => {
+					 	console.log(resp);
+					 })
 			}
 		}
 	}

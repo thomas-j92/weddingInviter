@@ -6,11 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Invite extends Model
 {
-    public function add() {
-    	$this->save();
-    }
-
-    public function assignedGuests() {
+	protected $fillable = ['day', 'night'];
+	
+    public function guests() {
     	return $this->hasMany('App\InviteGuests', 'invite_id', 'id');
     }
 }
