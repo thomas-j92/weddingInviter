@@ -90,9 +90,61 @@
 				</b-card-header>
 
 				<b-card-body>
-					<b-form-input id="range-1" v-model="form.plus_ones" type="range" min="0" max="2"></b-form-input>
+					<div class="plus-ones">
+						<b-row v-for="plus in form.plus_ones">
+							<b-col>
+								<b-form-input v-model="plus.first_name" placeholder="First Name..."></b-form-input>
+							</b-col>
+							<b-col>
+								<b-form-input v-model="plus.last_name" placeholder="Last Name..."></b-form-input>
+							</b-col>
+							<b-col>
+								<b-row>
+									<b-col>
+										<b-form-checkbox
+										  class="hide-checkbox"
+									      v-model="plus.vegetarian"
+									      value="true"
+									      unchecked-value="false"
+									    >
+											<i class="fas fa-carrot selected-icon" v-if="plus.vegetarian == 'true'"></i>
+											<i class="fas fa-carrot unselected-icon" v-else></i>
+									    </b-form-checkbox>
+									</b-col>
+									
+									<b-col>
+									    <b-form-checkbox
+										  class="hide-checkbox"
+									      v-model="plus.vegan"
+									      value="true"
+									      unchecked-value="false"
+									    >
+											<i class="fab fa-vimeo-square selected-icon" v-if="plus.vegan == 'true'"></i>
+											<i class="fab fa-vimeo-square unselected-icon" v-else></i>
+									    </b-form-checkbox>
+									</b-col>
 
-					<div class="mt-2">Value: {{ form.plus_ones }}</div>
+									<b-col>
+									    <b-form-checkbox
+										  class="hide-checkbox"
+									      
+									      value="true"
+									      unchecked-value="false"
+									      v-b-modal.addRequirements_mdl
+									      @click="selectedPlusOne = plus"
+									    >
+											<i class="fas fa-utensils selected-icon" v-if="plus.requirements == 'true'"></i>
+											<i class="fas fa-utensils unselected-icon" v-else></i>
+									    </b-form-checkbox>
+									</b-col>
+								</b-row>
+							</b-col>
+						</b-row>
+					</div>
+					<b-button block variant="outline-primary" @click="addPlusOne"><i class="fas fa-plus-circle"></i> Plus One</b-button>
+					<!-- <b-form-input id="range-1" v-model="form.plus_ones" type="range" min="0" max="2"></b-form-input>
+
+					<div class="mt-2">Value: {{ form.plus_ones }}</div> -->
 				</b-card-body>
 			</b-card>
 
@@ -100,6 +152,12 @@
 				<b-button block variant="primary" @click="makeInvite">Make Invite</b-button>
 			</b-card>
 		</div>
+
+		<b-modal
+		id="addRequirements_mdl"
+		title="Add Dietary Requirements">
+		<textarea v-model="selectedPlusOne.requirements"></textarea>
+		</b-modal>
 	</section>
 </template>
 
@@ -177,9 +235,10 @@
 						day: true,
 						night: true
 					},
-					plus_ones: 0,
+					plus_ones: [],
 					additionalGuest: [],
-				}
+				},
+				selectedPlusOne: [],
 			}
 		},
 		mounted() {
@@ -252,6 +311,9 @@
 					 .then((resp) => {
 					 	console.log(resp);
 					 })
+			},
+			addPlusOne: function() {
+				this.form.plus_ones.push({});
 			}
 		}
 	}

@@ -84288,6 +84288,64 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'admin.invite.main',
@@ -84354,9 +84412,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					day: true,
 					night: true
 				},
-				plus_ones: 0,
+				plus_ones: [],
 				additionalGuest: []
-			}
+			},
+			selectedPlusOne: []
 		};
 	},
 	mounted: function mounted() {
@@ -84428,6 +84487,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			};axios.post(this.baseUrl + "/api/invite", inviteArr).then(function (resp) {
 				console.log(resp);
 			});
+		},
+		addPlusOne: function addPlusOne() {
+			this.form.plus_ones.push({});
 		}
 	}
 });
@@ -84440,65 +84502,291 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("section", [
-    _vm.inviteId
-      ? _c("div", [_c("h2", [_vm._v("Invite")])])
-      : _c(
-          "div",
-          [
-            _c(
-              "b-card",
-              [
-                _c("b-breadcrumb", { attrs: { items: _vm.breadcrumbs } }),
-                _vm._v(" "),
-                _c("b-card-title", [_vm._v("Setup Invite")]),
-                _vm._v(" "),
-                _c("b-card-text", [
-                  _vm._v(
-                    "\n\t\t\t\t\tSetup a new invite. You can assign multiple guests to the same invite using the 'Additional Guests' section. Only the main guest will be able to RSVP for everyone assigned to the invite.\n\t\t\t\t"
-                  )
-                ])
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "b-card",
-              [
-                _c("b-card-header", [_vm._v("Guest")]),
-                _vm._v(" "),
-                _c("b-card-body", [
-                  !_vm.personLoading
-                    ? _c(
+  return _c(
+    "section",
+    [
+      _vm.inviteId
+        ? _c("div", [_c("h2", [_vm._v("Invite")])])
+        : _c(
+            "div",
+            [
+              _c(
+                "b-card",
+                [
+                  _c("b-breadcrumb", { attrs: { items: _vm.breadcrumbs } }),
+                  _vm._v(" "),
+                  _c("b-card-title", [_vm._v("Setup Invite")]),
+                  _vm._v(" "),
+                  _c("b-card-text", [
+                    _vm._v(
+                      "\n\t\t\t\t\tSetup a new invite. You can assign multiple guests to the same invite using the 'Additional Guests' section. Only the main guest will be able to RSVP for everyone assigned to the invite.\n\t\t\t\t"
+                    )
+                  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-card",
+                [
+                  _c("b-card-header", [_vm._v("Guest")]),
+                  _vm._v(" "),
+                  _c("b-card-body", [
+                    !_vm.personLoading
+                      ? _c(
+                          "div",
+                          [
+                            _c(
+                              "b-row",
+                              [
+                                _c("b-col", { attrs: { sm: "3" } }, [
+                                  _c("h5", [_vm._v("Name")]),
+                                  _vm._v(" "),
+                                  _c("p", [
+                                    _vm._v(
+                                      _vm._s(_vm.person.first_name) +
+                                        " " +
+                                        _vm._s(_vm.person.last_name)
+                                    )
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("b-col", { attrs: { sm: "5" } }, [
+                                  _c("h5", [_vm._v("Email")]),
+                                  _vm._v(" "),
+                                  _c("p", [_vm._v(_vm._s(_vm.person.email))])
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "b-col",
+                                  { attrs: { sm: "4" } },
+                                  [
+                                    _c("h5", [_vm._v("Type")]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "b-row",
+                                      [
+                                        _c(
+                                          "b-col",
+                                          [
+                                            _c(
+                                              "b-form-checkbox",
+                                              {
+                                                attrs: {
+                                                  name: "check-button",
+                                                  switch: ""
+                                                },
+                                                on: {
+                                                  change: function($event) {
+                                                    _vm.form.type.night = true
+                                                  }
+                                                },
+                                                model: {
+                                                  value: _vm.form.type.day,
+                                                  callback: function($$v) {
+                                                    _vm.$set(
+                                                      _vm.form.type,
+                                                      "day",
+                                                      $$v
+                                                    )
+                                                  },
+                                                  expression: "form.type.day"
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n\t\t\t\t\t\t\t\t\t      Day\n\t\t\t\t\t\t\t\t\t    "
+                                                )
+                                              ]
+                                            )
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "b-col",
+                                          [
+                                            _c(
+                                              "b-form-checkbox",
+                                              {
+                                                attrs: {
+                                                  name: "check-button",
+                                                  switch: ""
+                                                },
+                                                model: {
+                                                  value: _vm.form.type.night,
+                                                  callback: function($$v) {
+                                                    _vm.$set(
+                                                      _vm.form.type,
+                                                      "night",
+                                                      $$v
+                                                    )
+                                                  },
+                                                  expression: "form.type.night"
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n\t\t\t\t\t\t\t\t\t      Night\n\t\t\t\t\t\t\t\t\t    "
+                                                )
+                                              ]
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      : _c("div", [_c("loading")], 1)
+                  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-card",
+                [
+                  _c("b-card-header", [
+                    _vm._v("\n\t\t\t\t\tAdditional Guests\n\t\t\t\t")
+                  ]),
+                  _vm._v(" "),
+                  _c("b-card-body", [
+                    !_vm.additional.loading
+                      ? _c(
+                          "div",
+                          [
+                            _c("b-table", {
+                              attrs: {
+                                items: _vm.additional.data,
+                                fields: _vm.additional.fields,
+                                id: "additionalGuests_tbl",
+                                "per-page": _vm.additional.perPage,
+                                "current-page": _vm.additional.currentPage
+                              },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "check",
+                                    fn: function(data) {
+                                      return [
+                                        _c("b-form-checkbox", {
+                                          attrs: {
+                                            value: data.item.id,
+                                            switch: ""
+                                          },
+                                          model: {
+                                            value:
+                                              _vm.form.additionalGuest[
+                                                data.item.id
+                                              ],
+                                            callback: function($$v) {
+                                              _vm.$set(
+                                                _vm.form.additionalGuest,
+                                                data.item.id,
+                                                $$v
+                                              )
+                                            },
+                                            expression:
+                                              "form.additionalGuest[data.item.id]"
+                                          }
+                                        })
+                                      ]
+                                    }
+                                  }
+                                ],
+                                null,
+                                false,
+                                2681314641
+                              )
+                            }),
+                            _vm._v(" "),
+                            _c("b-pagination", {
+                              attrs: {
+                                "total-rows": _vm.rows,
+                                "per-page": _vm.additional.perPage,
+                                "aria-controls": "additionalGuests_tbl",
+                                align: "center"
+                              },
+                              model: {
+                                value: _vm.additional.currentPage,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.additional, "currentPage", $$v)
+                                },
+                                expression: "additional.currentPage"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      : _c("div", [_c("loading")], 1)
+                  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-card",
+                [
+                  _c("b-card-header", [
+                    _vm._v("\n\t\t\t\t\tPlus Ones\n\t\t\t\t")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "b-card-body",
+                    [
+                      _c(
                         "div",
-                        [
-                          _c(
+                        { staticClass: "plus-ones" },
+                        _vm._l(_vm.form.plus_ones, function(plus) {
+                          return _c(
                             "b-row",
                             [
-                              _c("b-col", { attrs: { sm: "3" } }, [
-                                _c("h5", [_vm._v("Name")]),
-                                _vm._v(" "),
-                                _c("p", [
-                                  _vm._v(
-                                    _vm._s(_vm.person.first_name) +
-                                      " " +
-                                      _vm._s(_vm.person.last_name)
-                                  )
-                                ])
-                              ]),
-                              _vm._v(" "),
-                              _c("b-col", { attrs: { sm: "5" } }, [
-                                _c("h5", [_vm._v("Email")]),
-                                _vm._v(" "),
-                                _c("p", [_vm._v(_vm._s(_vm.person.email))])
-                              ]),
+                              _c(
+                                "b-col",
+                                [
+                                  _c("b-form-input", {
+                                    attrs: { placeholder: "First Name..." },
+                                    model: {
+                                      value: plus.first_name,
+                                      callback: function($$v) {
+                                        _vm.$set(plus, "first_name", $$v)
+                                      },
+                                      expression: "plus.first_name"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
                               _vm._v(" "),
                               _c(
                                 "b-col",
-                                { attrs: { sm: "4" } },
                                 [
-                                  _c("h5", [_vm._v("Type")]),
-                                  _vm._v(" "),
+                                  _c("b-form-input", {
+                                    attrs: { placeholder: "Last Name..." },
+                                    model: {
+                                      value: plus.last_name,
+                                      callback: function($$v) {
+                                        _vm.$set(plus, "last_name", $$v)
+                                      },
+                                      expression: "plus.last_name"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "b-col",
+                                [
                                   _c(
                                     "b-row",
                                     [
@@ -84508,31 +84796,33 @@ var render = function() {
                                           _c(
                                             "b-form-checkbox",
                                             {
+                                              staticClass: "hide-checkbox",
                                               attrs: {
-                                                name: "check-button",
-                                                switch: ""
-                                              },
-                                              on: {
-                                                change: function($event) {
-                                                  _vm.form.type.night = true
-                                                }
+                                                value: "true",
+                                                "unchecked-value": "false"
                                               },
                                               model: {
-                                                value: _vm.form.type.day,
+                                                value: plus.vegetarian,
                                                 callback: function($$v) {
                                                   _vm.$set(
-                                                    _vm.form.type,
-                                                    "day",
+                                                    plus,
+                                                    "vegetarian",
                                                     $$v
                                                   )
                                                 },
-                                                expression: "form.type.day"
+                                                expression: "plus.vegetarian"
                                               }
                                             },
                                             [
-                                              _vm._v(
-                                                "\n\t\t\t\t\t\t\t\t\t      Day\n\t\t\t\t\t\t\t\t\t    "
-                                              )
+                                              plus.vegetarian == "true"
+                                                ? _c("i", {
+                                                    staticClass:
+                                                      "fas fa-carrot selected-icon"
+                                                  })
+                                                : _c("i", {
+                                                    staticClass:
+                                                      "fas fa-carrot unselected-icon"
+                                                  })
                                             ]
                                           )
                                         ],
@@ -84545,26 +84835,72 @@ var render = function() {
                                           _c(
                                             "b-form-checkbox",
                                             {
+                                              staticClass: "hide-checkbox",
                                               attrs: {
-                                                name: "check-button",
-                                                switch: ""
+                                                value: "true",
+                                                "unchecked-value": "false"
                                               },
                                               model: {
-                                                value: _vm.form.type.night,
+                                                value: plus.vegan,
                                                 callback: function($$v) {
-                                                  _vm.$set(
-                                                    _vm.form.type,
-                                                    "night",
-                                                    $$v
-                                                  )
+                                                  _vm.$set(plus, "vegan", $$v)
                                                 },
-                                                expression: "form.type.night"
+                                                expression: "plus.vegan"
                                               }
                                             },
                                             [
-                                              _vm._v(
-                                                "\n\t\t\t\t\t\t\t\t\t      Night\n\t\t\t\t\t\t\t\t\t    "
-                                              )
+                                              plus.vegan == "true"
+                                                ? _c("i", {
+                                                    staticClass:
+                                                      "fab fa-vimeo-square selected-icon"
+                                                  })
+                                                : _c("i", {
+                                                    staticClass:
+                                                      "fab fa-vimeo-square unselected-icon"
+                                                  })
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "b-col",
+                                        [
+                                          _c(
+                                            "b-form-checkbox",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "b-modal",
+                                                  rawName:
+                                                    "v-b-modal.addRequirements_mdl",
+                                                  modifiers: {
+                                                    addRequirements_mdl: true
+                                                  }
+                                                }
+                                              ],
+                                              staticClass: "hide-checkbox",
+                                              attrs: {
+                                                value: "true",
+                                                "unchecked-value": "false"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.selectedPlusOne = plus
+                                                }
+                                              }
+                                            },
+                                            [
+                                              plus.requirements == "true"
+                                                ? _c("i", {
+                                                    staticClass:
+                                                      "fas fa-utensils selected-icon"
+                                                  })
+                                                : _c("i", {
+                                                    staticClass:
+                                                      "fas fa-utensils unselected-icon"
+                                                  })
                                             ]
                                           )
                                         ],
@@ -84579,150 +84915,83 @@ var render = function() {
                             ],
                             1
                           )
-                        ],
+                        }),
                         1
-                      )
-                    : _c("div", [_c("loading")], 1)
-                ])
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "b-card",
-              [
-                _c("b-card-header", [
-                  _vm._v("\n\t\t\t\t\tAdditional Guests\n\t\t\t\t")
-                ]),
-                _vm._v(" "),
-                _c("b-card-body", [
-                  !_vm.additional.loading
-                    ? _c(
-                        "div",
-                        [
-                          _c("b-table", {
-                            attrs: {
-                              items: _vm.additional.data,
-                              fields: _vm.additional.fields,
-                              id: "additionalGuests_tbl",
-                              "per-page": _vm.additional.perPage,
-                              "current-page": _vm.additional.currentPage
-                            },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "check",
-                                  fn: function(data) {
-                                    return [
-                                      _c("b-form-checkbox", {
-                                        attrs: {
-                                          value: data.item.id,
-                                          switch: ""
-                                        },
-                                        model: {
-                                          value:
-                                            _vm.form.additionalGuest[
-                                              data.item.id
-                                            ],
-                                          callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.form.additionalGuest,
-                                              data.item.id,
-                                              $$v
-                                            )
-                                          },
-                                          expression:
-                                            "form.additionalGuest[data.item.id]"
-                                        }
-                                      })
-                                    ]
-                                  }
-                                }
-                              ],
-                              null,
-                              false,
-                              2681314641
-                            )
-                          }),
-                          _vm._v(" "),
-                          _c("b-pagination", {
-                            attrs: {
-                              "total-rows": _vm.rows,
-                              "per-page": _vm.additional.perPage,
-                              "aria-controls": "additionalGuests_tbl",
-                              align: "center"
-                            },
-                            model: {
-                              value: _vm.additional.currentPage,
-                              callback: function($$v) {
-                                _vm.$set(_vm.additional, "currentPage", $$v)
-                              },
-                              expression: "additional.currentPage"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    : _c("div", [_c("loading")], 1)
-                ])
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "b-card",
-              [
-                _c("b-card-header", [
-                  _vm._v("\n\t\t\t\t\tPlus Ones\n\t\t\t\t")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "b-card-body",
-                  [
-                    _c("b-form-input", {
-                      attrs: {
-                        id: "range-1",
-                        type: "range",
-                        min: "0",
-                        max: "2"
-                      },
-                      model: {
-                        value: _vm.form.plus_ones,
-                        callback: function($$v) {
-                          _vm.$set(_vm.form, "plus_ones", $$v)
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-button",
+                        {
+                          attrs: { block: "", variant: "outline-primary" },
+                          on: { click: _vm.addPlusOne }
                         },
-                        expression: "form.plus_ones"
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "mt-2" }, [
-                      _vm._v("Value: " + _vm._s(_vm.form.plus_ones))
-                    ])
-                  ],
-                  1
+                        [
+                          _c("i", { staticClass: "fas fa-plus-circle" }),
+                          _vm._v(" Plus One")
+                        ]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-card",
+                [
+                  _c(
+                    "b-button",
+                    {
+                      attrs: { block: "", variant: "primary" },
+                      on: { click: _vm.makeInvite }
+                    },
+                    [_vm._v("Make Invite")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: {
+            id: "addRequirements_mdl",
+            title: "Add Dietary Requirements"
+          }
+        },
+        [
+          _c("textarea", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.selectedPlusOne.requirements,
+                expression: "selectedPlusOne.requirements"
+              }
+            ],
+            domProps: { value: _vm.selectedPlusOne.requirements },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(
+                  _vm.selectedPlusOne,
+                  "requirements",
+                  $event.target.value
                 )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "b-card",
-              [
-                _c(
-                  "b-button",
-                  {
-                    attrs: { block: "", variant: "primary" },
-                    on: { click: _vm.makeInvite }
-                  },
-                  [_vm._v("Make Invite")]
-                )
-              ],
-              1
-            )
-          ],
-          1
-        )
-  ])
+              }
+            }
+          })
+        ]
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

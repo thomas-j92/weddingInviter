@@ -110,6 +110,22 @@
 	    border-radius: 0.2em;
 	    font-weight: bold;
 	}
+	.hide-checkbox {
+		input[type=checkbox] {
+			display: none;
+		}
+		label {
+			&:before {
+				display: none;
+			}
+		}
+	}
+	.selected-icon {
+		opacity: 1;
+	}
+	.unselected-icon {
+		opacity: 0.5;
+	}
 /* End of useful classes */
 
 /* Extra options dropdown */
