@@ -305,12 +305,17 @@
 					person: self.person,
 					type: self.form.type,
 					additionalGuests: self.form.additionalGuest,
+					plusOnes: self.form.plus_ones
 				}
 
 				// Create Invite
 				axios.post(this.baseUrl+"/api/invite", inviteArr)
 					 .then((resp) => {
-					 	console.log(resp);
+					 	if(resp.data && resp.data.id) {
+					 		self.toast('Invite made', 'Invite was created');
+
+					 		self.$router.push('/admin');
+					 	}
 					 })
 			},
 			addPlusOne: function() {

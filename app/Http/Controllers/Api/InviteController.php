@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 // Load Models
 use App\People;
 use App\Invite;
+use App\PlusOne;
 use App\InviteGuests;
 
 class InviteController extends Controller
@@ -40,8 +41,6 @@ class InviteController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
-        
         // get main guest of Invite
         $mainGuest = People::find($request['person']['id']);
 
@@ -77,8 +76,38 @@ class InviteController extends Controller
             }
         }
 
+        // assign plus ones to invite
+        if($request['plusOnes']) {
+            foreach($request['plusOnes'] as $plusOne) {
+                $newPlusOne                 = new PlusOne();
 
-        dd($request);
+                // only update first name if value is provided
+                if(isset($plusOne['first_name'])) {
+                    $newPlusOne->first_name = $plusOne['first_name'];
+                }
+                // only update last name if value is provided
+                if(isset($plusOne['last_name'])) {
+                    $newPlusOne->last_name = $plusOne['last_name'];
+                }
+                // only update vegetarian if value is provided
+                if(isset($plusOne['vegetarian'])) {
+                    $newPlusOne->vegetarian = $plusOne['vegetarian'];
+                }
+                // only update vegan if value is provided
+                if(isset($plusOne['vegan'])) {
+                    $newPlusOne->vegan = $plusOne['vegan'];
+                }
+                // only update requirements if value is provided
+                if(isset($plusOne['requirements'])) {
+                    $newPlusOne->dietary_requirements = $plusOne['requirements'];
+                }
+
+                // assign plus one to Invite
+                $newInvite->plus_ones()->save($newPlusOne);
+            }
+        }
+
+        return response()->json($newInvite);
     }
 
     /**

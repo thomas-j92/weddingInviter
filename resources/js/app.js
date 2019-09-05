@@ -307,6 +307,7 @@ const router = new VueRouter({
 		{
 			path: '/admin', 
 			component: require('./components/admin/viewer'),
+			name: 'admin',
 			children: [
 		        {
 		         	path: 'dashboard',

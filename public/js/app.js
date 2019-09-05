@@ -32064,6 +32064,7 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
 	{
 		path: '/admin',
 		component: __webpack_require__(347),
+		name: 'admin',
 		children: [{
 			path: 'dashboard',
 			name: 'admin.dashboard',
@@ -84482,11 +84483,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var inviteArr = {
 				person: self.person,
 				type: self.form.type,
-				additionalGuests: self.form.additionalGuest
+				additionalGuests: self.form.additionalGuest,
+				plusOnes: self.form.plus_ones
 
 				// Create Invite
 			};axios.post(this.baseUrl + "/api/invite", inviteArr).then(function (resp) {
-				console.log(resp);
+				if (resp.data && resp.data.id) {
+					self.toast('Invite made', 'Invite was created');
+
+					self.$router.push('/admin');
+				}
 			});
 		},
 		addPlusOne: function addPlusOne() {

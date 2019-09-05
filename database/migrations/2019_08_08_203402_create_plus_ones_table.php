@@ -16,8 +16,8 @@ class CreatePlusOnesTable extends Migration
         Schema::create('plus_ones', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('invite_id');
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
             $table->boolean('attending')->default(0);
             $table->boolean('vegetarian')->default(0);
             $table->boolean('vegan')->default(0);
