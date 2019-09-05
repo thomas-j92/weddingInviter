@@ -84480,6 +84480,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			// collect data to be stored
 			var inviteArr = {
+				person: self.person,
 				type: self.form.type,
 				additionalGuests: self.form.additionalGuest
 
@@ -84504,6 +84505,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "section",
+    { attrs: { id: "createInvite" } },
     [
       _vm.inviteId
         ? _c("div", [_c("h2", [_vm._v("Invite")])])
@@ -84746,9 +84748,10 @@ var render = function() {
                       _c(
                         "div",
                         { staticClass: "plus-ones" },
-                        _vm._l(_vm.form.plus_ones, function(plus) {
+                        _vm._l(_vm.form.plus_ones, function(plus, index) {
                           return _c(
                             "b-row",
+                            { key: "plusOne_" + index },
                             [
                               _c(
                                 "b-col",
@@ -84886,7 +84889,7 @@ var render = function() {
                                                 "unchecked-value": "false"
                                               },
                                               on: {
-                                                click: function($event) {
+                                                change: function($event) {
                                                   _vm.selectedPlusOne = plus
                                                 }
                                               }
@@ -84922,6 +84925,7 @@ var render = function() {
                       _c(
                         "b-button",
                         {
+                          staticClass: "plusOne_btn",
                           attrs: { block: "", variant: "outline-primary" },
                           on: { click: _vm.addPlusOne }
                         },
@@ -84964,30 +84968,17 @@ var render = function() {
           }
         },
         [
-          _c("textarea", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.selectedPlusOne.requirements,
-                expression: "selectedPlusOne.requirements"
-              }
-            ],
-            domProps: { value: _vm.selectedPlusOne.requirements },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(
-                  _vm.selectedPlusOne,
-                  "requirements",
-                  $event.target.value
-                )
-              }
+          _c("b-form-textarea", {
+            model: {
+              value: _vm.selectedPlusOne.requirements,
+              callback: function($$v) {
+                _vm.$set(_vm.selectedPlusOne, "requirements", $$v)
+              },
+              expression: "selectedPlusOne.requirements"
             }
           })
-        ]
+        ],
+        1
       )
     ],
     1

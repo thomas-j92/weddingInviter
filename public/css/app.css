@@ -23327,3 +23327,11 @@ body {
 
 /* End of Breadcrumbs */
 
+/* Setup Invite */
+
+#createInvite .plus-ones .row {
+  margin-bottom: 1em;
+}
+
+/* End of Setup Invite */
+

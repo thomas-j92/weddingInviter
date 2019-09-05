@@ -1,5 +1,5 @@
 <template>
-	<section>
+	<section id="createInvite">
 		<div v-if="inviteId">
 			<h2>Invite</h2>
 		</div>
@@ -91,7 +91,7 @@
 
 				<b-card-body>
 					<div class="plus-ones">
-						<b-row v-for="plus in form.plus_ones">
+						<b-row v-for="(plus,  index) in form.plus_ones" :key="'plusOne_'+index">
 							<b-col>
 								<b-form-input v-model="plus.first_name" placeholder="First Name..."></b-form-input>
 							</b-col>
@@ -131,7 +131,7 @@
 									      value="true"
 									      unchecked-value="false"
 									      v-b-modal.addRequirements_mdl
-									      @click="selectedPlusOne = plus"
+									      @change="selectedPlusOne = plus"
 									    >
 											<i class="fas fa-utensils selected-icon" v-if="plus.requirements == 'true'"></i>
 											<i class="fas fa-utensils unselected-icon" v-else></i>
@@ -141,7 +141,7 @@
 							</b-col>
 						</b-row>
 					</div>
-					<b-button block variant="outline-primary" @click="addPlusOne"><i class="fas fa-plus-circle"></i> Plus One</b-button>
+					<b-button class="plusOne_btn" block variant="outline-primary" @click="addPlusOne"><i class="fas fa-plus-circle"></i> Plus One</b-button>
 					<!-- <b-form-input id="range-1" v-model="form.plus_ones" type="range" min="0" max="2"></b-form-input>
 
 					<div class="mt-2">Value: {{ form.plus_ones }}</div> -->
@@ -156,7 +156,7 @@
 		<b-modal
 		id="addRequirements_mdl"
 		title="Add Dietary Requirements">
-		<textarea v-model="selectedPlusOne.requirements"></textarea>
+			<b-form-textarea v-model="selectedPlusOne.requirements"></b-form-textarea>
 		</b-modal>
 	</section>
 </template>
@@ -302,8 +302,9 @@
 
 				// collect data to be stored
 				let inviteArr = {
+					person: self.person,
 					type: self.form.type,
-					additionalGuests: self.form.additionalGuest
+					additionalGuests: self.form.additionalGuest,
 				}
 
 				// Create Invite

@@ -12,4 +12,8 @@ class InviteGuests extends Model
 	public function person() {
     	return $this->belongsTo('App\People', 'person_id');
     }
+
+    public function invite() {
+    	return $this->belongsTo('App\Invite', 'invite_id');
+    }
 }

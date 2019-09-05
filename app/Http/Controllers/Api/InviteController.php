@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 // Load Models
+use App\People;
 use App\Invite;
+use App\InviteGuests;
 
 class InviteController extends Controller
 {
@@ -38,10 +40,44 @@ class InviteController extends Controller
      */
     public function store(Request $request)
     {
-        $invite = Invite::create([
+        dd($request);
+        
+        // get main guest of Invite
+        $mainGuest = People::find($request['person']['id']);
+
+        // new Invite
+        $newInvite = new Invite([
             'day'       => $request['type']['day'],
             'night'     => $request['type']['night'],
-        ]);
+        ]);  
+        $newInvite->save();
+        
+        // new main InviteGuest
+        $newInviteGuest = new InviteGuests();
+        $newInviteGuest->type = 'main';
+        $newInviteGuest->person()->associate($mainGuest);
+
+        // assign main Person to Invite
+        $newInvite->guests()->save($newInviteGuest);
+
+        // assign additional guests to invite
+        if($request['additionalGuests']) {
+            foreach($request['additionalGuests'] as $additionalGuestId) {
+                $guest = People::find($additionalGuestId);
+
+                if($guest) {
+                    // new additional InviteGuest
+                    $newInviteGuest = new InviteGuests();
+                    $newInviteGuest->type = 'additional';
+                    $newInviteGuest->person()->associate($guest);
+
+                    // assign additional guest to Invite
+                    $newInvite->guests()->save($newInviteGuest);
+                }
+            }
+        }
+
+
         dd($request);
     }
 
