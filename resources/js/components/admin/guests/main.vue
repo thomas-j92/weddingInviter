@@ -15,7 +15,7 @@
 								
 								<b-dropdown-group>
 								    <b-dropdown-text class="dropdown-title">Invite</b-dropdown-text>
-								    <b-dropdown-item :to="'/admin/invite/'+data.item.id"><i class="fas fa-edit"></i> Invite...</b-dropdown-item>
+								    <b-dropdown-item :to="'/admin/invite/create/'+data.item.id"><i class="fas fa-edit"></i> Invite...</b-dropdown-item>
 								</b-dropdown-group>
 							  </b-dropdown>
 						</template>

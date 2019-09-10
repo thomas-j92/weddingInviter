@@ -1,157 +1,152 @@
 <template>
 	<section id="createInvite">
-		<div v-if="inviteId">
-			<h2>Invite</h2>
-		</div>
-		<div v-else>
-			<b-card>
-				<b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
-				<b-card-title>Setup Invite</b-card-title>
-				<b-card-text>
-					Setup a new invite. You can assign multiple guests to the same invite using the 'Additional Guests' section. Only the main guest will be able to RSVP for everyone assigned to the invite.
-				</b-card-text>
-			</b-card>
+		<b-card>
+			<b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
+			<b-card-title>Setup Invite</b-card-title>
+			<b-card-text>
+				Setup a new invite. You can assign multiple guests to the same invite using the 'Additional Guests' section. Only the main guest will be able to RSVP for everyone assigned to the invite.
+			</b-card-text>
+		</b-card>
 
-			<b-card>
-				<b-card-header>Guest</b-card-header>
+		<b-card>
+			<b-card-header>Guest</b-card-header>
 
-				<b-card-body>
-					<div v-if="!personLoading">
-						<b-row>
-							<b-col sm="3">
-								<h5>Name</h5>
-								<p>{{ person.first_name }} {{ person.last_name }}</p>
-							</b-col>
-							<b-col sm="5">
-								<h5>Email</h5>
-								<p>{{ person.email }}</p>
-							</b-col>
-							<b-col sm="4">
-								<h5>Type</h5>
-								<b-row>
-									<b-col>
-										<b-form-checkbox v-model="form.type.day" name="check-button" @change="form.type.night = true" switch>
-									      Day
-									    </b-form-checkbox>
-									</b-col>
-									<b-col>
-										<b-form-checkbox v-model="form.type.night" name="check-button" switch>
-									      Night
-									    </b-form-checkbox>
-									</b-col>
-								</b-row>
-							</b-col>
-						</b-row>
-					</div>
-					<div v-else>
-						<loading></loading>
-					</div>
-				</b-card-body>
-			</b-card>
+			<b-card-body>
+				<div v-if="!personLoading">
+					<b-row>
+						<b-col sm="3">
+							<h5>Name</h5>
+							<p>{{ person.first_name }} {{ person.last_name }}</p>
+						</b-col>
+						<b-col sm="5">
+							<h5>Email</h5>
+							<p>{{ person.email }}</p>
+						</b-col>
+						<b-col sm="4">
+							<h5>Type</h5>
+							<b-row>
+								<b-col>
+									<b-form-checkbox v-model="form.type.day" name="check-button" @change="form.type.night = true" switch>
+								      Day
+								    </b-form-checkbox>
+								</b-col>
+								<b-col>
+									<b-form-checkbox v-model="form.type.night" name="check-button" switch>
+								      Night
+								    </b-form-checkbox>
+								</b-col>
+							</b-row>
+						</b-col>
+					</b-row>
+				</div>
+				<div v-else>
+					<loading></loading>
+				</div>
+			</b-card-body>
+		</b-card>
 
-			<b-card>
-				<b-card-header>
-					Additional Guests
-				</b-card-header>
+		<b-card>
+			<b-card-header>
+				Additional Guests
+			</b-card-header>
 
-				<b-card-body>
-					<div v-if="!additional.loading">
-						<b-table 
-							:items="additional.data"
-							:fields="additional.fields"
-							id="additionalGuests_tbl"
-							:per-page="additional.perPage"
-      						:current-page="additional.currentPage"
-						>
-							<template slot="check" slot-scope="data">
-								<b-form-checkbox v-model="form.additionalGuest[data.item.id]" :value="data.item.id" switch>
-							      
-							    </b-form-checkbox>
-							</template>
-						</b-table>
+			<b-card-body>
+				<div v-if="!additional.loading">
+					<b-table 
+						:items="additional.data"
+						:fields="additional.fields"
+						id="additionalGuests_tbl"
+						:per-page="additional.perPage"
+  						:current-page="additional.currentPage"
+					>
+						<template slot="check" slot-scope="data">
+							<b-form-checkbox v-model="form.additionalGuest[data.item.id]" :value="data.item.id" switch>
+						      
+						    </b-form-checkbox>
+						</template>
+					</b-table>
 
-						<b-pagination
-					      v-model="additional.currentPage"
-					      :total-rows="rows"
-					      :per-page="additional.perPage"
-					      aria-controls="additionalGuests_tbl"
-					      align="center"
-					    ></b-pagination>
-					</div>
-					<div v-else>
-						<loading></loading>
-					</div>
-				</b-card-body>
-			</b-card>
+					<b-pagination
+				      v-model="additional.currentPage"
+				      :total-rows="rows"
+				      :per-page="additional.perPage"
+				      aria-controls="additionalGuests_tbl"
+				      align="center"
+				    ></b-pagination>
+				</div>
+				<div v-else>
+					<loading></loading>
+				</div>
+			</b-card-body>
+		</b-card>
 
-			<b-card>
-				<b-card-header>
-					Plus Ones
-				</b-card-header>
+		<b-card>
+			<b-card-header>
+				Plus Ones
+			</b-card-header>
 
-				<b-card-body>
-					<div class="plus-ones">
-						<b-row v-for="(plus,  index) in form.plus_ones" :key="'plusOne_'+index">
-							<b-col>
-								<b-form-input v-model="plus.first_name" placeholder="First Name..."></b-form-input>
-							</b-col>
-							<b-col>
-								<b-form-input v-model="plus.last_name" placeholder="Last Name..."></b-form-input>
-							</b-col>
-							<b-col>
-								<b-row>
-									<b-col>
-										<b-form-checkbox
-										  class="hide-checkbox"
-									      v-model="plus.vegetarian"
-									      value="true"
-									      unchecked-value="false"
-									    >
-											<i class="fas fa-carrot selected-icon" v-if="plus.vegetarian == 'true'"></i>
-											<i class="fas fa-carrot unselected-icon" v-else></i>
-									    </b-form-checkbox>
-									</b-col>
-									
-									<b-col>
-									    <b-form-checkbox
-										  class="hide-checkbox"
-									      v-model="plus.vegan"
-									      value="true"
-									      unchecked-value="false"
-									    >
-											<i class="fab fa-vimeo-square selected-icon" v-if="plus.vegan == 'true'"></i>
-											<i class="fab fa-vimeo-square unselected-icon" v-else></i>
-									    </b-form-checkbox>
-									</b-col>
+			<b-card-body>
+				<div class="plus-ones">
+					<b-row v-for="(plus,  index) in form.plus_ones" :key="'plusOne_'+index">
+						<b-col>
+							<b-form-input v-model="plus.first_name" placeholder="First Name..."></b-form-input>
+						</b-col>
+						<b-col>
+							<b-form-input v-model="plus.last_name" placeholder="Last Name..."></b-form-input>
+						</b-col>
+						<b-col>
+							<b-row>
+								<b-col>
+									<b-form-checkbox
+									  class="hide-checkbox"
+								      v-model="plus.vegetarian"
+								      value="true"
+								      unchecked-value="false"
+								    >
+										<i class="fas fa-carrot selected-icon" v-if="plus.vegetarian == 'true'"></i>
+										<i class="fas fa-carrot unselected-icon" v-else></i>
+								    </b-form-checkbox>
+								</b-col>
+								
+								<b-col>
+								    <b-form-checkbox
+									  class="hide-checkbox"
+								      v-model="plus.vegan"
+								      value="true"
+								      unchecked-value="false"
+								    >
+										<i class="fab fa-vimeo-square selected-icon" v-if="plus.vegan == 'true'"></i>
+										<i class="fab fa-vimeo-square unselected-icon" v-else></i>
+								    </b-form-checkbox>
+								</b-col>
 
-									<b-col>
-									    <b-form-checkbox
-										  class="hide-checkbox"
-									      
-									      value="true"
-									      unchecked-value="false"
-									      v-b-modal.addRequirements_mdl
-									      @change="selectedPlusOne = plus"
-									    >
-											<i class="fas fa-utensils selected-icon" v-if="plus.requirements == 'true'"></i>
-											<i class="fas fa-utensils unselected-icon" v-else></i>
-									    </b-form-checkbox>
-									</b-col>
-								</b-row>
-							</b-col>
-						</b-row>
-					</div>
-					<b-button class="plusOne_btn" block variant="outline-primary" @click="addPlusOne"><i class="fas fa-plus-circle"></i> Plus One</b-button>
-					<!-- <b-form-input id="range-1" v-model="form.plus_ones" type="range" min="0" max="2"></b-form-input>
+								<b-col>
+								    <b-form-checkbox
+									  class="hide-checkbox"
+								      
+								      value="true"
+								      unchecked-value="false"
+								      v-b-modal.addRequirements_mdl
+								      @change="selectedPlusOne = plus"
+								    >
+										<i class="fas fa-utensils selected-icon" v-if="plus.requirements == 'true'"></i>
+										<i class="fas fa-utensils unselected-icon" v-else></i>
+								    </b-form-checkbox>
+								</b-col>
+							</b-row>
+						</b-col>
+					</b-row>
+				</div>
+				<b-button class="plusOne_btn" block variant="outline-primary" @click="addPlusOne"><i class="fas fa-plus-circle"></i> Plus One</b-button>
+				<!-- <b-form-input id="range-1" v-model="form.plus_ones" type="range" min="0" max="2"></b-form-input>
 
-					<div class="mt-2">Value: {{ form.plus_ones }}</div> -->
-				</b-card-body>
-			</b-card>
+				<div class="mt-2">Value: {{ form.plus_ones }}</div> -->
+			</b-card-body>
+		</b-card>
 
-			<b-card>
-				<b-button block variant="primary" @click="makeInvite">Make Invite</b-button>
-			</b-card>
-		</div>
+		<b-card>
+			<b-button block variant="primary" @click="makeInvite">Make Invite</b-button>
+		</b-card>
 
 		<b-modal
 		id="addRequirements_mdl"
@@ -314,7 +309,7 @@
 					 	if(resp.data && resp.data.id) {
 					 		self.toast('Invite made', 'Invite was created');
 
-					 		self.$router.push('/admin');
+					 		self.$router.push('/admin/invite/view/'+resp.data.id);
 					 	}
 					 })
 			},

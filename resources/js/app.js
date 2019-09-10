@@ -320,8 +320,12 @@ const router = new VueRouter({
 		        	component: require('./components/admin/guests/main')
 		        },
 		        {
-		        	path: 'invite/:personId?/:inviteId?',
-		        	component: require('./components/admin/invite/main')
+		        	path: 'invite/create/:personId?/',
+		        	component: require('./components/admin/invite/main'),
+		        },
+		        {
+		        	path: 'invite/view/:inviteId/',
+		        	component: require('./components/admin/invite/view'),
 		        },
 		        {
 		        	path: 'reports',
