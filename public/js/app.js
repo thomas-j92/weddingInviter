@@ -85073,13 +85073,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'admin.invite.view',
 	data: function data() {
-		inviteLoading: true;
+		return {
+			inviteLoading: true,
+			person: false,
+			invite: false
+		};
 	},
 
 	computed: {
 		inviteId: function inviteId() {
 			return this.$route.params.inviteId;
 		}
+	},
+	methods: {
+		getInvite: function getInvite() {
+			var self = this;
+
+			axios.get("/api/invite/" + this.inviteId).then(function (resp) {
+				if (resp.data) {
+					// store main person assigned to Invite
+					self.person = resp.data.main_guest;
+
+					// store Invite details
+					self.invite = resp.data;
+
+					// stop loading gif
+					self.inviteLoading = false;
+				}
+				console.log(resp);
+			});
+		}
+	},
+	mounted: function mounted() {
+		this.getInvite();
 	}
 });
 

@@ -45,12 +45,39 @@
 	export default {
 		name: 'admin.invite.view',
 		data() {
-			inviteLoading: true
+			return {
+				inviteLoading: true,
+				person: false,
+				invite: false,
+			}
 		},
 		computed: {
 			inviteId() {
 				return this.$route.params.inviteId;
 			},
+		},
+		methods: {
+			getInvite() {
+				const self = this;
+
+				axios.get("/api/invite/"+this.inviteId)
+					 .then((resp) => {
+					 	if(resp.data) {
+					 		// store main person assigned to Invite
+					 		self.person = resp.data.main_guest;
+
+					 		// store Invite details
+					 		self.invite = resp.data;
+
+					 		// stop loading gif
+					 		self.inviteLoading = false;
+					 	}
+					 	console.log(resp);
+					 })
+			}
+		},
+		mounted() {
+			this.getInvite();
 		}
 	}
 </script>

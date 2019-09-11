@@ -118,7 +118,9 @@ class InviteController extends Controller
      */
     public function show($id)
     {
-        //
+        $invite = Invite::find($id);
+
+        return response()->json($invite);
     }
 
     /**
