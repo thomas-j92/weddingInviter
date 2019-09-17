@@ -83974,7 +83974,8 @@ var render = function() {
                                                       attrs: {
                                                         to:
                                                           "/admin/invite/view/" +
-                                                          data.item.invite.id
+                                                          data.item.invite
+                                                            .invite_id
                                                       }
                                                     },
                                                     [
@@ -83997,7 +83998,7 @@ var render = function() {
                               ],
                               null,
                               false,
-                              4119137246
+                              298374920
                             )
                           })
                         : _c("no-data")
@@ -85089,13 +85090,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'admin.invite.view',
 	data: function data() {
 		return {
 			inviteLoading: true,
-			person: false,
+			main_guest: false,
+			additional_guests: false,
 			invite: false
 		};
 	},
@@ -85103,6 +85108,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	computed: {
 		inviteId: function inviteId() {
 			return this.$route.params.inviteId;
+		},
+		inviteType: function inviteType() {
+			var inviteType = '';
+
+			if (this.invite) {
+				if (this.invite.day && this.invite.night) {
+					inviteType = 'Day & Night';
+				} else if (this.invite.day) {
+					inviteType = 'Day';
+				} else if (this.invite.night) {
+					inviteType = 'Night';
+				}
+			}
+
+			return inviteType;
 		}
 	},
 	methods: {
@@ -85112,7 +85132,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			axios.get("/api/invite/" + this.inviteId).then(function (resp) {
 				if (resp.data) {
 					// store main person assigned to Invite
-					self.person = resp.data.main_guest;
+					self.main_guest = resp.data.main_guest;
+
+					// store additional guests assigned to Invite
+					self.additional_guests = resp.data.additional_guests;
 
 					// store Invite details
 					self.invite = resp.data;
@@ -85120,7 +85143,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					// stop loading gif
 					self.inviteLoading = false;
 				}
-				console.log(resp);
 			});
 		}
 	},
@@ -85161,9 +85183,9 @@ var render = function() {
                           _vm._v(" "),
                           _c("p", [
                             _vm._v(
-                              _vm._s(_vm.person.first_name) +
+                              _vm._s(_vm.main_guest.person.first_name) +
                                 " " +
-                                _vm._s(_vm.person.last_name)
+                                _vm._s(_vm.main_guest.person.last_name)
                             )
                           ])
                         ]),
@@ -85171,92 +85193,36 @@ var render = function() {
                         _c("b-col", { attrs: { sm: "5" } }, [
                           _c("h5", [_vm._v("Email")]),
                           _vm._v(" "),
-                          _c("p", [_vm._v(_vm._s(_vm.person.email))])
+                          _c("p", [_vm._v(_vm._s(_vm.main_guest.person.email))])
                         ]),
                         _vm._v(" "),
-                        _c(
-                          "b-col",
-                          { attrs: { sm: "4" } },
-                          [
-                            _c("h5", [_vm._v("Type")]),
-                            _vm._v(" "),
-                            _c(
-                              "b-row",
-                              [
-                                _c(
-                                  "b-col",
-                                  [
-                                    _c(
-                                      "b-form-checkbox",
-                                      {
-                                        attrs: {
-                                          name: "check-button",
-                                          switch: ""
-                                        },
-                                        on: {
-                                          change: function($event) {
-                                            _vm.form.type.night = true
-                                          }
-                                        },
-                                        model: {
-                                          value: _vm.form.type.day,
-                                          callback: function($$v) {
-                                            _vm.$set(_vm.form.type, "day", $$v)
-                                          },
-                                          expression: "form.type.day"
-                                        }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n\t\t\t\t\t\t\t      Day\n\t\t\t\t\t\t\t    "
-                                        )
-                                      ]
-                                    )
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "b-col",
-                                  [
-                                    _c(
-                                      "b-form-checkbox",
-                                      {
-                                        attrs: {
-                                          name: "check-button",
-                                          switch: ""
-                                        },
-                                        model: {
-                                          value: _vm.form.type.night,
-                                          callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.form.type,
-                                              "night",
-                                              $$v
-                                            )
-                                          },
-                                          expression: "form.type.night"
-                                        }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n\t\t\t\t\t\t\t      Night\n\t\t\t\t\t\t\t    "
-                                        )
-                                      ]
-                                    )
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
+                        _c("b-col", { attrs: { sm: "4" } }, [
+                          _c("h5", [_vm._v("Type")]),
+                          _vm._v(" "),
+                          _c("p", [_vm._v(_vm._s(_vm.inviteType))])
+                        ])
                       ],
                       1
                     )
                   ],
+                  1
+                )
+              : _c("div", [_c("loading")], 1)
+          ])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "b-card",
+        [
+          _c("b-card-header", [_vm._v("Additional Guests")]),
+          _vm._v(" "),
+          _c("b-card-body", [
+            !_vm.inviteLoading
+              ? _c(
+                  "div",
+                  [_c("b-table", { attrs: { items: _vm.additional_guests } })],
                   1
                 )
               : _c("div", [_c("loading")], 1)

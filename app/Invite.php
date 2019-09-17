@@ -21,11 +21,32 @@ class Invite extends Model
     	return $this->hasMany('App\PlusOne', 'invite_id', 'id');
     }
 
+    /**
+     * Get main guest assigned to an Invite.
+     */
     public function getMainGuestAttribute() {
-    	return $this->guests->where('type', 'main')->first();
+        // get main guest
+        $mainGuest = $this->guests->where('type', 'main')->first();
+
+        // get InviteGuest with Person details
+        $guest      = InviteGuests::with('person')->find($mainGuest->id);
+
+    	return $guest; 
     }
 
+    /**
+     * Get additional guests assigned to an Invite.
+     */
     public function getAdditionalGuestsAttribute() {
-    	return $this->guests->where('type', 'additional');
+    	 // get additional guests
+        $additionalGuests = $this->guests->where('type', 'additional');
+        
+        $additionalArr = [];        
+        foreach($additionalGuests as $guest) {
+            // get InviteGuest with Person details
+            $additionalArr[] = InviteGuests::with('person')->find($guest->id);
+        }
+
+        return $additionalArr;
     }
 }
