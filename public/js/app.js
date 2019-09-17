@@ -83657,6 +83657,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'admin.guests.main',
@@ -83949,22 +83950,41 @@ var render = function() {
                                                 [_vm._v("Invite")]
                                               ),
                                               _vm._v(" "),
-                                              _c(
-                                                "b-dropdown-item",
-                                                {
-                                                  attrs: {
-                                                    to:
-                                                      "/admin/invite/create/" +
-                                                      data.item.id
-                                                  }
-                                                },
-                                                [
-                                                  _c("i", {
-                                                    staticClass: "fas fa-edit"
-                                                  }),
-                                                  _vm._v(" Invite...")
-                                                ]
-                                              )
+                                              !data.item.invite
+                                                ? _c(
+                                                    "b-dropdown-item",
+                                                    {
+                                                      attrs: {
+                                                        to:
+                                                          "/admin/invite/create/" +
+                                                          data.item.id
+                                                      }
+                                                    },
+                                                    [
+                                                      _c("i", {
+                                                        staticClass:
+                                                          "fas fa-edit"
+                                                      }),
+                                                      _vm._v(" Create")
+                                                    ]
+                                                  )
+                                                : _c(
+                                                    "b-dropdown-item",
+                                                    {
+                                                      attrs: {
+                                                        to:
+                                                          "/admin/invite/view/" +
+                                                          data.item.invite.id
+                                                      }
+                                                    },
+                                                    [
+                                                      _c("i", {
+                                                        staticClass:
+                                                          "fas fa-eye"
+                                                      }),
+                                                      _vm._v(" View")
+                                                    ]
+                                                  )
                                             ],
                                             1
                                           )
@@ -83977,7 +83997,7 @@ var render = function() {
                               ],
                               null,
                               false,
-                              1250434091
+                              4119137246
                             )
                           })
                         : _c("no-data")
