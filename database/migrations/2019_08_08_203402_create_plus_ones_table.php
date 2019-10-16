@@ -15,7 +15,7 @@ class CreatePlusOnesTable extends Migration
     {
         Schema::create('plus_ones', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('invite_id');
+            $table->unsignedBigInteger('invite_id');
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->boolean('attending')->default(0);

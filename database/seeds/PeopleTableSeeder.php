@@ -24,5 +24,14 @@ class PeopleTableSeeder extends Seeder
 	            'created_at' 	=> date('Y-m-d H:i:s')
 	        ]);
     	}
+
+        // add myself as a user
+         DB::table('people')->insert([
+            'first_name'    => 'Thomas',
+            'last_name'     => 'Jinks',
+            'status'        => 'active',
+            'email'         => 'tommy_jinks@hotmail.co.uk',
+            'created_at'    => date('Y-m-d H:i:s')
+        ]);
     }
 }

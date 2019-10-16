@@ -15,8 +15,8 @@ class CreateInviteGuestsTable extends Migration
     {
         Schema::create('invite_guests', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('invite_id');
-            $table->integer('person_id');
+            $table->unsignedBigInteger('invite_id');
+            $table->unsignedBigInteger('person_id');
             $table->string('type');
             $table->boolean('rsvp')->default(0);
             $table->boolean('attending')->default(0);
