@@ -1461,7 +1461,7 @@ exports.hasPointerEventSupport = hasPointerEventSupport;
 
 var getEnv = function getEnv(key) {
   var fallback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-  var env = typeof process !== 'undefined' && process ? Object({"MIX_PUSHER_APP_CLUSTER":"mt1","MIX_PUSHER_APP_KEY":"","NODE_ENV":"development"}) || {} : {};
+  var env = typeof process !== 'undefined' && process ? Object({"MIX_PUSHER_APP_KEY":"","MIX_PUSHER_APP_CLUSTER":"mt1","NODE_ENV":"development"}) || {} : {};
 
   if (!key) {
     /* istanbul ignore next */
@@ -85093,6 +85093,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'admin.invite.view',
@@ -85167,6 +85172,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "b-card",
+        { staticClass: "custom", attrs: { "no-body": "" } },
         [
           _c("b-card-header", [_vm._v("Guest")]),
           _vm._v(" "),
@@ -85215,14 +85221,32 @@ var render = function() {
       _vm._v(" "),
       _c(
         "b-card",
+        { staticClass: "custom", attrs: { "no-body": "" } },
         [
-          _c("b-card-header", [_vm._v("Additional Guests")]),
+          _c(
+            "b-card-header",
+            [
+              _vm._v("\n\t\t\tAdditional Guests\n\n\t\t\t"),
+              _c("b-button", { staticClass: "float-right expand" }, [
+                _vm._v("Add")
+              ])
+            ],
+            1
+          ),
           _vm._v(" "),
           _c("b-card-body", [
             !_vm.inviteLoading
               ? _c(
                   "div",
-                  [_c("b-table", { attrs: { items: _vm.additional_guests } })],
+                  [
+                    _vm.additional_guests.length > 0
+                      ? _c("b-table", {
+                          attrs: { items: _vm.additional_guests }
+                        })
+                      : _c("no-data", {
+                          attrs: { text: "No additional guests found." }
+                        })
+                  ],
                   1
                 )
               : _c("div", [_c("loading")], 1)

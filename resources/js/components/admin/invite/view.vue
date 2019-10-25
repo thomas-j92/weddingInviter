@@ -2,7 +2,7 @@
 	<section id="viewInvite">
 		<h2>Invite</h2>
 
-		<b-card>
+		<b-card class="custom" no-body>
 			<b-card-header>Guest</b-card-header>
 
 			<b-card-body>
@@ -28,13 +28,18 @@
 			</b-card-body>
 		</b-card>
 
-		<b-card>
-			<b-card-header>Additional Guests</b-card-header>
+		<b-card class="custom" no-body>
+			<b-card-header>
+				Additional Guests
+
+				<b-button class="float-right expand">Add</b-button>
+			</b-card-header>
 
 			<b-card-body>
 				<div v-if="!inviteLoading">
-					<b-table :items="additional_guests">
+					<b-table :items="additional_guests" v-if="additional_guests.length > 0">
 					</b-table>
+					<no-data text="No additional guests found." v-else></no-data>
 				</div>
 				<div v-else>
 					<loading></loading>
