@@ -19,6 +19,7 @@ class CreateInvitesTable extends Migration
             $table->boolean('day');
             $table->boolean('night');
             $table->date('rsvp_on')->nullable();
+            $table->string('code')->nullable();
 
             $table->timestamps();
         });

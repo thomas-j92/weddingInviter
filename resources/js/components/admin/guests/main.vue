@@ -5,7 +5,7 @@
 				<b-card-title>{{ formattedFilter | capitalize }} <b-button class="float-right" variant="success" v-b-modal.create-guest><i class="fas fa-plus-circle"></i> Create</b-button></b-card-title>
 				<div v-if="isLoaded">
 					<b-table :fields="fields" :items="people" v-if="people.length > 0">
-						<template slot="options" slot-scope="data">
+						<template v-slot:cell(options)="data">
 							<b-dropdown text="Options" class="m-md-2 guest-dropdown">
 								<b-dropdown-group>
 									<b-dropdown-text class="dropdown-title">Person</b-dropdown-text>

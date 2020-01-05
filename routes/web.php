@@ -63,3 +63,7 @@ Route::get('user/get/', 'AuthController@get');
 
 // Admin router
 Route::get('/admin/{section?}/{filter?}/{filter2?}', 'AdminController@main')->name('home');
+
+Route::get('/invitation/view/{code}', 'InviteController@guestView');
+
+

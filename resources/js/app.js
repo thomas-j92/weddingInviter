@@ -336,6 +336,10 @@ const router = new VueRouter({
 		        	component: require('./components/admin/emails/main')
 		        },
 	        ]
+		},
+		{
+			path: '/invitation/view/:code',
+			component: require('./components/invitation/view')
 		}
 	]
 })

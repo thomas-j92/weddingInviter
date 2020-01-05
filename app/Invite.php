@@ -6,11 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Invite extends Model
 {
-	protected $fillable = ['day', 'night'];
+	protected $fillable = [
+        'day',
+        'night',
+        'code'
+    ];
 
 	protected $appends 	= [
 		'main_guest',
-		'additional_guests'
+		'additional_guests',
 	];
 	
     public function guests() {

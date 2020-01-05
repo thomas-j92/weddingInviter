@@ -23,4 +23,5 @@ Route::get('people/showAll/{filter?}', 'Api\PeopleController@showAll');
 Route::apiResource('people', 'Api\PeopleController', ['as' => 'api']);
 
 // Invite
+Route::get('invite/send/{id}', 'Api\InviteController@send');
 Route::apiResource('invite', 'Api\InviteController', ['as' => 'api']);

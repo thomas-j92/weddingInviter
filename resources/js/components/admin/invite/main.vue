@@ -59,7 +59,7 @@
 						:per-page="additional.perPage"
   						:current-page="additional.currentPage"
 					>
-						<template slot="check" slot-scope="data">
+						<template v-slot:cell(check)="data">
 							<b-form-checkbox v-model="form.additionalGuest[data.item.id]" :value="data.item.id" switch>
 						      
 						    </b-form-checkbox>

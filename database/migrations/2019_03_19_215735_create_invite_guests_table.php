@@ -20,7 +20,6 @@ class CreateInviteGuestsTable extends Migration
             $table->string('type');
             $table->boolean('rsvp')->default(0);
             $table->boolean('attending')->default(0);
-            $table->string('code')->nullable();
             $table->timestamps();
 
             // Add foreign keys

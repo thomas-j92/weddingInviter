@@ -146,6 +146,14 @@ class InviteController extends Controller
 
         \Session::flash('success', "Invite sent.");
         return redirect('Invite/view/'.$invite_id);
+    }
+
+    public function guestView($code) {
+
+        $invite = \App\Invite::where('code', $code)
+                             ->first();
+
+        return view('invitation.main')->withInvite($invite);
 
     }
 }

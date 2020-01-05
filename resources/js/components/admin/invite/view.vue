@@ -46,6 +46,20 @@
 				</div>
 			</b-card-body>
 		</b-card>
+
+		<b-card class="custom" no-body>
+			<b-card-header>
+				Functions
+			</b-card-header>
+
+			<b-card-body>
+				<b-row>
+					<b-col sm="2">
+						<b-button block variant="primary" @click="sendInvite">Send</b-button>
+					</b-col>
+				</b-row>
+			</b-card-body>
+		</b-card>
 	</section>
 </template>
 
@@ -99,6 +113,14 @@
 					 		// stop loading gif
 					 		self.inviteLoading = false;
 					 	}
+					 })
+			},
+			sendInvite() {
+				const self = this;
+
+				axios.get("/api/invite/send/"+this.inviteId)
+					 .then((resp) => {
+
 					 })
 			}
 		},

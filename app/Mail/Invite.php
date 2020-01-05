@@ -19,11 +19,10 @@ class Invite extends Mailable
      *
      * @return void
      */
-    public function __construct(People $person, Inviter $invite, $code)
+    public function __construct(People $person, Inviter $invite)
     {
         $this->person   = $person;
         $this->invite   = $invite;
-        $this->code     = $code;
     }
 
     /**
@@ -36,7 +35,7 @@ class Invite extends Mailable
         return $this->markdown('emails.invite')
                     ->with([
                         'name'     => ($this->person->first_name . ' ' . $this->person->last_name),
-                        'code'     => $this->code
+                        'code'     => $this->invite->code
                     ]);
     }
 }

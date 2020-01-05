@@ -11,6 +11,10 @@ use App\Invite;
 use App\PlusOne;
 use App\InviteGuests;
 
+// Load Mail
+use Mail;
+use App\Mail\Invite as MailInvite;
+
 class InviteController extends Controller
 {
     /**
@@ -48,6 +52,7 @@ class InviteController extends Controller
         $newInvite = new Invite([
             'day'       => $request['type']['day'],
             'night'     => $request['type']['night'],
+            'code'      => str_random(40),
         ]);  
         $newInvite->save();
         
@@ -155,5 +160,18 @@ class InviteController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function send($id) {
+        // get Invite
+        $invite = Invite::find($id);
+
+        // get main guest of Invite
+        $mainGuest = $invite->main_guest->person;
+
+        // send Invite notification
+        Mail::to($mainGuest->email)->send(new MailInvite($mainGuest, $invite));
+
+        dd($id);
     }
 }

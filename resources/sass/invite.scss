@@ -1,0 +1,82 @@
+/* Fonts */
+@font-face {
+    font-family: 'Quicksand';
+    src: url('/fonts/invite/Quicksand-Regular.ttf');
+}
+@font-face {
+    font-family: 'QuicksandBold';
+    src: url('/fonts/invite/Quicksand-Bold.ttf');
+}
+@font-face {
+    font-family: 'Cinzel';
+    src: url('/fonts/invite/Cinzel-Regular.ttf');
+}
+@font-face {
+    font-family: 'ChopinScript';
+    src: url('/fonts/invite/ChopinScript.otf');
+}
+
+
+
+/* Invite - Web View */
+.web-invite {
+	background-color: #FFFAF4;
+	.invite-container {
+		text-align: center;
+		.invite-details {
+			.guests {
+				padding: 2em 0em;
+				h2 {
+					font-family: Quicksand;
+					color: #191918;
+					font-size: 32px;
+					text-transform: uppercase;
+				}
+			}
+			.invited-by {
+				p {
+					font-family: Cinzel;
+				    color: #B0ADA8;
+				    font-size: 15px;
+				    line-height: 2em;
+				    letter-spacing: 2px;
+				    text-transform: uppercase;
+				    margin: 0 auto;
+				    width: 18em;
+				}
+			}
+			.bride-and-groom {
+				margin: 2em 0em;
+				p {
+					font-family: QuicksandBold;
+				    text-transform: uppercase;
+				    color: #191918;
+				    margin: 0;
+				    font-size: 30px;
+				    letter-spacing: 6px;
+				    line-height: 34px;
+				}
+				.and {
+					font-family: ChopinScript;
+				}
+			}
+		}
+		.wedding-details {
+			p {
+				text-transform: uppercase;
+				font-family: Cinzel;
+				color: #B0ADA8;
+				margin: 0;
+				line-height: 16px;
+				letter-spacing: 2px;
+			}
+		}
+		.reception-to-follow {
+			p {
+				font-family: ChopinScript;
+				font-size: 22px;
+    			margin-top: 1em;
+			}
+		}
+	}
+}
