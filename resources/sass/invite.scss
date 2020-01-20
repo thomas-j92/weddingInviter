@@ -16,13 +16,17 @@
     src: url('/fonts/invite/ChopinScript.otf');
 }
 
-
-
 /* Invite - Web View */
 .web-invite {
-	background-color: #FFFAF4;
+	// background-image: url('/images/invite/background.jpg');
+	background-position: center;
+  	background-repeat: no-repeat;
+  	background-size: cover;
+	// background-color: #FFFAF4;
+	background-color: #748c73;
 	.invite-container {
 		text-align: center;
+		background-color: #FFFAF4;
 		.invite-details {
 			.guests {
 				padding: 2em 0em;
@@ -79,4 +83,13 @@
 			}
 		}
 	}
+}
+
+/* Transitions */ 
+.component-fade-enter-active, .component-fade-leave-active {
+  transition: opacity .3s ease;
+}
+.component-fade-enter, .component-fade-leave-to
+/* .component-fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }

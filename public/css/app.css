@@ -24419,11 +24419,15 @@ body {
 /* Invite - Web View */
 
 .web-invite {
-  background-color: #FFFAF4;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #748c73;
 }
 
 .web-invite .invite-container {
   text-align: center;
+  background-color: #FFFAF4;
 }
 
 .web-invite .invite-container .invite-details .guests {
@@ -24479,5 +24483,18 @@ body {
   font-family: ChopinScript;
   font-size: 22px;
   margin-top: 1em;
+}
+
+/* Transitions */
+
+.component-fade-enter-active,
+.component-fade-leave-active {
+  -webkit-transition: opacity .3s ease;
+  transition: opacity .3s ease;
+}
+
+.component-fade-enter,
+.component-fade-leave-to {
+  opacity: 0;
 }
 

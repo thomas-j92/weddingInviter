@@ -82721,12 +82721,221 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__sections_inviteIntro_vue__ = __webpack_require__(329);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__sections_inviteIntro_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__sections_inviteIntro_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__sections_rsvp_vue__ = __webpack_require__(332);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__sections_rsvp_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__sections_rsvp_vue__);
 //
 //
 //
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	name: 'invitation.view',
+	props: ['invite'],
+	data: function data() {
+		return {
+			step: 1,
+			components: []
+		};
+	},
+
+	// components: {
+	// 'invite-intro': inviteIntro,
+	// 'rsvp': rsvp,
+	// },
+	mounted: function mounted() {
+		var _this = this;
+
+		var self = this;
+
+		// add invite intro
+		this.components.push({
+			component: __WEBPACK_IMPORTED_MODULE_0__sections_inviteIntro_vue___default.a,
+			props: {
+				'invite': self.invite
+			}
+		});
+
+		// add rsvp component for each guest
+		this.invite.guests.forEach(function (guest) {
+			_this.components.push({
+				component: __WEBPACK_IMPORTED_MODULE_1__sections_rsvp_vue___default.a
+			});
+		});
+	}
+});
+
+/***/ }),
+/* 324 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "invite-container col-sm-6 offset-sm-3" },
+    [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "transition",
+        { attrs: { name: "component-fade", mode: "out-in" } },
+        _vm._l(_vm.components, function(c, i) {
+          return _vm.step == i
+            ? _c(
+                "div",
+                { key: "key_" + i },
+                [
+                  _c(
+                    c.component,
+                    _vm._b({ tag: "component" }, "component", c.props, false)
+                  )
+                ],
+                1
+              )
+            : _vm._e()
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          attrs: { disabled: _vm.step == 0 },
+          on: {
+            click: function($event) {
+              _vm.step--
+            }
+          }
+        },
+        [_vm._v("Previous")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          on: {
+            click: function($event) {
+              _vm.step++
+            }
+          }
+        },
+        [_vm._v("Next")]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "invite-header" }, [
+      _c("img", { attrs: { src: "/images/invite/header.png", alt: "" } })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-77b30a60", module.exports)
+  }
+}
+
+/***/ }),
+/* 325 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 326 */,
+/* 327 */,
+/* 328 */,
+/* 329 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(16)
+/* script */
+var __vue_script__ = __webpack_require__(330)
+/* template */
+var __vue_template__ = __webpack_require__(331)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/invitation/sections/inviteIntro.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-02b7c486", Component.options)
+  } else {
+    hotAPI.reload("data-v-02b7c486", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 330 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
@@ -82761,8 +82970,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	name: 'invitation.view',
+	name: 'invite.section.intro',
 	props: ['invite'],
+	data: function data() {
+		return {};
+	},
+
 	computed: {
 		mainGuest: function mainGuest() {
 			return this.invite.main_guest.person;
@@ -82771,46 +82984,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 324 */
+/* 331 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "invite-container col-sm-6 offset-sm-3" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c("div", { staticClass: "invite-details" }, [
-      _c("div", { staticClass: "guests" }, [
-        _c("h2", { staticClass: "main-guests" }, [
-          _vm._v(
-            _vm._s(_vm.mainGuest.first_name) +
-              " " +
-              _vm._s(_vm.mainGuest.last_name)
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._m(1),
-      _vm._v(" "),
-      _vm._m(2)
+  return _c("div", { staticClass: "invite-details" }, [
+    _c("div", { staticClass: "guests" }, [
+      _c("h2", { staticClass: "main-guests" }, [
+        _vm._v(
+          _vm._s(_vm.mainGuest.first_name) +
+            " " +
+            _vm._s(_vm.mainGuest.last_name)
+        )
+      ])
     ]),
     _vm._v(" "),
-    _vm._m(3),
+    _vm._m(0),
     _vm._v(" "),
-    _vm._m(4)
+    _vm._m(1),
+    _vm._v(" "),
+    _vm._m(2),
+    _vm._v(" "),
+    _vm._m(3)
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "invite-header" }, [
-      _c("img", { attrs: { src: "/images/invite/header.png", alt: "" } })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -82865,15 +83066,216 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-77b30a60", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-02b7c486", module.exports)
   }
 }
 
 /***/ }),
-/* 325 */
-/***/ (function(module, exports) {
+/* 332 */
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+var disposed = false
+var normalizeComponent = __webpack_require__(16)
+/* script */
+var __vue_script__ = __webpack_require__(334)
+/* template */
+var __vue_template__ = __webpack_require__(333)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/invitation/sections/rsvp.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-44077451", Component.options)
+  } else {
+    hotAPI.reload("data-v-44077451", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 333 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "b-form-group",
+        { attrs: { label: "Will you be attending the day?" } },
+        [
+          _c("b-form-radio-group", {
+            attrs: {
+              id: "btn-radios-1",
+              options: _vm.rsvpOptions,
+              buttons: "",
+              "button-variant": "outline-primary",
+              name: "radios-btn-default"
+            },
+            model: {
+              value: _vm.form.rsvp.day,
+              callback: function($$v) {
+                _vm.$set(_vm.form.rsvp, "day", $$v)
+              },
+              expression: "form.rsvp.day"
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "b-form-group",
+        { attrs: { label: "Will you be attending the night?" } },
+        [
+          _c("b-form-radio-group", {
+            attrs: {
+              id: "btn-radios-1",
+              options: _vm.rsvpOptions,
+              buttons: "",
+              "button-variant": "outline-primary",
+              name: "radios-btn-default"
+            },
+            model: {
+              value: _vm.form.rsvp.night,
+              callback: function($$v) {
+                _vm.$set(_vm.form.rsvp, "night", $$v)
+              },
+              expression: "form.rsvp.night"
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "b-form-group",
+        { attrs: { label: "Do you have any dietary requirements?" } },
+        [
+          _c("b-form-radio-group", {
+            attrs: {
+              id: "btn-radios-1",
+              options: _vm.dietOptions,
+              buttons: "",
+              "button-variant": "outline-primary",
+              name: "radios-btn-default"
+            },
+            model: {
+              value: _vm.form.diet.requirement,
+              callback: function($$v) {
+                _vm.$set(_vm.form.diet, "requirement", $$v)
+              },
+              expression: "form.diet.requirement"
+            }
+          })
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-44077451", module.exports)
+  }
+}
+
+/***/ }),
+/* 334 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	name: 'invite.section.rsvp',
+	data: function data() {
+		return {
+			rsvpOptions: [{ 'text': 'Yes', 'value': 'true' }, { 'text': 'No', 'value': 'false' }],
+			dietOptions: [{ 'text': 'No', 'value': 'false' }, { 'text': 'Vegetarian', 'value': 'vegetarian' }, { 'text': 'Vegan', 'value': 'vegan' }, { 'text': 'Other', 'value': 'other' }],
+			form: {
+				rsvp: {
+					day: "false",
+					night: "false"
+				},
+				diet: {
+					requirement: 'false',
+					details: 'false'
+				}
+			}
+		};
+	}
+});
 
 /***/ })
 /******/ ]);

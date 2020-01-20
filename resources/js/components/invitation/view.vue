@@ -1,49 +1,66 @@
 <template>
 	<div class="invite-container col-sm-6 offset-sm-3">
+		
 		<div class="invite-header">
 			<img src="/images/invite/header.png" alt="">
 		</div>
 
-		<div class="invite-details">
-			<div class="guests">
-				<h2 class="main-guests">{{ mainGuest.first_name }} {{ mainGuest.last_name }}</h2>
-			</div>
+		<transition name="component-fade" mode="out-in">
 
-			<div class="invited-by">
-				<p>Are invited to celebrate the marriage of</p>
-			</div>
+		  <!-- p v-if="step == 1" key="step_1">
+		  	Step 1
+		  </p>
+		  <p v-else-if="step == 2" key="step_2">
+		  	Step 2
+		  </p> -->
 
-			<div class="bride-and-groom">
-				<p class="bride">Jessica King</p>
-				<p class="and">&</p>
-				<p class="groom">Thomas Jinks</p>
-			</div>
-		</div>
+		  <div v-for="(c, i) in components" v-if="step == i" :key="'key_'+i">
+		  	<component v-bind:is="c.component" v-bind="c.props"></component>
+		  </div>
+		</transition>
+		
+		<button @click="step--" :disabled="step == 0">Previous</button>
+		<button @click="step++">Next</button>
 
-		<div class="wedding-details">
-			<p>Wednesday, October 27, 2021</p>
-			<p>At halfpast 1 o'clock in the afternoon</p>
-			<p>The mill barns</p>
-			<p>Allum Bridge</p>
-			<p>Alveley</p>
-			<p>Bridgnorth</p>
-			<p>WV15 6HL</p>
-		</div>
-
-		<div class="reception-to-follow">
-			<p>Reception to follow</p>
-		</div>
 	</div>
 </template>
 
 <script>
+	import inviteIntro from './sections/inviteIntro.vue'
+	import rsvpSection from './sections/rsvp.vue' 
+
 	export default {
 		name: 'invitation.view',
 		props: ['invite'],
-		computed: {
-			mainGuest() {
-				return this.invite.main_guest.person;
+		data() {
+			return {
+				step: 1,
+				components: [],
 			}
+		},
+		// components: {
+			// 'invite-intro': inviteIntro,
+			// 'rsvp': rsvp,
+		// },
+		mounted() {
+
+			const self = this;
+
+			// add invite intro
+			this.components.push({
+				component:inviteIntro,
+				props: {
+					'invite': self.invite
+				}
+			});
+
+
+			// add rsvp component for each guest
+			this.invite.guests.forEach(guest => {
+				this.components.push({
+					component: rsvpSection
+				});
+			})
 		}
 	}
 </script>
