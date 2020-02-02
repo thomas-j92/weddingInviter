@@ -86,10 +86,14 @@
 }
 
 /* Transitions */ 
-.component-fade-enter-active, .component-fade-leave-active {
-  transition: opacity .3s ease;
+.list-item {
+  display: inline-block;
+  margin-right: 10px;
 }
-.component-fade-enter, .component-fade-leave-to
-/* .component-fade-leave-active below version 2.1.8 */ {
+.list-enter-active, .list-leave-active {
+  transition: all 1s;
+}
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
   opacity: 0;
+  transform: translateY(30px);
 }

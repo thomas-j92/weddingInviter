@@ -14,14 +14,15 @@
 		  	Step 2
 		  </p> -->
 
-		  <div v-for="(c, i) in components" v-if="step == i" :key="'key_'+i">
-		  	<component v-bind:is="c.component" v-bind="c.props"></component>
+		  <div v-for="(c, i) in components" v-if="step.number == i" :key="'key_'+i">
+		  	<component v-bind:is="c.component" v-bind="c.props" @updated="update" :existing-data="existingData"></component>
 		  </div>
 		</transition>
 		
-		<button @click="step--" :disabled="step == 0">Previous</button>
-		<button @click="step++">Next</button>
-
+		<div class="buttons">
+			<button @click="step.number--" :disabled="step.number == 0">Previous</button>
+			<button @click="step.number++" :disabled="!step.complete">Next</button>
+		</div>
 	</div>
 </template>
 
@@ -34,7 +35,11 @@
 		props: ['invite'],
 		data() {
 			return {
-				step: 1,
+				step: {
+					number: 0,
+					complete: false,
+				},
+				formData: [],
 				components: [],
 			}
 		},
@@ -46,21 +51,49 @@
 
 			const self = this;
 
+			let sectionNum = 0;
+
 			// add invite intro
 			this.components.push({
 				component:inviteIntro,
 				props: {
-					'invite': self.invite
+					'invite': self.invite,
+					'sectionNum': sectionNum,
 				}
 			});
 
 
 			// add rsvp component for each guest
 			this.invite.guests.forEach(guest => {
+				sectionNum++;
+
 				this.components.push({
-					component: rsvpSection
+					component: rsvpSection,
+					props: {
+						'guest': guest,
+						'sectionNum': sectionNum,
+					}
 				});
 			})
+		},
+		computed: {
+			existingData() {
+				return this.formData[this.step.number];
+			}
+		},
+		methods: {
+			update(data) {
+				console.log(data);
+
+				// use complete value from component to check if component step is complete
+				this.step.complete = data.complete;
+
+				// store all form data pieces in array, indexed by section number so they can be easily pulled
+				this.formData[data.sectionNum] = data.formData;
+			},
+			getExistingData(sectionNo) {
+				return this.formData[sectionNo];
+			}
 		}
 	}
 </script>

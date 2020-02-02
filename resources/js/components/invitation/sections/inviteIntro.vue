@@ -43,6 +43,16 @@
 			mainGuest() {
 				return this.invite.main_guest.person;
 			}
+		},
+		mounted() {
+			// push values back to parent
+			this.$emit('updated', {
+				'sectionNum': 0,
+				'formData': [],
+				'complete': true,
+			});
+		},
+		methods: {
 		}
 	}
 </script>

@@ -24487,14 +24487,21 @@ body {
 
 /* Transitions */
 
-.component-fade-enter-active,
-.component-fade-leave-active {
-  -webkit-transition: opacity .3s ease;
-  transition: opacity .3s ease;
+.list-item {
+  display: inline-block;
+  margin-right: 10px;
 }
 
-.component-fade-enter,
-.component-fade-leave-to {
+.list-enter-active,
+.list-leave-active {
+  -webkit-transition: all 1s;
+  transition: all 1s;
+}
+
+.list-enter,
+.list-leave-to {
   opacity: 0;
+  -webkit-transform: translateY(30px);
+          transform: translateY(30px);
 }
 
