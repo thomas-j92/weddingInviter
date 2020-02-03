@@ -15,6 +15,9 @@ use App\InviteGuests;
 use Mail;
 use App\Mail\Invite as MailInvite;
 
+// Load libaries 
+use Validator;
+
 class InviteController extends Controller
 {
     /**
@@ -173,5 +176,21 @@ class InviteController extends Controller
         Mail::to($mainGuest->email)->send(new MailInvite($mainGuest, $invite));
 
         dd($id);
+    }
+
+    public function webCreate(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'formData'      => 'required',
+            'code'          => 'required',
+        ]);
+
+        dump($request->all());
+
+        // ensure all required data has been provided
+        if(!$validator->fails()) {
+            dd('allowed');
+        } else {
+            dd('not allowed');
+        }
     }
 }

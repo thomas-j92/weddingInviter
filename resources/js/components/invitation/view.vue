@@ -21,7 +21,9 @@
 		
 		<div class="buttons">
 			<button @click="step.number--" :disabled="step.number == 0">Previous</button>
-			<button @click="step.number++" :disabled="!step.complete">Next</button>
+
+			<button v-if="(step.number+1) == components.length" @click="submit">Finish</button>
+			<button @click="step.number++" :disabled="!step.complete" v-else>Next</button>
 		</div>
 	</div>
 </template>
@@ -29,6 +31,7 @@
 <script>
 	import inviteIntro from './sections/inviteIntro.vue'
 	import rsvpSection from './sections/rsvp.vue' 
+	import confirmSection from './sections/confirm.vue'
 
 	export default {
 		name: 'invitation.view',
@@ -43,12 +46,7 @@
 				components: [],
 			}
 		},
-		// components: {
-			// 'invite-intro': inviteIntro,
-			// 'rsvp': rsvp,
-		// },
 		mounted() {
-
 			const self = this;
 
 			let sectionNum = 0;
@@ -62,7 +60,6 @@
 				}
 			});
 
-
 			// add rsvp component for each guest
 			this.invite.guests.forEach(guest => {
 				sectionNum++;
@@ -74,6 +71,17 @@
 						'sectionNum': sectionNum,
 					}
 				});
+			});
+
+			sectionNum++;
+
+			// add confirmation component
+			this.components.push({
+				component:confirmSection,
+				props: {
+					'formData': self.formData,
+					'sectionNum': sectionNum,
+				}
 			})
 		},
 		computed: {
@@ -93,6 +101,23 @@
 			},
 			getExistingData(sectionNo) {
 				return this.formData[sectionNo];
+			},
+			submit() {
+				console.log('submitted');
+
+				const self = this;
+
+				// structure data
+				let postData = {
+					'formData': self.formData,
+					'code': self.invite.code,
+				};
+
+				// submit invite data
+				axios.post(this.baseUrl+'/api/invite/web', postData)
+					 .then((resp) => {
+					 	console.log(resp);
+					 })
 			}
 		}
 	}
