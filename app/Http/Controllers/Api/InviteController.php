@@ -178,19 +178,53 @@ class InviteController extends Controller
         dd($id);
     }
 
+    /**
+     * Handles when an Invite has been completed via the web form.
+     */
     public function webCreate(Request $request) {
         $validator = Validator::make($request->all(), [
             'formData'      => 'required',
             'code'          => 'required',
         ]);
 
-        dump($request->all());
-
         // ensure all required data has been provided
+        $message    = 'An error occurred';
+        $success    = false;
         if(!$validator->fails()) {
-            dd('allowed');
-        } else {
-            dd('not allowed');
-        }
+
+            // get Invite from code
+            $inviteCode = $request->code;
+            $invite     = Invite::where('code', $inviteCode)->first();
+            $inviteId   = $invite->id;
+
+            // loop through guest details
+            foreach($request->formData as $data) {
+                if(isset($data['id']) && !is_null($data['id'])) {
+
+                    // update rsvp details
+                    $guest = InviteGuests::where('invite_id', $inviteId)->where('person_id', $data['id'])->first();
+                    $guest->rsvp            = true;
+                    $guest->attending_day   = ($data['rsvp']['day'] == 'true') ? 1 : 0;
+                    $guest->attending_night = ($data['rsvp']['night'] == 'true') ? 1 : 0; 
+                    $guest->save();
+
+                    // update dietary requirements
+                    $guest                          = People::find($data['id']);
+                    $guest->vegetarian              = ($data['diet']['requirement'] == 'vegetarian') ? 1 : 0;
+                    $guest->vegan                   = ($data['diet']['requirement'] == 'vegan') ? 1 : 0;
+                    $guest->dietary_requirements    = $data['diet']['details'];
+                    $guest->save();
+
+                    // brand the request as a success
+                    $success = true;
+                    $message = 'Thank you, this has been submitted';
+                }
+            }
+        } 
+
+        return response()->json(array(
+            'success'   => $success,
+            'message'   => $message
+        ));
     }
 }

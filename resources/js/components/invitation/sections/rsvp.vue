@@ -2,6 +2,8 @@
 	<div>
 		<h2>{{ guestDetails.first_name }} {{ guestDetails.last_name }}</h2>
 
+
+
 		<transition-group name="list" tag="p">
 		<b-form-group label="Will you be attending the day?" key="question_1">
 		  <b-form-radio-group
@@ -66,6 +68,7 @@
 					{'text': 'Other', 'value': 'other'},
 				],
 				form: {
+					id: null,
 					rsvp: {
 						day: "",
 						night: "",
@@ -117,6 +120,9 @@
 
 			// push values when first mounted 
 			this.pushValues();
+
+			// store guest ID's in array - makes it easier to identify when saving Invite responses
+			this.form.id = this.guestDetails.id;
 		},
 		methods: {
 			pushValues(form) {

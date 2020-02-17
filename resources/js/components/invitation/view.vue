@@ -15,6 +15,10 @@
 		  </p> -->
 
 		  <div v-for="(c, i) in components" v-if="step.number == i" :key="'key_'+i">
+		  	<div class="alert-container" v-if="response.message">
+		  		<b-alert show variant="success" v-if="response.success">{{ response.message }}</b-alert>
+		  		<b-alert show variant="danger" v-if="response.error">{{ response.message }}</b-alert>
+		  	</div>
 		  	<component v-bind:is="c.component" v-bind="c.props" @updated="update" :existing-data="existingData"></component>
 		  </div>
 		</transition>
@@ -44,6 +48,11 @@
 				},
 				formData: [],
 				components: [],
+				response: {
+					error: false,
+					success: false,
+					message: false
+				}
 			}
 		},
 		mounted() {
@@ -103,8 +112,6 @@
 				return this.formData[sectionNo];
 			},
 			submit() {
-				console.log('submitted');
-
 				const self = this;
 
 				// structure data
@@ -116,7 +123,21 @@
 				// submit invite data
 				axios.post(this.baseUrl+'/api/invite/web', postData)
 					 .then((resp) => {
-					 	console.log(resp);
+					 	if(resp.data) {
+
+					 		if(resp.data.success) {
+					 			self.response.success 	= true;
+					 		} else {
+					 			self.response.error 	= true;
+					 		}
+					 		self.response.message = resp.data.message;
+
+					 		setTimeout(function() {
+					 			self.response.success 	= false;
+					 			self.response.error 	= false;
+					 			self.response.message 	= false;
+					 		}, 5000)
+					 	}
 					 })
 			}
 		}

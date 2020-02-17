@@ -82757,6 +82757,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -82772,7 +82776,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				complete: false
 			},
 			formData: [],
-			components: []
+			components: [],
+			response: {
+				error: false,
+				success: false,
+				message: false
+			}
 		};
 	},
 	mounted: function mounted() {
@@ -82835,8 +82844,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			return this.formData[sectionNo];
 		},
 		submit: function submit() {
-			console.log('submitted');
-
 			var self = this;
 
 			// structure data
@@ -82847,7 +82854,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			// submit invite data
 			axios.post(this.baseUrl + '/api/invite/web', postData).then(function (resp) {
-				console.log(resp);
+				if (resp.data) {
+
+					if (resp.data.success) {
+						self.response.success = true;
+					} else {
+						self.response.error = true;
+					}
+					self.response.message = resp.data.message;
+
+					setTimeout(function () {
+						self.response.success = false;
+						self.response.error = false;
+						self.response.message = false;
+					}, 5000);
+				}
 			});
 		}
 	}
@@ -83154,6 +83175,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'invite.section.rsvp',
@@ -83163,6 +83186,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			rsvpOptions: [{ 'text': 'Yes', 'value': 'true' }, { 'text': 'No', 'value': 'false' }],
 			dietOptions: [{ 'text': 'No', 'value': 'no' }, { 'text': 'Vegetarian', 'value': 'vegetarian' }, { 'text': 'Vegan', 'value': 'vegan' }, { 'text': 'Other', 'value': 'other' }],
 			form: {
+				id: null,
 				rsvp: {
 					day: "",
 					night: ""
@@ -83215,6 +83239,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 		// push values when first mounted 
 		this.pushValues();
+
+		// store guest ID's in array - makes it easier to identify when saving Invite responses
+		this.form.id = this.guestDetails.id;
 	},
 
 	methods: {
@@ -83505,6 +83532,31 @@ var render = function() {
                 "div",
                 { key: "key_" + i },
                 [
+                  _vm.response.message
+                    ? _c(
+                        "div",
+                        { staticClass: "alert-container" },
+                        [
+                          _vm.response.success
+                            ? _c(
+                                "b-alert",
+                                { attrs: { show: "", variant: "success" } },
+                                [_vm._v(_vm._s(_vm.response.message))]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.response.error
+                            ? _c(
+                                "b-alert",
+                                { attrs: { show: "", variant: "danger" } },
+                                [_vm._v(_vm._s(_vm.response.message))]
+                              )
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c(
                     c.component,
                     _vm._b(
