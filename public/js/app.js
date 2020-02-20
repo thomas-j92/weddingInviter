@@ -82643,9 +82643,51 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	name: 'admin.reports.main'
+	name: 'admin.reports.main',
+	data: function data() {
+		return {
+			emails: [],
+			fields: [{
+				key: 'email_address',
+				label: 'Email Address'
+			}, 'subject', {
+				key: 'created_at_uk',
+				label: 'Created At'
+			}, 'view']
+		};
+	},
+
+	methods: {
+		getEmails: function getEmails() {
+			var _this = this;
+
+			var self = this;
+
+			// get all emails
+			axios.get(this.baseUrl + '/api/email/getAll').then(function (resp) {
+				if (resp.data) {
+					_this.emails = resp.data;
+				}
+			});
+		}
+	},
+	mounted: function mounted() {
+		// get all emails 
+		this.getEmails();
+	}
 });
 
 /***/ }),
@@ -82656,7 +82698,37 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("\n\tEmails\n")])
+  return _c(
+    "div",
+    [
+      _c(
+        "b-card",
+        [
+          _c("b-card-title", [_vm._v("\n\t\t\tEmails\n\t\t")]),
+          _vm._v(" "),
+          _c(
+            "b-card-body",
+            [
+              _c("b-table", {
+                attrs: { items: _vm.emails, fields: _vm.fields },
+                scopedSlots: _vm._u([
+                  {
+                    key: "cell(view)",
+                    fn: function(data) {
+                      return [_c("b-button", [_vm._v("View")])]
+                    }
+                  }
+                ])
+              })
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

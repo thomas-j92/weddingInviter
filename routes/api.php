@@ -26,3 +26,6 @@ Route::apiResource('people', 'Api\PeopleController', ['as' => 'api']);
 Route::get('invite/send/{id}', 'Api\InviteController@send');
 Route::post('invite/web/', 'Api\InviteController@webCreate');
 Route::apiResource('invite', 'Api\InviteController', ['as' => 'api']);
+
+// Email
+Route::get('email/getAll/', 'Api\EmailController@getAll');

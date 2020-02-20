@@ -10,6 +10,7 @@ use App\People;
 use App\Invite;
 use App\PlusOne;
 use App\InviteGuests;
+use App\Email;
 
 // Load Mail
 use Mail;
@@ -173,9 +174,21 @@ class InviteController extends Controller
         $mainGuest = $invite->main_guest->person;
 
         // send Invite notification
-        Mail::to($mainGuest->email)->send(new MailInvite($mainGuest, $invite));
+        $emailSubject   = 'Online Invite';
+        $emailInvite    = new MailInvite($mainGuest, $invite, $emailSubject);
+        Mail::to($mainGuest->email)->send($emailInvite);
 
-        dd($id);
+        // html render
+        $emailHtml = ($emailInvite)->render();
+
+        // make Email log
+        $emailLog                   = new Email();
+        $emailLog->subject          = $emailSubject;
+        $emailLog->html             = $emailHtml;
+        $emailLog->email_address    = $mainGuest->email;
+        $emailLog->save();
+
+        dd($emailHtml);
     }
 
     /**
