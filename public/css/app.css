@@ -24505,3 +24505,9 @@ body {
           transform: translateY(30px);
 }
 
+#emailViewer #viewer {
+  border: 1px solid #EEE;
+  padding: 1em;
+  border-radius: 0.3em;
+}
+

@@ -333,8 +333,14 @@ const router = new VueRouter({
 		        },
 		        {
 		        	path: 'emails',
-		        	component: require('./components/admin/emails/main')
+		        	name: 'emails.view',
+		        	component: require('./components/admin/emails/main'),
 		        },
+		        {
+	    			path: 'emails/view/:id',
+	    			name: 'email.view',
+	    			component: require('./components/admin/emails/view')
+	    		}
 	        ]
 		},
 		{

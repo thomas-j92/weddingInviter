@@ -49,7 +49,9 @@ class EmailController extends Controller
      */
     public function show($id)
     {
-        //
+        $email = Email::find($id);
+
+        return response()->json($email);
     }
 
     /**

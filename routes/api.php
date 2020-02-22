@@ -29,3 +29,4 @@ Route::apiResource('invite', 'Api\InviteController', ['as' => 'api']);
 
 // Email
 Route::get('email/getAll/', 'Api\EmailController@getAll');
+Route::apiResource('email', 'Api\EmailController', ['as' => 'api']);
