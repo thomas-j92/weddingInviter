@@ -1,6 +1,7 @@
 <template>
 	<div id="emailViewer">
-		<b-card>
+		<b-card v-if="email">
+			<b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
 			<b-card-title>
 				{{ email.subject }}
 			</b-card-title>
@@ -25,6 +26,16 @@
 			return {
 				email: null,
 				isLoaded: false,
+				breadcrumbs: [
+					{
+						text: 'Emails',
+						to: { name: 'emails.view' }
+					},
+					{
+						text: 'Email',
+						to: { name: 'email.view' }
+					},
+				]
 			}
 		},
 		computed: {

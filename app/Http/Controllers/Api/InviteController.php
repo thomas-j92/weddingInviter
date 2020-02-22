@@ -186,6 +186,7 @@ class InviteController extends Controller
         $emailLog->subject          = $emailSubject;
         $emailLog->html             = $emailHtml;
         $emailLog->email_address    = $mainGuest->email;
+        $emailLog->invite_id        = $id;
         $emailLog->save();
 
         dd($emailHtml);
@@ -239,5 +240,17 @@ class InviteController extends Controller
             'success'   => $success,
             'message'   => $message
         ));
+    }
+
+    public function getEmails($invite_id) {
+
+        // get Invite
+        $invite     = Invite::find($invite_id);
+
+        // get Emails assigned to Invite
+        $emails     = $invite->emails()->get();
+
+        return response()->json($emails);
+
     }
 }

@@ -60,6 +60,26 @@
 				</b-row>
 			</b-card-body>
 		</b-card>
+
+		<b-card class="custom" no-body>
+			<b-card-header>
+				Emails
+			</b-card-header>
+
+			<b-card-body>
+				<div v-if="!emails.loading">
+					<b-table :items="emails.data" :fields="emails.fields" v-if="emails.data.length > 0">
+						<template v-slot:cell(viewBtn)="data">
+							<b-button :to="{name: 'email.view', params: {id: data.item.id}}">View</b-button>
+						</template>
+					</b-table>
+					<no-data text="No emails found." v-else></no-data>
+				</div>
+				<div v-else>
+					<loading></loading>
+				</div>
+			</b-card-body>
+		</b-card>
 	</section>
 </template>
 
@@ -72,6 +92,29 @@
 				main_guest: false,
 				additional_guests: false,
 				invite: false,
+				emails: {
+					loading: true,
+					data: false,
+					fields: [
+						{
+							key: 'subject',
+							label: 'Subject'
+						},
+						{
+							key: 'email_address',
+							label: 'Email'
+						},
+						{
+							key: 'created_at_uk',
+							label: 'Created At'
+						},
+						{
+							key: 'viewBtn',
+							label: ''
+						}
+					]
+				}, 
+				emailsLoading: true,
 			}
 		},
 		computed: {
@@ -115,6 +158,22 @@
 					 	}
 					 })
 			},
+			getEmails() {
+				const self = this;
+
+				self.emails.loading = true;
+
+				// get all emails assigned to Invite
+				axios.get(this.baseUrl+'/api/invite/getEmails/'+this.inviteId)
+					 .then((resp) => {
+
+					 	if(resp.data) {
+					 		self.emails.data = resp.data;
+					 	}
+
+					 	self.emails.loading = false
+					 });
+			},
 			sendInvite() {
 				const self = this;
 
@@ -125,7 +184,11 @@
 			}
 		},
 		mounted() {
+			// get invite details
 			this.getInvite();
+
+			// get emails 
+			this.getEmails();
 		}
 	}
 </script>

@@ -82293,6 +82293,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'admin.invite.view',
@@ -82301,7 +82321,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			inviteLoading: true,
 			main_guest: false,
 			additional_guests: false,
-			invite: false
+			invite: false,
+			emails: {
+				loading: true,
+				data: false,
+				fields: [{
+					key: 'subject',
+					label: 'Subject'
+				}, {
+					key: 'email_address',
+					label: 'Email'
+				}, {
+					key: 'created_at_uk',
+					label: 'Created At'
+				}, {
+					key: 'viewBtn',
+					label: ''
+				}]
+			},
+			emailsLoading: true
 		};
 	},
 
@@ -82345,6 +82383,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				}
 			});
 		},
+		getEmails: function getEmails() {
+			var self = this;
+
+			self.emails.loading = true;
+
+			// get all emails assigned to Invite
+			axios.get(this.baseUrl + '/api/invite/getEmails/' + this.inviteId).then(function (resp) {
+
+				if (resp.data) {
+					self.emails.data = resp.data;
+				}
+
+				self.emails.loading = false;
+			});
+		},
 		sendInvite: function sendInvite() {
 			var self = this;
 
@@ -82352,7 +82405,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	mounted: function mounted() {
+		// get invite details
 		this.getInvite();
+
+		// get emails 
+		this.getEmails();
 	}
 });
 
@@ -82488,6 +82545,60 @@ var render = function() {
             ],
             1
           )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "b-card",
+        { staticClass: "custom", attrs: { "no-body": "" } },
+        [
+          _c("b-card-header", [_vm._v("\n\t\t\tEmails\n\t\t")]),
+          _vm._v(" "),
+          _c("b-card-body", [
+            !_vm.emails.loading
+              ? _c(
+                  "div",
+                  [
+                    _vm.emails.data.length > 0
+                      ? _c("b-table", {
+                          attrs: {
+                            items: _vm.emails.data,
+                            fields: _vm.emails.fields
+                          },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "cell(viewBtn)",
+                                fn: function(data) {
+                                  return [
+                                    _c(
+                                      "b-button",
+                                      {
+                                        attrs: {
+                                          to: {
+                                            name: "email.view",
+                                            params: { id: data.item.id }
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("View")]
+                                    )
+                                  ]
+                                }
+                              }
+                            ],
+                            null,
+                            false,
+                            1423847520
+                          )
+                        })
+                      : _c("no-data", { attrs: { text: "No emails found." } })
+                  ],
+                  1
+                )
+              : _c("div", [_c("loading")], 1)
+          ])
         ],
         1
       )
@@ -82857,13 +82968,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'email.view',
 	data: function data() {
 		return {
 			email: null,
-			isLoaded: false
+			isLoaded: false,
+			breadcrumbs: [{
+				text: 'Emails',
+				to: { name: 'emails.view' }
+			}, {
+				text: 'Email',
+				to: { name: 'email.view' }
+			}]
 		};
 	},
 
@@ -82905,42 +83024,48 @@ var render = function() {
     "div",
     { attrs: { id: "emailViewer" } },
     [
-      _c(
-        "b-card",
-        [
-          _c("b-card-title", [
-            _vm._v("\n\t\t\t" + _vm._s(_vm.email.subject) + "\n\t\t")
-          ]),
-          _vm._v(" "),
-          _c(
-            "b-card-body",
+      _vm.email
+        ? _c(
+            "b-card",
             [
-              _vm.isLoaded
-                ? _c(
-                    "div",
-                    [
-                      _c(
-                        "b-row",
+              _c("b-breadcrumb", { attrs: { items: _vm.breadcrumbs } }),
+              _vm._v(" "),
+              _c("b-card-title", [
+                _vm._v("\n\t\t\t" + _vm._s(_vm.email.subject) + "\n\t\t")
+              ]),
+              _vm._v(" "),
+              _c(
+                "b-card-body",
+                [
+                  _vm.isLoaded
+                    ? _c(
+                        "div",
                         [
-                          _c("b-col", [
-                            _c("div", {
-                              attrs: { id: "viewer" },
-                              domProps: { innerHTML: _vm._s(_vm.email.html) }
-                            })
-                          ])
+                          _c(
+                            "b-row",
+                            [
+                              _c("b-col", [
+                                _c("div", {
+                                  attrs: { id: "viewer" },
+                                  domProps: {
+                                    innerHTML: _vm._s(_vm.email.html)
+                                  }
+                                })
+                              ])
+                            ],
+                            1
+                          )
                         ],
                         1
                       )
-                    ],
-                    1
-                  )
-                : _c("no-data")
+                    : _c("no-data")
+                ],
+                1
+              )
             ],
             1
           )
-        ],
-        1
-      )
+        : _vm._e()
     ],
     1
   )

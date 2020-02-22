@@ -25,6 +25,10 @@ class Invite extends Model
     	return $this->hasMany('App\PlusOne', 'invite_id', 'id');
     }
 
+    public function emails() {
+        return $this->hasMany('App\Email', 'invite_id', 'id');
+    }
+
     /**
      * Get main guest assigned to an Invite.
      */

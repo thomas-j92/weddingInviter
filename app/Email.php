@@ -12,4 +12,8 @@ class Email extends Model
     {
         return date('d/m/Y H:i:s', strtotime($this->created_at));
     }
+
+    public function invite() {
+    	return $this->belongsTo('App\Invite', 'invite_id');
+    }
 }
