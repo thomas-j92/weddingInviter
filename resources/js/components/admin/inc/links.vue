@@ -53,8 +53,12 @@
                                 title: 'All',
                             },
                             {
-                                href: '/admin/guests/attending',
-                                title: 'Attending',
+                                href: '/admin/guests/day_guests',
+                                title: 'Day Guests',
+                            },
+                            {
+                                href: '/admin/guests/night_guests',
+                                title: 'Night Guests',
                             },
                             {
                                 href: '/admin/guests/not_attending',

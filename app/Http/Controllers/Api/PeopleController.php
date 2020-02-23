@@ -92,16 +92,23 @@ class PeopleController extends Controller
         $people = People::active();
 
         switch($filter) {
-            case 'attending':
+            case 'day_guests':
                 $people = People::whereHas('invite', function($query) {
                     $query->where('rsvp', '1')
-                          ->where('attending', '1');
+                          ->where('attending_day', '1');
+                })->active();
+            break;
+            case 'night_guests':
+                $people = People::whereHas('invite', function($query) {
+                    $query->where('rsvp', '1')
+                          ->where('attending_night', '1');
                 })->active();
             break;
             case 'not_attending':
                 $people = People::whereHas('invite', function($query) {
                     $query->where('rsvp', '1')
-                          ->where('attending', '0');
+                          ->where('attending_day', '0')
+                          ->where('attending_night', '0');
                 })->active();
             break;
             case 'awaiting_reply':
