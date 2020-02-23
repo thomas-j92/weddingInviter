@@ -57,7 +57,7 @@
 			<b-card-header>
 				Additional Guests
 
-				<b-button class="float-right expand">Add</b-button>
+				<b-button class="float-right expand" v-b-modal.add-additional-guests>Add</b-button>
 			</b-card-header>
 
 			<b-card-body>
@@ -105,6 +105,35 @@
 				</div>
 			</b-card-body>
 		</b-card>
+
+		<b-modal id="add-additional-guests" title="Add Additional Guests" ok-title="Submit" @ok="updateAdditionalGuests">
+			<div v-if="!all_additional_guests.loading">
+				<b-table 
+					:items="all_additional_guests.data"
+					:fields="all_additional_guests.fields"
+					id="additionalGuests_tbl"
+					:per-page="all_additional_guests.perPage"
+						:current-page="all_additional_guests.currentPage"
+				>
+					<template v-slot:cell(check)="data">
+						<b-form-checkbox v-model="all_additional_guests.selected[data.item.id]" :value="data.item.id" switch>
+					      
+					    </b-form-checkbox>
+					</template>
+				</b-table>
+
+				<b-pagination
+			      v-model="all_additional_guests.currentPage"
+			      :total-rows="all_additional_guests.data.length"
+			      :per-page="all_additional_guests.perPage"
+			      aria-controls="additionalGuests_tbl"
+			      align="center"
+			    ></b-pagination>
+			</div>
+			<div v-else>
+				<loading></loading>
+			</div>
+		</b-modal>
 	</section>
 </template>
 
@@ -116,6 +145,29 @@
 				inviteLoading: true,
 				main_guest: false,
 				additional_guests: false,
+				all_additional_guests: {
+					loading: true,
+					data: false,
+					perPage: 5,
+        			currentPage: 1,
+        			fields: [
+						{
+							key: 'check',
+							label: ''
+						},
+						{
+							key: 'name',
+							label: 'Name',
+							sortable: true
+						},
+						{
+							key: 'email',
+							label: 'Email',
+							sortable: true
+						},
+			        ],
+			        selected: [],
+				},
 				invite: false,
 				emails: {
 					loading: true,
@@ -206,6 +258,62 @@
 					 .then((resp) => {
 
 					 })
+			},
+			getAdditional: function() {
+				const self = this;
+
+				// start loading
+				this.all_additional_guests.loading = true;
+
+				console.log('updated');
+
+				// get list of additional guests that can be assigned to invite
+				axios.get(this.baseUrl+"/api/people/showAll/not_invited")
+					 .then((resp) => {
+					 	if(resp.data) {
+						 	// filter all not invited guests
+						 	let additionalArr = [];
+						 	$.each(resp.data, function(i, guest) {
+						 		if(guest.id !== self.main_guest.id) {
+						 			// add full name
+						 			guest.name = guest.first_name + " " + guest.last_name;
+
+						 			// add column for radio button
+						 			guest.check = '';
+
+						 			// add to array
+						 			additionalArr.push(guest);
+						 		}
+						 	});
+						 	self.all_additional_guests.data = additionalArr;
+					 	}
+
+					 	// stop loading
+					 	self.all_additional_guests.loading = false;
+					 });
+			},
+			updateAdditionalGuests() {
+
+				const self = this;
+
+				// add additional guests
+				let additionalGuestArr = {
+					inviteId: self.invite.id,
+					guests: self.all_additional_guests.selected
+				}
+				axios.put(this.baseUrl+"/api/invite/addAdditionalGuests", additionalGuestArr)
+					 .then((resp) => {
+					 	if(resp.data) {
+					 		if(resp.data.numAdded > 0) {
+					 			self.toast('Additional guest(s) added', resp.data.numAdded + ' record(s) added');
+					 		} else {
+					 			self.toast('Error', 'No data added', 'danger');
+					 		}
+					 		
+					 		// refresh additional data
+					 		self.getInvite();
+					 	}
+					 })
 			}
 		},
 		mounted() {
@@ -214,6 +322,9 @@
 
 			// get emails 
 			this.getEmails();
+
+			// get all available additional guests
+			this.getAdditional();
 		}
 	}
 </script>

@@ -242,6 +242,10 @@ class InviteController extends Controller
         ));
     }
 
+    /**
+     * Get all emails assigned to an Invite.
+     * @param  [Integer] $invite_id Invite ID.
+     */
     public function getEmails($invite_id) {
 
         // get Invite
@@ -251,6 +255,31 @@ class InviteController extends Controller
         $emails     = $invite->emails()->get();
 
         return response()->json($emails);
+
+    }
+
+    /**
+     * Add additional guests to Invite.
+     */
+    public function addAdditionalGuests(Request $request) {
+
+        $numAdded = 0;
+        foreach($request->guests as $guestId) {
+            if(!is_null($guestId)) {
+                InviteGuests::create([
+                    'invite_id' => $request->inviteId,
+                    'person_id' => $guestId,
+                    'type'      => 'additional'
+                ]);
+
+                $numAdded++;
+            }
+
+        }
+
+        return response()->json([
+            'numAdded' => $numAdded
+        ]);
 
     }
 }

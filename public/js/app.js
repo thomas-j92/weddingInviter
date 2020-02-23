@@ -82341,6 +82341,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'admin.invite.view',
@@ -82349,6 +82378,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			inviteLoading: true,
 			main_guest: false,
 			additional_guests: false,
+			all_additional_guests: {
+				loading: true,
+				data: false,
+				perPage: 5,
+				currentPage: 1,
+				fields: [{
+					key: 'check',
+					label: ''
+				}, {
+					key: 'name',
+					label: 'Name',
+					sortable: true
+				}, {
+					key: 'email',
+					label: 'Email',
+					sortable: true
+				}],
+				selected: []
+			},
 			invite: false,
 			emails: {
 				loading: true,
@@ -82430,6 +82478,61 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var self = this;
 
 			axios.get("/api/invite/send/" + this.inviteId).then(function (resp) {});
+		},
+
+		getAdditional: function getAdditional() {
+			var self = this;
+
+			// start loading
+			this.all_additional_guests.loading = true;
+
+			console.log('updated');
+
+			// get list of additional guests that can be assigned to invite
+			axios.get(this.baseUrl + "/api/people/showAll/not_invited").then(function (resp) {
+				if (resp.data) {
+					// filter all not invited guests
+					var additionalArr = [];
+					$.each(resp.data, function (i, guest) {
+						if (guest.id !== self.main_guest.id) {
+							// add full name
+							guest.name = guest.first_name + " " + guest.last_name;
+
+							// add column for radio button
+							guest.check = '';
+
+							// add to array
+							additionalArr.push(guest);
+						}
+					});
+					self.all_additional_guests.data = additionalArr;
+				}
+
+				// stop loading
+				self.all_additional_guests.loading = false;
+			});
+		},
+		updateAdditionalGuests: function updateAdditionalGuests() {
+
+			var self = this;
+
+			// add additional guests
+			var additionalGuestArr = {
+				inviteId: self.invite.id,
+				guests: self.all_additional_guests.selected
+			};
+			axios.put(this.baseUrl + "/api/invite/addAdditionalGuests", additionalGuestArr).then(function (resp) {
+				if (resp.data) {
+					if (resp.data.numAdded > 0) {
+						self.toast('Additional guest(s) added', resp.data.numAdded + ' record(s) added');
+					} else {
+						self.toast('Error', 'No data added', 'danger');
+					}
+
+					// refresh additional data
+					self.getInvite();
+				}
+			});
 		}
 	},
 	mounted: function mounted() {
@@ -82438,6 +82541,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 		// get emails 
 		this.getEmails();
+
+		// get all available additional guests
+		this.getAdditional();
 	}
 });
 
@@ -82596,9 +82702,20 @@ var render = function() {
             "b-card-header",
             [
               _vm._v("\n\t\t\tAdditional Guests\n\n\t\t\t"),
-              _c("b-button", { staticClass: "float-right expand" }, [
-                _vm._v("Add")
-              ])
+              _c(
+                "b-button",
+                {
+                  directives: [
+                    {
+                      name: "b-modal",
+                      rawName: "v-b-modal.add-additional-guests",
+                      modifiers: { "add-additional-guests": true }
+                    }
+                  ],
+                  staticClass: "float-right expand"
+                },
+                [_vm._v("Add")]
+              )
             ],
             1
           ),
@@ -82713,6 +82830,85 @@ var render = function() {
           ])
         ],
         1
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: {
+            id: "add-additional-guests",
+            title: "Add Additional Guests",
+            "ok-title": "Submit"
+          },
+          on: { ok: _vm.updateAdditionalGuests }
+        },
+        [
+          !_vm.all_additional_guests.loading
+            ? _c(
+                "div",
+                [
+                  _c("b-table", {
+                    attrs: {
+                      items: _vm.all_additional_guests.data,
+                      fields: _vm.all_additional_guests.fields,
+                      id: "additionalGuests_tbl",
+                      "per-page": _vm.all_additional_guests.perPage,
+                      "current-page": _vm.all_additional_guests.currentPage
+                    },
+                    scopedSlots: _vm._u(
+                      [
+                        {
+                          key: "cell(check)",
+                          fn: function(data) {
+                            return [
+                              _c("b-form-checkbox", {
+                                attrs: { value: data.item.id, switch: "" },
+                                model: {
+                                  value:
+                                    _vm.all_additional_guests.selected[
+                                      data.item.id
+                                    ],
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.all_additional_guests.selected,
+                                      data.item.id,
+                                      $$v
+                                    )
+                                  },
+                                  expression:
+                                    "all_additional_guests.selected[data.item.id]"
+                                }
+                              })
+                            ]
+                          }
+                        }
+                      ],
+                      null,
+                      false,
+                      641702235
+                    )
+                  }),
+                  _vm._v(" "),
+                  _c("b-pagination", {
+                    attrs: {
+                      "total-rows": _vm.all_additional_guests.data.length,
+                      "per-page": _vm.all_additional_guests.perPage,
+                      "aria-controls": "additionalGuests_tbl",
+                      align: "center"
+                    },
+                    model: {
+                      value: _vm.all_additional_guests.currentPage,
+                      callback: function($$v) {
+                        _vm.$set(_vm.all_additional_guests, "currentPage", $$v)
+                      },
+                      expression: "all_additional_guests.currentPage"
+                    }
+                  })
+                ],
+                1
+              )
+            : _c("div", [_c("loading")], 1)
+        ]
       )
     ],
     1
