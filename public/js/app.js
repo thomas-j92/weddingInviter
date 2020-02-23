@@ -82316,6 +82316,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'admin.invite.view',
@@ -82466,6 +82491,90 @@ var render = function() {
                           _c("h5", [_vm._v("Type")]),
                           _vm._v(" "),
                           _c("p", [_vm._v(_vm._s(_vm.inviteType))])
+                        ])
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-row",
+                      [
+                        _c("b-col", { attrs: { sm: "3" } }, [
+                          _c("h5", [_vm._v("Status")]),
+                          _vm._v(" "),
+                          _c(
+                            "h4",
+                            [
+                              _vm.main_guest.rsvp == 1
+                                ? _c(
+                                    "b-badge",
+                                    { attrs: { variant: "success" } },
+                                    [_vm._v("RSVP'ed")]
+                                  )
+                                : _c(
+                                    "b-badge",
+                                    { attrs: { variant: "warning" } },
+                                    [_vm._v("Awaiting Reply")]
+                                  )
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("b-col", { attrs: { sm: "5" } }, [
+                          _c("h5", [_vm._v("Attending Day")]),
+                          _vm._v(" "),
+                          _c(
+                            "h4",
+                            [
+                              _vm.main_guest.rsvp == 0
+                                ? _c(
+                                    "b-badge",
+                                    { attrs: { variant: "secondary" } },
+                                    [_vm._v("N/A")]
+                                  )
+                                : _vm.main_guest.attending_day == 1
+                                ? _c(
+                                    "b-badge",
+                                    { attrs: { variant: "success" } },
+                                    [_vm._v("Yes")]
+                                  )
+                                : _c(
+                                    "b-badge",
+                                    { attrs: { variant: "danger" } },
+                                    [_vm._v("No")]
+                                  )
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("b-col", { attrs: { sm: "4" } }, [
+                          _c("h5", [_vm._v("Attending Night")]),
+                          _vm._v(" "),
+                          _c(
+                            "h4",
+                            [
+                              _vm.main_guest.rsvp == 0
+                                ? _c(
+                                    "b-badge",
+                                    { attrs: { variant: "secondary" } },
+                                    [_vm._v("N/A")]
+                                  )
+                                : _vm.main_guest.attending_night == 1
+                                ? _c(
+                                    "b-badge",
+                                    { attrs: { variant: "success" } },
+                                    [_vm._v("Yes")]
+                                  )
+                                : _c(
+                                    "b-badge",
+                                    { attrs: { variant: "danger" } },
+                                    [_vm._v("No")]
+                                  )
+                            ],
+                            1
+                          )
                         ])
                       ],
                       1

@@ -21,6 +21,31 @@
 							<p>{{ inviteType }}</p>
 						</b-col>
 					</b-row>
+					<b-row>
+						<b-col sm="3">
+							<h5>Status</h5>
+							<h4>
+								<b-badge variant="success" v-if="main_guest.rsvp == 1">RSVP'ed</b-badge>
+								<b-badge variant="warning" v-else>Awaiting Reply</b-badge>
+							</h4>
+						</b-col>
+						<b-col sm="5">
+							<h5>Attending Day</h5>
+							<h4>
+								<b-badge variant="secondary" v-if="main_guest.rsvp == 0">N/A</b-badge>
+								<b-badge variant="success" v-else-if="main_guest.attending_day == 1">Yes</b-badge>
+								<b-badge variant="danger" v-else="main_guest.attending_day == 0">No</b-badge>
+							</h4>
+						</b-col>
+						<b-col sm="4">
+							<h5>Attending Night</h5>
+							<h4>
+								<b-badge variant="secondary" v-if="main_guest.rsvp == 0">N/A</b-badge>
+								<b-badge variant="success" v-else-if="main_guest.attending_night == 1">Yes</b-badge>
+								<b-badge variant="danger" v-else="main_guest.attending_night == 0">No</b-badge>
+							</h4>
+						</b-col>
+					</b-row>
 				</div>
 				<div v-else>
 					<loading></loading>
