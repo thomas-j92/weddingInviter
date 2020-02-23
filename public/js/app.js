@@ -82370,6 +82370,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'admin.invite.view',
@@ -82377,7 +82400,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		return {
 			inviteLoading: true,
 			main_guest: false,
-			additional_guests: false,
+			additional_guests: {
+				data: false,
+				fields: [{
+					key: 'guest_name',
+					label: 'Name'
+				}, {
+					key: 'guest_email',
+					label: 'Email'
+				}, {
+					key: 'attending_day',
+					label: 'Day'
+				}, {
+					key: 'attending_night',
+					label: 'Night'
+				}, {
+					key: 'btns',
+					label: ''
+				}]
+			},
 			all_additional_guests: {
 				loading: true,
 				data: false,
@@ -82449,7 +82490,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					self.main_guest = resp.data.main_guest;
 
 					// store additional guests assigned to Invite
-					self.additional_guests = resp.data.additional_guests;
+					self.additional_guests.data = resp.data.additional_guests;
 
 					// store Invite details
 					self.invite = resp.data;
@@ -82725,9 +82766,111 @@ var render = function() {
               ? _c(
                   "div",
                   [
-                    _vm.additional_guests.length > 0
+                    _vm.additional_guests.data.length > 0
                       ? _c("b-table", {
-                          attrs: { items: _vm.additional_guests }
+                          attrs: {
+                            items: _vm.additional_guests.data,
+                            fields: _vm.additional_guests.fields
+                          },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "cell(guest_name)",
+                                fn: function(data) {
+                                  return [
+                                    _vm._v(
+                                      "\n\t\t\t\t\t\t" +
+                                        _vm._s(data.item.person.first_name) +
+                                        " " +
+                                        _vm._s(data.item.person.last_name) +
+                                        "\n\t\t\t\t\t"
+                                    )
+                                  ]
+                                }
+                              },
+                              {
+                                key: "cell(guest_email)",
+                                fn: function(data) {
+                                  return [
+                                    _vm._v(
+                                      "\n\t\t\t\t\t\t" +
+                                        _vm._s(data.item.person.email) +
+                                        "\n\t\t\t\t\t"
+                                    )
+                                  ]
+                                }
+                              },
+                              {
+                                key: "cell(attending_day)",
+                                fn: function(data) {
+                                  return [
+                                    _c(
+                                      "h4",
+                                      [
+                                        data.item.person.invite.rsvp == 0
+                                          ? _c(
+                                              "b-badge",
+                                              {
+                                                attrs: { variant: "secondary" }
+                                              },
+                                              [_vm._v("N/A")]
+                                            )
+                                          : data.item.person.invite
+                                              .attending_day == 1
+                                          ? _c(
+                                              "b-badge",
+                                              { attrs: { variant: "success" } },
+                                              [_vm._v("Yes")]
+                                            )
+                                          : _c(
+                                              "b-badge",
+                                              { attrs: { variant: "danger" } },
+                                              [_vm._v("No")]
+                                            )
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                }
+                              },
+                              {
+                                key: "cell(attending_night)",
+                                fn: function(data) {
+                                  return [
+                                    _c(
+                                      "h4",
+                                      [
+                                        data.item.person.invite.rsvp == 0
+                                          ? _c(
+                                              "b-badge",
+                                              {
+                                                attrs: { variant: "secondary" }
+                                              },
+                                              [_vm._v("N/A")]
+                                            )
+                                          : data.item.person.invite
+                                              .attending_night == 1
+                                          ? _c(
+                                              "b-badge",
+                                              { attrs: { variant: "success" } },
+                                              [_vm._v("Yes")]
+                                            )
+                                          : _c(
+                                              "b-badge",
+                                              { attrs: { variant: "danger" } },
+                                              [_vm._v("No")]
+                                            )
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                }
+                              }
+                            ],
+                            null,
+                            false,
+                            684713421
+                          )
                         })
                       : _c("no-data", {
                           attrs: { text: "No additional guests found." }

@@ -62,7 +62,30 @@
 
 			<b-card-body>
 				<div v-if="!inviteLoading">
-					<b-table :items="additional_guests" v-if="additional_guests.length > 0">
+					<b-table :items="additional_guests.data" :fields="additional_guests.fields" v-if="additional_guests.data.length > 0">
+						<template v-slot:cell(guest_name)="data">
+							{{ data.item.person.first_name }} {{ data.item.person.last_name }}
+						</template>
+
+						<template v-slot:cell(guest_email)="data">
+							{{ data.item.person.email }}
+						</template>
+
+						<template v-slot:cell(attending_day)="data">
+							<h4>
+								<b-badge variant="secondary" v-if="data.item.person.invite.rsvp == 0">N/A</b-badge>
+								<b-badge variant="success" v-else-if="data.item.person.invite.attending_day == 1">Yes</b-badge>
+								<b-badge variant="danger" v-else="data.item.person.invite.attending_day == 0">No</b-badge>
+							</h4>
+						</template>
+
+						<template v-slot:cell(attending_night)="data">
+							<h4>
+								<b-badge variant="secondary" v-if="data.item.person.invite.rsvp == 0">N/A</b-badge>
+								<b-badge variant="success" v-else-if="data.item.person.invite.attending_night == 1">Yes</b-badge>
+								<b-badge variant="danger" v-else="data.item.person.invite.attending_night == 0">No</b-badge>
+							</h4>
+						</template>
 					</b-table>
 					<no-data text="No additional guests found." v-else></no-data>
 				</div>
@@ -144,7 +167,31 @@
 			return {
 				inviteLoading: true,
 				main_guest: false,
-				additional_guests: false,
+				additional_guests: {
+					data: false,
+					fields: [
+						{
+							key: 'guest_name',
+							label: 'Name'
+						},
+						{
+							key: 'guest_email',
+							label: 'Email'
+						},
+						{
+							key: 'attending_day',
+							label: 'Day'
+						},
+						{
+							key: 'attending_night',
+							label: 'Night'
+						},
+						{
+							key: 'btns',
+							label: ''
+						}
+					]
+				},
 				all_additional_guests: {
 					loading: true,
 					data: false,
@@ -225,7 +272,7 @@
 					 		self.main_guest = resp.data.main_guest;
 
 					 		// store additional guests assigned to Invite
-					 		self.additional_guests = resp.data.additional_guests;
+					 		self.additional_guests.data = resp.data.additional_guests;
 
 					 		// store Invite details
 					 		self.invite = resp.data;
