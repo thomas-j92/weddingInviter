@@ -282,4 +282,20 @@ class InviteController extends Controller
         ]);
 
     }
+
+    /**
+     * Delete additional guests.
+     * @param [Integer] $guest_id ID.
+     */
+    public function deleteAdditionalGuest($guest_id) {
+
+        // delete additional guest
+        $guest = InviteGuests::find($guest_id);
+        $guest->delete();
+
+        return response()->json([
+            'success' => true
+        ]);
+
+    }
 }

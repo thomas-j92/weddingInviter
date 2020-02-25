@@ -82393,6 +82393,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'admin.invite.view',
@@ -82572,6 +82576,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 					// refresh additional data
 					self.getInvite();
+				}
+			});
+		},
+		deleteAdditionalGuest: function deleteAdditionalGuest(id) {
+
+			console.log(id);
+
+			var self = this;
+
+			axios.delete(this.baseUrl + "/api/invite/deleteAdditionalGuest/" + id).then(function (resp) {
+
+				if (resp.data) {
+					if (resp.data.success) {
+						self.toast('Removed', 'Additional guest has been deleted', 'danger');
+
+						// refresh additional data
+						self.getInvite();
+					}
 				}
 			});
 		}
@@ -82865,11 +82887,35 @@ var render = function() {
                                     )
                                   ]
                                 }
+                              },
+                              {
+                                key: "cell(btns)",
+                                fn: function(data) {
+                                  return [
+                                    _c(
+                                      "b-button",
+                                      {
+                                        attrs: {
+                                          variant: "danger",
+                                          size: "sm"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.deleteAdditionalGuest(
+                                              data.item.id
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fas fa-trash" })]
+                                    )
+                                  ]
+                                }
                               }
                             ],
                             null,
                             false,
-                            684713421
+                            3225064265
                           )
                         })
                       : _c("no-data", {

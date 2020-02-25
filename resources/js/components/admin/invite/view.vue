@@ -86,6 +86,10 @@
 								<b-badge variant="danger" v-else="data.item.person.invite.attending_night == 0">No</b-badge>
 							</h4>
 						</template>
+
+						<template v-slot:cell(btns)="data">
+							<b-button variant="danger" size="sm" @click="deleteAdditionalGuest(data.item.id)"><i class="fas fa-trash"></i></b-button>
+						</template>
 					</b-table>
 					<no-data text="No additional guests found." v-else></no-data>
 				</div>
@@ -361,6 +365,26 @@
 					 		self.getInvite();
 					 	}
 					 })
+			},
+			deleteAdditionalGuest(id) {
+
+				console.log(id);
+
+				const self = this;
+
+				axios.delete(this.baseUrl+"/api/invite/deleteAdditionalGuest/"+id)
+					 .then((resp) => {
+
+					 	if(resp.data) {
+					 		if(resp.data.success) {
+					 			self.toast('Removed', 'Additional guest has been deleted', 'danger');
+
+					 			// refresh additional data
+					 			self.getInvite();
+					 		}
+					 	}
+					 });
+
 			}
 		},
 		mounted() {
