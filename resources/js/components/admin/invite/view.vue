@@ -101,6 +101,46 @@
 
 		<b-card class="custom" no-body>
 			<b-card-header>
+				Plus Ones
+
+				<b-button class="float-right expand" v-b-modal.add-plus-ones>Add</b-button>
+			</b-card-header>
+
+			<b-card-body>
+				<div v-if="!inviteLoading">
+					<b-table :items="plus_ones.data" :fields="plus_ones.fields" v-if="plus_ones.data.length > 0">
+						<template v-slot:cell(first_name)="data">
+							<div v-if="data.item.first_name !== null">
+								{{ data.item.first_name }}
+							</div>
+							<div v-else>
+								Not specified
+							</div>
+						</template>
+
+						<template v-slot:cell(last_name)="data">
+							<div v-if="data.item.last_name !== null">
+								{{ data.item.last_name }}
+							</div>
+							<div v-else>
+								Not specified
+							</div>
+						</template>
+
+						<template v-slot:cell(btns)="data">
+							<b-button variant="danger" size="sm" @click="deleteAdditionalGuest(data.item.id)"><i class="fas fa-trash"></i></b-button>
+						</template>
+					</b-table>
+					<no-data text="No additional guests found." v-else></no-data>
+				</div>
+				<div v-else>
+					<loading></loading>
+				</div>
+			</b-card-body>
+		</b-card>
+
+		<b-card class="custom" no-body>
+			<b-card-header>
 				Functions
 			</b-card-header>
 
@@ -160,6 +200,75 @@
 			<div v-else>
 				<loading></loading>
 			</div>
+		</b-modal>
+
+		<b-modal id="add-plus-ones" title="Add Plus One" ok-title="Submit" @ok="addPlusOne">
+			<b-row>
+				<b-col>
+					<b-form-group
+					id="input-group-1"
+					label="First name:"
+					label-for="plus_one_first_name"
+
+					>
+						<b-form-input
+						  id="plus_one_first_name"
+						  v-model="plus_ones.form.first_name"
+						  type="text"
+						  required
+						  placeholder="First name"
+						></b-form-input>
+					</b-form-group>
+				</b-col>
+				<b-col>
+					<b-form-group
+					id="input-group-2"
+					label="Last name:"
+					label-for="plus_one_last_name"
+
+					>
+						<b-form-input
+						id="plus_one_last_name"
+						v-model="plus_ones.form.last_name"
+						type="text"
+						required
+						placeholder="Last name"
+						></b-form-input>
+					</b-form-group>
+				</b-col>
+			</b-row>
+			<b-row>
+				<b-col>
+				     <b-form-group label="Dietary requirements">
+				      <b-form-radio-group
+				        id="btn-radios-1"
+				        v-model="plus_ones.form.dietary_requirements"
+				        :options="dietary_requirements"
+				        buttons
+				        button-variant="outline-primary"
+				        name="radios-btn-default"
+				      ></b-form-radio-group>
+				    </b-form-group>
+				</b-col>
+			</b-row>
+			<b-row v-if="plus_ones.form.dietary_requirements == 'other'">
+				<b-col>
+					<b-form-group
+					id="input-group-3"
+					label="Details:"
+					label-for="plus_one_details"
+
+					>
+					<b-form-textarea
+				      id="textarea"
+				      v-model="plus_ones.form.details"
+				      placeholder="Dietary requirements"
+				      rows="3"
+				      max-rows="6"
+				    ></b-form-textarea>
+					</b-form-group>
+				</b-col>
+			</b-row>
 		</b-modal>
 	</section>
 </template>
@@ -243,6 +352,31 @@
 					]
 				}, 
 				emailsLoading: true,
+				dietary_requirements: [
+					'none',
+					'vegan',
+					'vegetarian',
+					'other'
+				],
+				plus_ones: {
+					form: {
+						first_name: null,
+						last_name: null,
+						dietary_requirements: 'none',
+						details: null,
+					},
+					data: false,
+					fields: [
+						{
+							key: 'first_name',
+							label: 'First name'
+						},
+						{
+							key: 'last_name',
+							label: 'Last name'
+						}
+					]
+				}
 			}
 		},
 		computed: {
@@ -272,11 +406,16 @@
 				axios.get("/api/invite/"+this.inviteId)
 					 .then((resp) => {
 					 	if(resp.data) {
+
+					 		console.log(resp.data);
 					 		// store main person assigned to Invite
 					 		self.main_guest = resp.data.main_guest;
 
 					 		// store additional guests assigned to Invite
 					 		self.additional_guests.data = resp.data.additional_guests;
+
+					 		// store Plus One details
+					 		self.plus_ones.data = resp.data.plus_ones;
 
 					 		// store Invite details
 					 		self.invite = resp.data;
@@ -315,8 +454,6 @@
 
 				// start loading
 				this.all_additional_guests.loading = true;
-
-				console.log('updated');
 
 				// get list of additional guests that can be assigned to invite
 				axios.get(this.baseUrl+"/api/people/showAll/not_invited")
@@ -368,8 +505,6 @@
 			},
 			deleteAdditionalGuest(id) {
 
-				console.log(id);
-
 				const self = this;
 
 				axios.delete(this.baseUrl+"/api/invite/deleteAdditionalGuest/"+id)
@@ -384,7 +519,30 @@
 					 		}
 					 	}
 					 });
+			},
+			addPlusOne() {
 
+				const self = this;
+
+				// structure data that will be sent via ajax
+				let plusOneData = {
+					data: self.plus_ones.form,
+					inviteId: this.inviteId
+				};	
+
+				axios.post(this.baseUrl+"/api/invite/addPlusOne", plusOneData)
+					 .then((resp) => {
+
+					 	if(resp.data) {
+					 		if(resp.data.success) {
+					 			self.toast('Added', 'Plus one added to Invite', 'danger');
+
+					 			// refresh additional data
+					 			self.getInvite();
+					 		}
+					 	}
+
+					 })
 			}
 		},
 		mounted() {

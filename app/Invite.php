@@ -14,7 +14,7 @@ class Invite extends Model
 
 	protected $appends 	= [
 		'main_guest',
-		'additional_guests',
+		'additional_guests'
 	];
 	
     public function guests() {

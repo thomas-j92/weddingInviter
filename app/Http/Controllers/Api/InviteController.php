@@ -127,7 +127,8 @@ class InviteController extends Controller
      */
     public function show($id)
     {
-        $invite = Invite::find($id);
+        $invite = Invite::with(['plus_ones'])
+                        ->find($id);
 
         return response()->json($invite);
     }
@@ -296,6 +297,30 @@ class InviteController extends Controller
         return response()->json([
             'success' => true
         ]);
+
+    }
+
+    /**
+     * Add plus one to Invite.
+     */
+    public function addPlusOne(Request $request) {
+
+        // get Invite
+        $invite = Invite::find($request['inviteId']);
+
+        // add PlusOne
+        $invite->plus_ones()->create([
+            'first_name'                => $request['data']['first_name'],
+            'last_name'                 => $request['data']['last_name'],
+            'vegetarian'                => ($request['data']['dietary_requirements'] == 'vegetarian') ? true : false,
+            'vegan'                     => ($request['data']['dietary_requirements'] == 'vegan') ? true : false,
+            'dietary_requirements'      => $request['data']['details'],
+        ]);
+
+        return response()->json([
+            'success' => true
+        ]);
+
 
     }
 }

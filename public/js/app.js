@@ -82397,6 +82397,115 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'admin.invite.view',
@@ -82460,7 +82569,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					label: ''
 				}]
 			},
-			emailsLoading: true
+			emailsLoading: true,
+			dietary_requirements: ['none', 'vegan', 'vegetarian', 'other'],
+			plus_ones: {
+				form: {
+					first_name: null,
+					last_name: null,
+					dietary_requirements: 'none',
+					details: null
+				},
+				data: false,
+				fields: [{
+					key: 'first_name',
+					label: 'First name'
+				}, {
+					key: 'last_name',
+					label: 'Last name'
+				}]
+			}
 		};
 	},
 
@@ -82490,11 +82616,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			axios.get("/api/invite/" + this.inviteId).then(function (resp) {
 				if (resp.data) {
+
+					console.log(resp.data);
 					// store main person assigned to Invite
 					self.main_guest = resp.data.main_guest;
 
 					// store additional guests assigned to Invite
 					self.additional_guests.data = resp.data.additional_guests;
+
+					// store Plus One details
+					self.plus_ones.data = resp.data.plus_ones;
 
 					// store Invite details
 					self.invite = resp.data;
@@ -82530,8 +82661,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			// start loading
 			this.all_additional_guests.loading = true;
-
-			console.log('updated');
 
 			// get list of additional guests that can be assigned to invite
 			axios.get(this.baseUrl + "/api/people/showAll/not_invited").then(function (resp) {
@@ -82581,8 +82710,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		deleteAdditionalGuest: function deleteAdditionalGuest(id) {
 
-			console.log(id);
-
 			var self = this;
 
 			axios.delete(this.baseUrl + "/api/invite/deleteAdditionalGuest/" + id).then(function (resp) {
@@ -82590,6 +82717,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				if (resp.data) {
 					if (resp.data.success) {
 						self.toast('Removed', 'Additional guest has been deleted', 'danger');
+
+						// refresh additional data
+						self.getInvite();
+					}
+				}
+			});
+		},
+		addPlusOne: function addPlusOne() {
+
+			var self = this;
+
+			// structure data that will be sent via ajax
+			var plusOneData = {
+				data: self.plus_ones.form,
+				inviteId: this.inviteId
+			};
+
+			axios.post(this.baseUrl + "/api/invite/addPlusOne", plusOneData).then(function (resp) {
+
+				if (resp.data) {
+					if (resp.data.success) {
+						self.toast('Added', 'Plus one added to Invite', 'danger');
 
 						// refresh additional data
 						self.getInvite();
@@ -82934,6 +83083,127 @@ var render = function() {
         "b-card",
         { staticClass: "custom", attrs: { "no-body": "" } },
         [
+          _c(
+            "b-card-header",
+            [
+              _vm._v("\n\t\t\tPlus Ones\n\n\t\t\t"),
+              _c(
+                "b-button",
+                {
+                  directives: [
+                    {
+                      name: "b-modal",
+                      rawName: "v-b-modal.add-plus-ones",
+                      modifiers: { "add-plus-ones": true }
+                    }
+                  ],
+                  staticClass: "float-right expand"
+                },
+                [_vm._v("Add")]
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("b-card-body", [
+            !_vm.inviteLoading
+              ? _c(
+                  "div",
+                  [
+                    _vm.plus_ones.data.length > 0
+                      ? _c("b-table", {
+                          attrs: {
+                            items: _vm.plus_ones.data,
+                            fields: _vm.plus_ones.fields
+                          },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "cell(first_name)",
+                                fn: function(data) {
+                                  return [
+                                    data.item.first_name !== null
+                                      ? _c("div", [
+                                          _vm._v(
+                                            "\n\t\t\t\t\t\t\t" +
+                                              _vm._s(data.item.first_name) +
+                                              "\n\t\t\t\t\t\t"
+                                          )
+                                        ])
+                                      : _c("div", [
+                                          _vm._v(
+                                            "\n\t\t\t\t\t\t\tNot specified\n\t\t\t\t\t\t"
+                                          )
+                                        ])
+                                  ]
+                                }
+                              },
+                              {
+                                key: "cell(last_name)",
+                                fn: function(data) {
+                                  return [
+                                    data.item.last_name !== null
+                                      ? _c("div", [
+                                          _vm._v(
+                                            "\n\t\t\t\t\t\t\t" +
+                                              _vm._s(data.item.last_name) +
+                                              "\n\t\t\t\t\t\t"
+                                          )
+                                        ])
+                                      : _c("div", [
+                                          _vm._v(
+                                            "\n\t\t\t\t\t\t\tNot specified\n\t\t\t\t\t\t"
+                                          )
+                                        ])
+                                  ]
+                                }
+                              },
+                              {
+                                key: "cell(btns)",
+                                fn: function(data) {
+                                  return [
+                                    _c(
+                                      "b-button",
+                                      {
+                                        attrs: {
+                                          variant: "danger",
+                                          size: "sm"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.deleteAdditionalGuest(
+                                              data.item.id
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fas fa-trash" })]
+                                    )
+                                  ]
+                                }
+                              }
+                            ],
+                            null,
+                            false,
+                            402536189
+                          )
+                        })
+                      : _c("no-data", {
+                          attrs: { text: "No additional guests found." }
+                        })
+                  ],
+                  1
+                )
+              : _c("div", [_c("loading")], 1)
+          ])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "b-card",
+        { staticClass: "custom", attrs: { "no-body": "" } },
+        [
           _c("b-card-header", [_vm._v("\n\t\t\tFunctions\n\t\t")]),
           _vm._v(" "),
           _c(
@@ -83098,6 +83368,179 @@ var render = function() {
               )
             : _c("div", [_c("loading")], 1)
         ]
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: {
+            id: "add-plus-ones",
+            title: "Add Plus One",
+            "ok-title": "Submit"
+          },
+          on: { ok: _vm.addPlusOne }
+        },
+        [
+          _c(
+            "b-row",
+            [
+              _c(
+                "b-col",
+                [
+                  _c(
+                    "b-form-group",
+                    {
+                      attrs: {
+                        id: "input-group-1",
+                        label: "First name:",
+                        "label-for": "plus_one_first_name"
+                      }
+                    },
+                    [
+                      _c("b-form-input", {
+                        attrs: {
+                          id: "plus_one_first_name",
+                          type: "text",
+                          required: "",
+                          placeholder: "First name"
+                        },
+                        model: {
+                          value: _vm.plus_ones.form.first_name,
+                          callback: function($$v) {
+                            _vm.$set(_vm.plus_ones.form, "first_name", $$v)
+                          },
+                          expression: "plus_ones.form.first_name"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-col",
+                [
+                  _c(
+                    "b-form-group",
+                    {
+                      attrs: {
+                        id: "input-group-2",
+                        label: "Last name:",
+                        "label-for": "plus_one_last_name"
+                      }
+                    },
+                    [
+                      _c("b-form-input", {
+                        attrs: {
+                          id: "plus_one_last_name",
+                          type: "text",
+                          required: "",
+                          placeholder: "Last name"
+                        },
+                        model: {
+                          value: _vm.plus_ones.form.last_name,
+                          callback: function($$v) {
+                            _vm.$set(_vm.plus_ones.form, "last_name", $$v)
+                          },
+                          expression: "plus_ones.form.last_name"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "b-row",
+            [
+              _c(
+                "b-col",
+                [
+                  _c(
+                    "b-form-group",
+                    { attrs: { label: "Dietary requirements" } },
+                    [
+                      _c("b-form-radio-group", {
+                        attrs: {
+                          id: "btn-radios-1",
+                          options: _vm.dietary_requirements,
+                          buttons: "",
+                          "button-variant": "outline-primary",
+                          name: "radios-btn-default"
+                        },
+                        model: {
+                          value: _vm.plus_ones.form.dietary_requirements,
+                          callback: function($$v) {
+                            _vm.$set(
+                              _vm.plus_ones.form,
+                              "dietary_requirements",
+                              $$v
+                            )
+                          },
+                          expression: "plus_ones.form.dietary_requirements"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _vm.plus_ones.form.dietary_requirements == "other"
+            ? _c(
+                "b-row",
+                [
+                  _c(
+                    "b-col",
+                    [
+                      _c(
+                        "b-form-group",
+                        {
+                          attrs: {
+                            id: "input-group-3",
+                            label: "Details:",
+                            "label-for": "plus_one_details"
+                          }
+                        },
+                        [
+                          _c("b-form-textarea", {
+                            attrs: {
+                              id: "textarea",
+                              placeholder: "Dietary requirements",
+                              rows: "3",
+                              "max-rows": "6"
+                            },
+                            model: {
+                              value: _vm.plus_ones.form.details,
+                              callback: function($$v) {
+                                _vm.$set(_vm.plus_ones.form, "details", $$v)
+                              },
+                              expression: "plus_ones.form.details"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            : _vm._e()
+        ],
+        1
       )
     ],
     1
