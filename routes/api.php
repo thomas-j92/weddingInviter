@@ -29,6 +29,7 @@ Route::post('invite/web/', 'Api\InviteController@webCreate');
 Route::put('invite/addAdditionalGuests/', 'Api\InviteController@addAdditionalGuests');
 Route::delete('invite/deleteAdditionalGuest/{id}', 'Api\InviteController@deleteAdditionalGuest');
 Route::post('invite/addPlusOne/', 'Api\InviteController@addPlusOne');
+Route::delete('invite/deletePlusOne/{id}', 'Api\InviteController@deletePlusOne');
 Route::apiResource('invite', 'Api\InviteController', ['as' => 'api']);
 
 // Email

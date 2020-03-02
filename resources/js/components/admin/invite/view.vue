@@ -128,10 +128,10 @@
 						</template>
 
 						<template v-slot:cell(btns)="data">
-							<b-button variant="danger" size="sm" @click="deleteAdditionalGuest(data.item.id)"><i class="fas fa-trash"></i></b-button>
+							<b-button variant="danger" size="sm" @click="deletePlusOne(data.item.id)"><i class="fas fa-trash"></i></b-button>
 						</template>
 					</b-table>
-					<no-data text="No additional guests found." v-else></no-data>
+					<no-data text="No plus ones found." v-else></no-data>
 				</div>
 				<div v-else>
 					<loading></loading>
@@ -374,6 +374,10 @@
 						{
 							key: 'last_name',
 							label: 'Last name'
+						},
+						{
+							key: 'btns',
+							label: ''
 						}
 					]
 				}
@@ -543,6 +547,23 @@
 					 	}
 
 					 })
+			},
+			deletePlusOne(id) {
+
+				const self = this;
+
+				axios.delete(this.baseUrl+"/api/invite/deletePlusOne/"+id)
+					 .then((resp) => {
+
+					 	if(resp.data) {
+					 		if(resp.data.success) {
+					 			self.toast('Removed', 'Plus one has been deleted', 'danger');
+
+					 			// refresh additional data
+					 			self.getInvite();
+					 		}
+					 	}
+					 });
 			}
 		},
 		mounted() {

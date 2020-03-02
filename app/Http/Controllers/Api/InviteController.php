@@ -321,6 +321,20 @@ class InviteController extends Controller
             'success' => true
         ]);
 
+    }
+
+    /**
+     * Delete plus one.
+     */
+    public function deletePlusOne($plus_one_id) {
+
+        // delete plus one
+        $plus_one = PlusOne::find($plus_one_id);
+        $plus_one->delete();
+
+        return response()->json([
+            'success' => true
+        ]);
 
     }
 }

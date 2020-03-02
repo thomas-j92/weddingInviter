@@ -82585,6 +82585,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				}, {
 					key: 'last_name',
 					label: 'Last name'
+				}, {
+					key: 'btns',
+					label: ''
 				}]
 			}
 		};
@@ -82739,6 +82742,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				if (resp.data) {
 					if (resp.data.success) {
 						self.toast('Added', 'Plus one added to Invite', 'danger');
+
+						// refresh additional data
+						self.getInvite();
+					}
+				}
+			});
+		},
+		deletePlusOne: function deletePlusOne(id) {
+
+			var self = this;
+
+			axios.delete(this.baseUrl + "/api/invite/deletePlusOne/" + id).then(function (resp) {
+
+				if (resp.data) {
+					if (resp.data.success) {
+						self.toast('Removed', 'Plus one has been deleted', 'danger');
 
 						// refresh additional data
 						self.getInvite();
@@ -83171,7 +83190,7 @@ var render = function() {
                                         },
                                         on: {
                                           click: function($event) {
-                                            return _vm.deleteAdditionalGuest(
+                                            return _vm.deletePlusOne(
                                               data.item.id
                                             )
                                           }
@@ -83185,11 +83204,11 @@ var render = function() {
                             ],
                             null,
                             false,
-                            402536189
+                            1728877354
                           )
                         })
                       : _c("no-data", {
-                          attrs: { text: "No additional guests found." }
+                          attrs: { text: "No plus ones found." }
                         })
                   ],
                   1
