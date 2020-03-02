@@ -450,7 +450,14 @@
 
 				axios.get("/api/invite/send/"+this.inviteId)
 					 .then((resp) => {
+					 	if(resp.data) {
+					 		if(resp.data.success) {
+					 			self.toast('Sent', 'Email has been sent to main guest');
 
+					 			// refresh additional data
+					 			self.getEmails();
+					 		}
+					 	}
 					 })
 			},
 			getAdditional: function() {

@@ -82656,7 +82656,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		sendInvite: function sendInvite() {
 			var self = this;
 
-			axios.get("/api/invite/send/" + this.inviteId).then(function (resp) {});
+			axios.get("/api/invite/send/" + this.inviteId).then(function (resp) {
+				if (resp.data) {
+					if (resp.data.success) {
+						self.toast('Sent', 'Email has been sent to main guest');
+
+						// refresh additional data
+						self.getEmails();
+					}
+				}
+			});
 		},
 
 		getAdditional: function getAdditional() {

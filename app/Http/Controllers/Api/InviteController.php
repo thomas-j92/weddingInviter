@@ -190,7 +190,10 @@ class InviteController extends Controller
         $emailLog->invite_id        = $id;
         $emailLog->save();
 
-        dd($emailHtml);
+        return response()->json([
+            'success' => true
+        ]);
+        
     }
 
     /**
