@@ -151,7 +151,7 @@ class InviteController extends Controller
     public function guestView($code) {
 
         $invite = \App\Invite::where('code', $code)
-                             ->with('guests.person')
+                             ->with(['guests.person', 'plus_ones'])
                              ->first();
 
         return view('invitation.main')->withInvite($invite);

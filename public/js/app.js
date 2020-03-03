@@ -84105,8 +84105,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__sections_inviteIntro_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__sections_inviteIntro_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__sections_rsvp_vue__ = __webpack_require__(330);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__sections_rsvp_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__sections_rsvp_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sections_confirm_vue__ = __webpack_require__(333);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sections_confirm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__sections_confirm_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sections_plusOne_vue__ = __webpack_require__(341);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sections_plusOne_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__sections_plusOne_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__sections_confirm_vue__ = __webpack_require__(333);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__sections_confirm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__sections_confirm_vue__);
 //
 //
 //
@@ -84141,6 +84143,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -84181,13 +84184,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		});
 
 		// add rsvp component for each guest
-		this.invite.guests.forEach(function (guest) {
+		// this.invite.guests.forEach(guest => {
+		// 	sectionNum++;
+
+		// 	this.components.push({
+		// 		component: rsvpSection,
+		// 		props: {
+		// 			'guest': guest,
+		// 			'sectionNum': sectionNum,
+		// 		}
+		// 	});
+		// });
+
+		// add plus one component for each guest
+		this.invite.plus_ones.forEach(function (plusOne) {
 			sectionNum++;
 
 			_this.components.push({
-				component: __WEBPACK_IMPORTED_MODULE_1__sections_rsvp_vue___default.a,
+				component: __WEBPACK_IMPORTED_MODULE_2__sections_plusOne_vue___default.a,
 				props: {
-					'guest': guest,
 					'sectionNum': sectionNum
 				}
 			});
@@ -84197,7 +84212,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 		// add confirmation component
 		this.components.push({
-			component: __WEBPACK_IMPORTED_MODULE_2__sections_confirm_vue___default.a,
+			component: __WEBPACK_IMPORTED_MODULE_3__sections_confirm_vue___default.a,
 			props: {
 				'formData': self.formData,
 				'sectionNum': sectionNum
@@ -85015,6 +85030,356 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 338 */,
+/* 339 */,
+/* 340 */,
+/* 341 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(12)
+/* script */
+var __vue_script__ = __webpack_require__(342)
+/* template */
+var __vue_template__ = __webpack_require__(343)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/invitation/sections/plusOne.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2e1aa7c6", Component.options)
+  } else {
+    hotAPI.reload("data-v-2e1aa7c6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 342 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	name: 'invite.section.plusOne',
+	data: function data() {
+		return {
+			first_name: null,
+			last_name: null,
+			day: null,
+			night: null,
+			dietary_requirement: null,
+			dietary_details: null,
+			rsvpOptions: [{ 'text': 'Yes', 'value': 'true' }, { 'text': 'No', 'value': 'false' }],
+			dietOptions: [{ 'text': 'No', 'value': 'no' }, { 'text': 'Vegetarian', 'value': 'vegetarian' }, { 'text': 'Vegan', 'value': 'vegan' }, { 'text': 'Other', 'value': 'other' }]
+		};
+	}
+});
+
+/***/ }),
+/* 343 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("p", [_vm._v("You have been assigned a plus one.")]),
+      _vm._v(" "),
+      _c(
+        "transition-group",
+        { attrs: { name: "list", tag: "p" } },
+        [
+          _c(
+            "b-form-group",
+            {
+              key: "question_1",
+              attrs: { label: "Will they be attending the day?" }
+            },
+            [
+              _c("b-form-radio-group", {
+                attrs: {
+                  id: "attending-day",
+                  options: _vm.rsvpOptions,
+                  buttons: "",
+                  "button-variant": "outline-primary",
+                  name: "radios-btn-default"
+                },
+                model: {
+                  value: _vm.day,
+                  callback: function($$v) {
+                    _vm.day = $$v
+                  },
+                  expression: "day"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _vm.day
+            ? _c(
+                "b-form-group",
+                {
+                  key: "question_2",
+                  attrs: { label: "Will they be attending the night?" }
+                },
+                [
+                  _c("b-form-radio-group", {
+                    attrs: {
+                      id: "attending-night",
+                      options: _vm.rsvpOptions,
+                      buttons: "",
+                      "button-variant": "outline-primary",
+                      name: "radios-btn-default"
+                    },
+                    model: {
+                      value: _vm.night,
+                      callback: function($$v) {
+                        _vm.night = $$v
+                      },
+                      expression: "night"
+                    }
+                  })
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.day == "true" || _vm.night == "true"
+            ? _c(
+                "b-form-group",
+                { key: "question_3", attrs: { label: "What is their name?" } },
+                [
+                  _c(
+                    "b-row",
+                    [
+                      _c(
+                        "b-col",
+                        { attrs: { "offset-sm": "1", sm: "5" } },
+                        [
+                          _c("b-form-input", {
+                            attrs: {
+                              id: "first_name_input",
+                              "button-variant": "outline-primary",
+                              placeholder: "First Name"
+                            },
+                            model: {
+                              value: _vm.first_name,
+                              callback: function($$v) {
+                                _vm.first_name = $$v
+                              },
+                              expression: "first_name"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-col",
+                        { attrs: { sm: "5" } },
+                        [
+                          _c("b-form-input", {
+                            attrs: {
+                              id: "last_name_input",
+                              "button-variant": "outline-primary",
+                              placeholder: "Last Name"
+                            },
+                            model: {
+                              value: _vm.last_name,
+                              callback: function($$v) {
+                                _vm.last_name = $$v
+                              },
+                              expression: "last_name"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.night && (_vm.day == "true" || _vm.night == "true")
+            ? _c(
+                "b-form-group",
+                {
+                  key: "question_4",
+                  attrs: { label: "Do you have any dietary requirements?" }
+                },
+                [
+                  _c("b-form-radio-group", {
+                    attrs: {
+                      id: "dietary-requirements",
+                      options: _vm.dietOptions,
+                      buttons: "",
+                      "button-variant": "outline-primary",
+                      name: "radios-btn-default"
+                    },
+                    model: {
+                      value: _vm.dietary_requirement,
+                      callback: function($$v) {
+                        _vm.dietary_requirement = $$v
+                      },
+                      expression: "dietary_requirement"
+                    }
+                  })
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.dietary_requirement == "other"
+            ? _c(
+                "b-form-group",
+                {
+                  key: "question_5",
+                  attrs: { label: "What dietary requirements do you have?" }
+                },
+                [
+                  _c("b-form-textarea", {
+                    attrs: {
+                      id: "dietary-requirements-details",
+                      placeholder: "Enter something...",
+                      rows: "3",
+                      "max-rows": "6"
+                    },
+                    model: {
+                      value: _vm.dietary_details,
+                      callback: function($$v) {
+                        _vm.dietary_details = $$v
+                      },
+                      expression: "dietary_details"
+                    }
+                  })
+                ],
+                1
+              )
+            : _vm._e()
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2e1aa7c6", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

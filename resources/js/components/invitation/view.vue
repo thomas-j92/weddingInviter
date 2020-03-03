@@ -34,7 +34,8 @@
 
 <script>
 	import inviteIntro from './sections/inviteIntro.vue'
-	import rsvpSection from './sections/rsvp.vue' 
+	import rsvpSection from './sections/rsvp.vue'
+	import plusOneSection from './sections/plusOne.vue'
 	import confirmSection from './sections/confirm.vue'
 
 	export default {
@@ -70,17 +71,29 @@
 			});
 
 			// add rsvp component for each guest
-			this.invite.guests.forEach(guest => {
+			// this.invite.guests.forEach(guest => {
+			// 	sectionNum++;
+
+			// 	this.components.push({
+			// 		component: rsvpSection,
+			// 		props: {
+			// 			'guest': guest,
+			// 			'sectionNum': sectionNum,
+			// 		}
+			// 	});
+			// });
+
+			// add plus one component for each guest
+			this.invite.plus_ones.forEach(plusOne => {
 				sectionNum++;
 
 				this.components.push({
-					component: rsvpSection,
+					component: plusOneSection,
 					props: {
-						'guest': guest,
-						'sectionNum': sectionNum,
+						'sectionNum': sectionNum
 					}
-				});
-			});
+				})
+			})
 
 			sectionNum++;
 
