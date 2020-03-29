@@ -219,23 +219,37 @@ class InviteController extends Controller
             foreach($request->formData as $data) {
                 if(isset($data['id']) && !is_null($data['id'])) {
 
-                    // update rsvp details
-                    $guest = InviteGuests::where('invite_id', $inviteId)->where('person_id', $data['id'])->first();
-                    $guest->rsvp            = true;
-                    $guest->attending_day   = ($data['rsvp']['day'] == 'true') ? 1 : 0;
-                    $guest->attending_night = ($data['rsvp']['night'] == 'true') ? 1 : 0; 
-                    $guest->save();
+                    if($data['type'] == 'guest') {
+                        // update rsvp details
+                        $guest = InviteGuests::where('invite_id', $inviteId)->where('person_id', $data['id'])->first();
+                        $guest->rsvp            = true;
+                        $guest->attending_day   = ($data['rsvp']['day'] == 'true') ? 1 : 0;
+                        $guest->attending_night = ($data['rsvp']['night'] == 'true') ? 1 : 0; 
+                        $guest->save();
 
-                    // update dietary requirements
-                    $guest                          = People::find($data['id']);
-                    $guest->vegetarian              = ($data['diet']['requirement'] == 'vegetarian') ? 1 : 0;
-                    $guest->vegan                   = ($data['diet']['requirement'] == 'vegan') ? 1 : 0;
-                    $guest->dietary_requirements    = $data['diet']['details'];
-                    $guest->save();
+                        // update dietary requirements
+                        $guest                          = People::find($data['id']);
+                        $guest->vegetarian              = ($data['diet']['requirement'] == 'vegetarian') ? 1 : 0;
+                        $guest->vegan                   = ($data['diet']['requirement'] == 'vegan') ? 1 : 0;
+                        $guest->dietary_requirements    = $data['diet']['details'];
+                        $guest->save();
 
-                    // brand the request as a success
-                    $success = true;
-                    $message = 'Thank you, this has been submitted';
+                        // brand the request as a success
+                        $success = true;
+                        $message = 'Thank you, this has been submitted';
+                    } elseif($data['type'] == 'plus_one') {
+                        $plus_one                           = PlusOne::find($data['id']);
+                        $plus_one->first_name               = $data['first_name'];
+                        $plus_one->last_name                = $data['last_name'];
+                        $plus_one->vegetarian               = ($data['dietary_requirement'] == 'vegetarian') ? 1 : 0;
+                        $plus_one->vegan                    = ($data['dietary_requirement'] == 'vegan') ? 1 : 0;
+                        $plus_one->dietary_requirements     = $data['dietary_details'];
+                        $plus_one->save();
+
+                        // brand the request as a success
+                        $success = true;
+                        $message = 'Thank you, this has been submitted';
+                    }
                 }
             }
         } 
@@ -337,6 +351,45 @@ class InviteController extends Controller
 
         return response()->json([
             'success' => true
+        ]);
+
+    }
+
+    /**
+     * Update RSVP details for a guest (can be a main guest or a plus one).
+     */
+    public function updateRsvp(Request $request) {
+
+        // message that will be included in response
+        $message    = 'An error occurred';
+
+        // whether rsvp update was a success
+        $success    = false;
+
+        // handle request differently based off what type of guest they are
+        switch($request['guestType']) {
+            case 'main':
+            case 'secondary':
+                // find guest
+                $guest = InviteGuests::find($request['selected']['id']);
+
+                // update main guest RSVP details
+                $guest->attending_day     = $request['selected']['attending_day'];
+                $guest->attending_night   = $request['selected']['attending_night'];
+                $guest->save();
+
+                // update response message
+                $message    = 'Main guest RSVP updated';
+
+                // update to success
+                $success    = true;
+            break;
+        }
+
+        // send response
+        return response()->json([
+            'success'   => $success,
+            'message'   => $message
         ]);
 
     }

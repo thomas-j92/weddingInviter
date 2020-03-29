@@ -31,19 +31,21 @@
 						</b-col>
 						<b-col sm="5">
 							<h5>Attending Day</h5>
-							<h4>
+							<h4 class="d-inline">
 								<b-badge variant="secondary" v-if="main_guest.rsvp == 0">N/A</b-badge>
 								<b-badge variant="success" v-else-if="main_guest.attending_day == 1">Yes</b-badge>
 								<b-badge variant="danger" v-else="main_guest.attending_day == 0">No</b-badge>
 							</h4>
+							<b-link @click='showRsvpModal("main", main_guest)'>Update</b-link>
 						</b-col>
 						<b-col sm="4">
 							<h5>Attending Night</h5>
-							<h4>
+							<h4 class="d-inline">
 								<b-badge variant="secondary" v-if="main_guest.rsvp == 0">N/A</b-badge>
 								<b-badge variant="success" v-else-if="main_guest.attending_night == 1">Yes</b-badge>
 								<b-badge variant="danger" v-else="main_guest.attending_night == 0">No</b-badge>
 							</h4>
+							<b-link @click='showRsvpModal("main", main_guest)'>Update</b-link>
 						</b-col>
 					</b-row>
 				</div>
@@ -88,7 +90,15 @@
 						</template>
 
 						<template v-slot:cell(btns)="data">
-							<b-button variant="danger" size="sm" @click="deleteAdditionalGuest(data.item.id)"><i class="fas fa-trash"></i></b-button>
+							<b-dropdown id="dropdown-1" size="sm" dropleft class="m-0">
+								<template v-slot:button-content>
+							      <i class="fas fa-cog"></i>
+							    </template>
+								
+								<b-dropdown-item v-b-modal.edit-rsvp @click='showRsvpModal("secondary", data.item)'><i class="far fa-envelope"></i> RSVP</b-dropdown-item>
+							    <b-dropdown-divider></b-dropdown-divider>
+								<b-dropdown-item @click="deleteAdditionalGuest(data.item.id)"><i class="fas fa-trash"></i> Delete</b-dropdown-item>
+							</b-dropdown>
 						</template>
 					</b-table>
 					<no-data text="No additional guests found." v-else></no-data>
@@ -270,6 +280,36 @@
 				</b-col>
 			</b-row>
 		</b-modal>
+
+		<b-modal id="edit-rsvp" title="Edit RSVP" ok-title="Update" @ok="updateRsvp">
+			<div v-if="rsvp.selected !== null">
+		    	<b-form-group label="Are they attending the day?">
+		    		<b-container>
+		    			<b-row>
+				    		<b-col>
+					     		<b-form-radio v-model="rsvp.selected.attending_day" name="rsvp_day" value="1">Yes</b-form-radio>
+					     	</b-col>
+					     	<b-col>
+					      		<b-form-radio v-model="rsvp.selected.attending_day" name="rsvp_day" value="0">No</b-form-radio>
+					      	</b-col>
+				      	</b-row>
+	    			</b-container>
+			    </b-form-group>
+
+			    <b-form-group label="Are they attending the night?">
+		    		<b-container>
+		    			<b-row>
+				    		<b-col>
+					     		<b-form-radio v-model="rsvp.selected.attending_night" name="rsvp_night" value="1">Yes</b-form-radio>
+					     	</b-col>
+					     	<b-col>
+					      		<b-form-radio v-model="rsvp.selected.attending_night" name="rsvp_night" value="0">No</b-form-radio>
+					      	</b-col>
+				      	</b-row>
+	    			</b-container>
+			    </b-form-group>
+		    </div>
+		</b-modal>
 	</section>
 </template>
 
@@ -380,6 +420,10 @@
 							label: ''
 						}
 					]
+				},
+				rsvp: {
+					guestType: null,
+					selected: null,
 				}
 			}
 		},
@@ -410,8 +454,6 @@
 				axios.get("/api/invite/"+this.inviteId)
 					 .then((resp) => {
 					 	if(resp.data) {
-
-					 		console.log(resp.data);
 					 		// store main person assigned to Invite
 					 		self.main_guest = resp.data.main_guest;
 
@@ -571,6 +613,31 @@
 					 		}
 					 	}
 					 });
+			},
+			updateRsvp() {
+
+				const self = this;
+
+				// update RSVP data
+				axios.put(this.baseUrl+'/api/invite/updateRsvp', self.rsvp)
+					 .then((resp) => {
+					 	if(resp.data) {
+					 		if(resp.data.success) {
+					 			self.toast('Updated', resp.data.message);
+					 		} else {
+					 			self.toast('Error', resp.data.message, 'danger');
+					 		}
+					 	}
+
+					 	// refresh data
+					 	self.getInvite();
+					 });
+			},
+			showRsvpModal(guest_type, guest) {
+				this.rsvp.guestType = guest_type;
+				this.rsvp.selected	= guest;
+
+				this.$bvModal.show('edit-rsvp');
 			}
 		},
 		mounted() {

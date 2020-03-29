@@ -30,6 +30,7 @@ Route::put('invite/addAdditionalGuests/', 'Api\InviteController@addAdditionalGue
 Route::delete('invite/deleteAdditionalGuest/{id}', 'Api\InviteController@deleteAdditionalGuest');
 Route::post('invite/addPlusOne/', 'Api\InviteController@addPlusOne');
 Route::delete('invite/deletePlusOne/{id}', 'Api\InviteController@deletePlusOne');
+Route::put('invite/updateRsvp', 'Api\InviteController@updateRsvp');
 Route::apiResource('invite', 'Api\InviteController', ['as' => 'api']);
 
 // Email

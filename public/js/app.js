@@ -37274,7 +37274,7 @@ Object(__WEBPACK_IMPORTED_MODULE_1__utils_plugins__["b" /* pluginFactory */])({
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(225);
-module.exports = __webpack_require__(337);
+module.exports = __webpack_require__(340);
 
 
 /***/ }),
@@ -82506,6 +82506,46 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'admin.invite.view',
@@ -82589,6 +82629,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					key: 'btns',
 					label: ''
 				}]
+			},
+			rsvp: {
+				guestType: null,
+				selected: null
 			}
 		};
 	},
@@ -82619,8 +82663,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			axios.get("/api/invite/" + this.inviteId).then(function (resp) {
 				if (resp.data) {
-
-					console.log(resp.data);
 					// store main person assigned to Invite
 					self.main_guest = resp.data.main_guest;
 
@@ -82773,6 +82815,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					}
 				}
 			});
+		},
+		updateRsvp: function updateRsvp() {
+
+			var self = this;
+
+			// update RSVP data
+			axios.put(this.baseUrl + '/api/invite/updateRsvp', self.rsvp).then(function (resp) {
+				if (resp.data) {
+					if (resp.data.success) {
+						self.toast('Updated', resp.data.message);
+					} else {
+						self.toast('Error', resp.data.message, 'danger');
+					}
+				}
+
+				// refresh data
+				self.getInvite();
+			});
+		},
+		showRsvpModal: function showRsvpModal(guest_type, guest) {
+			this.rsvp.guestType = guest_type;
+			this.rsvp.selected = guest;
+
+			this.$bvModal.show('edit-rsvp');
 		}
 	},
 	mounted: function mounted() {
@@ -82867,61 +82933,103 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _c("b-col", { attrs: { sm: "5" } }, [
-                          _c("h5", [_vm._v("Attending Day")]),
-                          _vm._v(" "),
-                          _c(
-                            "h4",
-                            [
-                              _vm.main_guest.rsvp == 0
-                                ? _c(
-                                    "b-badge",
-                                    { attrs: { variant: "secondary" } },
-                                    [_vm._v("N/A")]
-                                  )
-                                : _vm.main_guest.attending_day == 1
-                                ? _c(
-                                    "b-badge",
-                                    { attrs: { variant: "success" } },
-                                    [_vm._v("Yes")]
-                                  )
-                                : _c(
-                                    "b-badge",
-                                    { attrs: { variant: "danger" } },
-                                    [_vm._v("No")]
-                                  )
-                            ],
-                            1
-                          )
-                        ]),
+                        _c(
+                          "b-col",
+                          { attrs: { sm: "5" } },
+                          [
+                            _c("h5", [_vm._v("Attending Day")]),
+                            _vm._v(" "),
+                            _c(
+                              "h4",
+                              { staticClass: "d-inline" },
+                              [
+                                _vm.main_guest.rsvp == 0
+                                  ? _c(
+                                      "b-badge",
+                                      { attrs: { variant: "secondary" } },
+                                      [_vm._v("N/A")]
+                                    )
+                                  : _vm.main_guest.attending_day == 1
+                                  ? _c(
+                                      "b-badge",
+                                      { attrs: { variant: "success" } },
+                                      [_vm._v("Yes")]
+                                    )
+                                  : _c(
+                                      "b-badge",
+                                      { attrs: { variant: "danger" } },
+                                      [_vm._v("No")]
+                                    )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-link",
+                              {
+                                on: {
+                                  click: function($event) {
+                                    return _vm.showRsvpModal(
+                                      "main",
+                                      _vm.main_guest
+                                    )
+                                  }
+                                }
+                              },
+                              [_vm._v("Update")]
+                            )
+                          ],
+                          1
+                        ),
                         _vm._v(" "),
-                        _c("b-col", { attrs: { sm: "4" } }, [
-                          _c("h5", [_vm._v("Attending Night")]),
-                          _vm._v(" "),
-                          _c(
-                            "h4",
-                            [
-                              _vm.main_guest.rsvp == 0
-                                ? _c(
-                                    "b-badge",
-                                    { attrs: { variant: "secondary" } },
-                                    [_vm._v("N/A")]
-                                  )
-                                : _vm.main_guest.attending_night == 1
-                                ? _c(
-                                    "b-badge",
-                                    { attrs: { variant: "success" } },
-                                    [_vm._v("Yes")]
-                                  )
-                                : _c(
-                                    "b-badge",
-                                    { attrs: { variant: "danger" } },
-                                    [_vm._v("No")]
-                                  )
-                            ],
-                            1
-                          )
-                        ])
+                        _c(
+                          "b-col",
+                          { attrs: { sm: "4" } },
+                          [
+                            _c("h5", [_vm._v("Attending Night")]),
+                            _vm._v(" "),
+                            _c(
+                              "h4",
+                              { staticClass: "d-inline" },
+                              [
+                                _vm.main_guest.rsvp == 0
+                                  ? _c(
+                                      "b-badge",
+                                      { attrs: { variant: "secondary" } },
+                                      [_vm._v("N/A")]
+                                    )
+                                  : _vm.main_guest.attending_night == 1
+                                  ? _c(
+                                      "b-badge",
+                                      { attrs: { variant: "success" } },
+                                      [_vm._v("Yes")]
+                                    )
+                                  : _c(
+                                      "b-badge",
+                                      { attrs: { variant: "danger" } },
+                                      [_vm._v("No")]
+                                    )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-link",
+                              {
+                                on: {
+                                  click: function($event) {
+                                    return _vm.showRsvpModal(
+                                      "main",
+                                      _vm.main_guest
+                                    )
+                                  }
+                                }
+                              },
+                              [_vm._v("Update")]
+                            )
+                          ],
+                          1
+                        )
                       ],
                       1
                     )
@@ -83070,21 +83178,83 @@ var render = function() {
                                 fn: function(data) {
                                   return [
                                     _c(
-                                      "b-button",
+                                      "b-dropdown",
                                       {
+                                        staticClass: "m-0",
                                         attrs: {
-                                          variant: "danger",
-                                          size: "sm"
+                                          id: "dropdown-1",
+                                          size: "sm",
+                                          dropleft: ""
                                         },
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.deleteAdditionalGuest(
-                                              data.item.id
-                                            )
-                                          }
-                                        }
+                                        scopedSlots: _vm._u(
+                                          [
+                                            {
+                                              key: "button-content",
+                                              fn: function() {
+                                                return [
+                                                  _c("i", {
+                                                    staticClass: "fas fa-cog"
+                                                  })
+                                                ]
+                                              },
+                                              proxy: true
+                                            }
+                                          ],
+                                          null,
+                                          true
+                                        )
                                       },
-                                      [_c("i", { staticClass: "fas fa-trash" })]
+                                      [
+                                        _vm._v(" "),
+                                        _c(
+                                          "b-dropdown-item",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "b-modal",
+                                                rawName: "v-b-modal.edit-rsvp",
+                                                modifiers: { "edit-rsvp": true }
+                                              }
+                                            ],
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.showRsvpModal(
+                                                  "secondary",
+                                                  data.item
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "far fa-envelope"
+                                            }),
+                                            _vm._v(" RSVP")
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("b-dropdown-divider"),
+                                        _vm._v(" "),
+                                        _c(
+                                          "b-dropdown-item",
+                                          {
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.deleteAdditionalGuest(
+                                                  data.item.id
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fas fa-trash"
+                                            }),
+                                            _vm._v(" Delete")
+                                          ]
+                                        )
+                                      ],
+                                      1
                                     )
                                   ]
                                 }
@@ -83092,7 +83262,7 @@ var render = function() {
                             ],
                             null,
                             false,
-                            3225064265
+                            3368877051
                           )
                         })
                       : _c("no-data", {
@@ -83569,6 +83739,167 @@ var render = function() {
             : _vm._e()
         ],
         1
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: { id: "edit-rsvp", title: "Edit RSVP", "ok-title": "Update" },
+          on: { ok: _vm.updateRsvp }
+        },
+        [
+          _vm.rsvp.selected !== null
+            ? _c(
+                "div",
+                [
+                  _c(
+                    "b-form-group",
+                    { attrs: { label: "Are they attending the day?" } },
+                    [
+                      _c(
+                        "b-container",
+                        [
+                          _c(
+                            "b-row",
+                            [
+                              _c(
+                                "b-col",
+                                [
+                                  _c(
+                                    "b-form-radio",
+                                    {
+                                      attrs: { name: "rsvp_day", value: "1" },
+                                      model: {
+                                        value: _vm.rsvp.selected.attending_day,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.rsvp.selected,
+                                            "attending_day",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "rsvp.selected.attending_day"
+                                      }
+                                    },
+                                    [_vm._v("Yes")]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "b-col",
+                                [
+                                  _c(
+                                    "b-form-radio",
+                                    {
+                                      attrs: { name: "rsvp_day", value: "0" },
+                                      model: {
+                                        value: _vm.rsvp.selected.attending_day,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.rsvp.selected,
+                                            "attending_day",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "rsvp.selected.attending_day"
+                                      }
+                                    },
+                                    [_vm._v("No")]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-form-group",
+                    { attrs: { label: "Are they attending the night?" } },
+                    [
+                      _c(
+                        "b-container",
+                        [
+                          _c(
+                            "b-row",
+                            [
+                              _c(
+                                "b-col",
+                                [
+                                  _c(
+                                    "b-form-radio",
+                                    {
+                                      attrs: { name: "rsvp_night", value: "1" },
+                                      model: {
+                                        value:
+                                          _vm.rsvp.selected.attending_night,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.rsvp.selected,
+                                            "attending_night",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "rsvp.selected.attending_night"
+                                      }
+                                    },
+                                    [_vm._v("Yes")]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "b-col",
+                                [
+                                  _c(
+                                    "b-form-radio",
+                                    {
+                                      attrs: { name: "rsvp_night", value: "0" },
+                                      model: {
+                                        value:
+                                          _vm.rsvp.selected.attending_night,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.rsvp.selected,
+                                            "attending_night",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "rsvp.selected.attending_night"
+                                      }
+                                    },
+                                    [_vm._v("No")]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            : _vm._e()
+        ]
       )
     ],
     1
@@ -84057,7 +84388,7 @@ var normalizeComponent = __webpack_require__(12)
 /* script */
 var __vue_script__ = __webpack_require__(326)
 /* template */
-var __vue_template__ = __webpack_require__(336)
+var __vue_template__ = __webpack_require__(339)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -84105,9 +84436,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__sections_inviteIntro_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__sections_inviteIntro_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__sections_rsvp_vue__ = __webpack_require__(330);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__sections_rsvp_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__sections_rsvp_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sections_plusOne_vue__ = __webpack_require__(341);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sections_plusOne_vue__ = __webpack_require__(333);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sections_plusOne_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__sections_plusOne_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__sections_confirm_vue__ = __webpack_require__(333);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__sections_confirm_vue__ = __webpack_require__(336);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__sections_confirm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__sections_confirm_vue__);
 //
 //
@@ -84164,7 +84495,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				error: false,
 				success: false,
 				message: false
-			}
+			},
+			editable: false
 		};
 	},
 	mounted: function mounted() {
@@ -84172,29 +84504,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 		var self = this;
 
-		var sectionNum = 0;
+		// check if invite has already been rsvp'ed - if it hasn't, invite is editable
+		var isEditable = false;
+		self.invite.guests.forEach(function (guest) {
+			if (guest.rsvp == 0) {
+				isEditable = true;
+			}
+		});
+		self.editable = isEditable;
 
+		var sectionNum = 0;
 		// add invite intro
 		this.components.push({
 			component: __WEBPACK_IMPORTED_MODULE_0__sections_inviteIntro_vue___default.a,
 			props: {
 				'invite': self.invite,
-				'sectionNum': sectionNum
+				'sectionNum': sectionNum,
+				'editable': self.editable
 			}
 		});
 
 		// add rsvp component for each guest
-		// this.invite.guests.forEach(guest => {
-		// 	sectionNum++;
+		this.invite.guests.forEach(function (guest) {
+			sectionNum++;
 
-		// 	this.components.push({
-		// 		component: rsvpSection,
-		// 		props: {
-		// 			'guest': guest,
-		// 			'sectionNum': sectionNum,
-		// 		}
-		// 	});
-		// });
+			_this.components.push({
+				component: __WEBPACK_IMPORTED_MODULE_1__sections_rsvp_vue___default.a,
+				props: {
+					'guest': guest,
+					'sectionNum': sectionNum
+				}
+			});
+		});
 
 		// add plus one component for each guest
 		this.invite.plus_ones.forEach(function (plusOne) {
@@ -84203,7 +84544,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			_this.components.push({
 				component: __WEBPACK_IMPORTED_MODULE_2__sections_plusOne_vue___default.a,
 				props: {
-					'sectionNum': sectionNum
+					'sectionNum': sectionNum,
+					'plusOne': plusOne
 				}
 			});
 		});
@@ -84257,12 +84599,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 						self.response.error = true;
 					}
 					self.response.message = resp.data.message;
-
-					setTimeout(function () {
-						self.response.success = false;
-						self.response.error = false;
-						self.response.message = false;
-					}, 5000);
 				}
 			});
 		}
@@ -84354,10 +84690,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'invite.section.intro',
-	props: ['invite'],
+	props: ['invite', 'editable'],
 	data: function data() {
 		return {};
 	},
@@ -84365,6 +84736,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	computed: {
 		mainGuest: function mainGuest() {
 			return this.invite.main_guest.person;
+		},
+		attendingBoth: function attendingBoth() {
+			var attendingArr = [];
+
+			this.invite.guests.forEach(function (guest) {
+				if (guest.attending_day && guest.attending_night) {
+					attendingArr.push(guest);
+				}
+			});
+
+			return attendingArr;
+		},
+		attendingDay: function attendingDay() {
+			var attendingDayArr = [];
+
+			this.invite.guests.forEach(function (guest) {
+				if (guest.attending_day && !guest.attending_night) {
+					attendingDayArr.push(guest);
+				}
+			});
+
+			return attendingDayArr;
+		},
+		attendingNight: function attendingNight() {
+			var attendingNightArr = [];
+
+			this.invite.guests.forEach(function (guest) {
+				if (!guest.attending_day && guest.attending_night) {
+					attendingNightArr.push(guest);
+				}
+			});
+
+			return attendingNightArr;
 		}
 	},
 	mounted: function mounted() {
@@ -84387,24 +84791,121 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "invite-details" }, [
-    _c("div", { staticClass: "guests" }, [
-      _c("h2", { staticClass: "main-guests" }, [
-        _vm._v(
-          _vm._s(_vm.mainGuest.first_name) +
-            " " +
-            _vm._s(_vm.mainGuest.last_name)
+  return _c("div", [
+    _vm.editable
+      ? _c("div", { staticClass: "invite-details" }, [
+          _c("div", { staticClass: "guests" }, [
+            _c("h2", { staticClass: "main-guests" }, [
+              _vm._v(
+                _vm._s(_vm.mainGuest.first_name) +
+                  " " +
+                  _vm._s(_vm.mainGuest.last_name)
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _vm._m(1),
+          _vm._v(" "),
+          _vm._m(2),
+          _vm._v(" "),
+          _vm._m(3)
+        ])
+      : _c(
+          "div",
+          [
+            _c("h2", { staticClass: "m-4" }, [
+              _vm._v("Thank you for letting us know")
+            ]),
+            _vm._v(" "),
+            _c(
+              "b-list-group",
+              { staticClass: "pb-4" },
+              [
+                _vm.attendingBoth.length > 0
+                  ? _c("b-list-group-item", [
+                      _c(
+                        "h4",
+                        _vm._l(_vm.attendingBoth, function(g, index) {
+                          return _c("span", [
+                            _vm._v(
+                              "\n\t\t\t\t\t" + _vm._s(g.person.first_name)
+                            ),
+                            index + 2 < _vm.attendingBoth.length
+                              ? _c("span", [_vm._v(",")])
+                              : index + 2 == _vm.attendingBoth.length
+                              ? _c("span", [_vm._v(" and")])
+                              : _vm._e()
+                          ])
+                        }),
+                        0
+                      ),
+                      _vm._v(
+                        "\n\t\t  \tThank you for deciding to spend the entire day with us, you may regret this.\n\t\t  "
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.attendingDay.length > 0
+                  ? _c("b-list-group-item", [
+                      _c(
+                        "h4",
+                        _vm._l(_vm.attendingDay, function(g, index) {
+                          return _c("span", [
+                            _vm._v(
+                              "\n\t\t\t\t\t" + _vm._s(g.person.first_name)
+                            ),
+                            index + 2 < _vm.attendingDay.length
+                              ? _c("span", [_vm._v(",")])
+                              : index + 2 == _vm.attendingDay.length
+                              ? _c("span", [_vm._v(" and")])
+                              : _vm._e()
+                          ])
+                        }),
+                        0
+                      ),
+                      _vm._v(
+                        "\n\t\t  \tWe are looking forward to seeing for the day.\n\t\t  "
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.attendingNight.length > 0
+                  ? _c("b-list-group-item", [
+                      _c(
+                        "h4",
+                        _vm._l(_vm.attendingNight, function(g, index) {
+                          return _c("span", [
+                            _vm._v(
+                              "\n\t\t\t\t\t" + _vm._s(g.person.first_name)
+                            ),
+                            index + 2 < _vm.attendingNight.length
+                              ? _c("span", [_vm._v(",")])
+                              : index + 2 == _vm.attendingNight.length
+                              ? _c("span", [_vm._v(" and")])
+                              : _vm._e()
+                          ])
+                        }),
+                        0
+                      ),
+                      _vm._v(
+                        "\n\t\t  \tWe are looking forward to seeing for the night do. Hopefully everyone will still be standing by then!\n\t\t  "
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("b-list-group-item", [
+                  _vm._v(
+                    "\n\t\t  \tIf you need to make amendments, please contact us directly and we will make any the changes according. Admin fee's can be payable by beer or curry.\n\t\t  "
+                  )
+                ])
+              ],
+              1
+            )
+          ],
+          1
         )
-      ])
-    ]),
-    _vm._v(" "),
-    _vm._m(0),
-    _vm._v(" "),
-    _vm._m(1),
-    _vm._v(" "),
-    _vm._m(2),
-    _vm._v(" "),
-    _vm._m(3)
   ])
 }
 var staticRenderFns = [
@@ -84589,7 +85090,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				diet: {
 					requirement: '',
 					details: ''
-				}
+				},
+				type: 'guest',
+				guest_type: ''
 			}
 		};
 	},
@@ -84631,6 +85134,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		if (this.existingData !== undefined) {
 			this.form = this.existingData;
 		}
+
+		// store if guest is main guest or additional
+		this.form.guest_type = this.guest.type;
 
 		// push values when first mounted 
 		this.pushValues();
@@ -84830,236 +85336,6 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/js/components/invitation/sections/confirm.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-e49c8bcc", Component.options)
-  } else {
-    hotAPI.reload("data-v-e49c8bcc", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 334 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	name: 'invite.section.confirm'
-});
-
-/***/ }),
-/* 335 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("h2", [_vm._v("Thank you")]),
-      _vm._v(" "),
-      _c("p", [_vm._v("Please review & submit your data")]),
-      _vm._v(" "),
-      _c("p")
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-e49c8bcc", module.exports)
-  }
-}
-
-/***/ }),
-/* 336 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "invite-container col-sm-6 offset-sm-3" },
-    [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "transition",
-        { attrs: { name: "component-fade", mode: "out-in" } },
-        _vm._l(_vm.components, function(c, i) {
-          return _vm.step.number == i
-            ? _c(
-                "div",
-                { key: "key_" + i },
-                [
-                  _vm.response.message
-                    ? _c(
-                        "div",
-                        { staticClass: "alert-container" },
-                        [
-                          _vm.response.success
-                            ? _c(
-                                "b-alert",
-                                { attrs: { show: "", variant: "success" } },
-                                [_vm._v(_vm._s(_vm.response.message))]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.response.error
-                            ? _c(
-                                "b-alert",
-                                { attrs: { show: "", variant: "danger" } },
-                                [_vm._v(_vm._s(_vm.response.message))]
-                              )
-                            : _vm._e()
-                        ],
-                        1
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c(
-                    c.component,
-                    _vm._b(
-                      {
-                        tag: "component",
-                        attrs: { "existing-data": _vm.existingData },
-                        on: { updated: _vm.update }
-                      },
-                      "component",
-                      c.props,
-                      false
-                    )
-                  )
-                ],
-                1
-              )
-            : _vm._e()
-        }),
-        0
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "buttons" }, [
-        _c(
-          "button",
-          {
-            attrs: { disabled: _vm.step.number == 0 },
-            on: {
-              click: function($event) {
-                _vm.step.number--
-              }
-            }
-          },
-          [_vm._v("Previous")]
-        ),
-        _vm._v(" "),
-        _vm.step.number + 1 == _vm.components.length
-          ? _c("button", { on: { click: _vm.submit } }, [_vm._v("Finish")])
-          : _c(
-              "button",
-              {
-                attrs: { disabled: !_vm.step.complete },
-                on: {
-                  click: function($event) {
-                    _vm.step.number++
-                  }
-                }
-              },
-              [_vm._v("Next")]
-            )
-      ])
-    ],
-    1
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "invite-header" }, [
-      _c("img", { attrs: { src: "/images/invite/header.png", alt: "" } })
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-77b30a60", module.exports)
-  }
-}
-
-/***/ }),
-/* 337 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 338 */,
-/* 339 */,
-/* 340 */,
-/* 341 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(12)
-/* script */
-var __vue_script__ = __webpack_require__(342)
-/* template */
-var __vue_template__ = __webpack_require__(343)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
 Component.options.__file = "resources/js/components/invitation/sections/plusOne.vue"
 
 /* hot reload */
@@ -85082,7 +85358,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 342 */
+/* 334 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -85162,22 +85438,83 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'invite.section.plusOne',
+	props: ['sectionNum', 'plusOne', 'existingData'],
 	data: function data() {
 		return {
-			first_name: null,
-			last_name: null,
-			day: null,
-			night: null,
-			dietary_requirement: null,
-			dietary_details: null,
+			form: {
+				id: null,
+				first_name: null,
+				last_name: null,
+				day: null,
+				night: null,
+				dietary_requirement: '',
+				dietary_details: '',
+				type: 'plus_one'
+			},
 			rsvpOptions: [{ 'text': 'Yes', 'value': 'true' }, { 'text': 'No', 'value': 'false' }],
 			dietOptions: [{ 'text': 'No', 'value': 'no' }, { 'text': 'Vegetarian', 'value': 'vegetarian' }, { 'text': 'Vegan', 'value': 'vegan' }, { 'text': 'Other', 'value': 'other' }]
 		};
+	},
+
+	computed: {
+		isCompleted: function isCompleted() {
+			var complete = false;
+
+			if (this.form.dietary_requirement != '') {
+				if (this.form.dietary_requirement == 'other') {
+					if (this.form.dietary_details != '') {
+						complete = true;
+					}
+				} else {
+					complete = true;
+				}
+			} else {
+				if (this.form.day == 'false' && this.form.night == 'false') {
+					complete = true;
+				}
+			}
+
+			return complete;
+		}
+	},
+	watch: {
+		form: {
+			handler: function handler(newForm, oldForm) {
+				this.pushValues(newForm);
+			},
+			deep: true
+		}
+	},
+	mounted: function mounted() {
+		// show existing data if any present
+		if (this.existingData !== undefined) {
+			this.form = this.existingData;
+		} else {
+			// push values when first mounted 
+			this.pushValues();
+
+			this.form.id = this.plusOne.id;
+			this.form.first_name = this.plusOne.first_name;
+			this.form.last_name = this.plusOne.last_name;
+			this.form.day = this.plusOne.day;
+			this.form.night = this.plusOne.night;
+		}
+	},
+
+	methods: {
+		pushValues: function pushValues(form) {
+			// push values back to parent
+			this.$emit('updated', {
+				'sectionNum': this.sectionNum,
+				'formData': form,
+				'complete': this.isCompleted
+			});
+		}
 	}
 });
 
 /***/ }),
-/* 343 */
+/* 335 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -85209,18 +85546,18 @@ var render = function() {
                   name: "radios-btn-default"
                 },
                 model: {
-                  value: _vm.day,
+                  value: _vm.form.day,
                   callback: function($$v) {
-                    _vm.day = $$v
+                    _vm.$set(_vm.form, "day", $$v)
                   },
-                  expression: "day"
+                  expression: "form.day"
                 }
               })
             ],
             1
           ),
           _vm._v(" "),
-          _vm.day
+          _vm.form.day
             ? _c(
                 "b-form-group",
                 {
@@ -85237,11 +85574,11 @@ var render = function() {
                       name: "radios-btn-default"
                     },
                     model: {
-                      value: _vm.night,
+                      value: _vm.form.night,
                       callback: function($$v) {
-                        _vm.night = $$v
+                        _vm.$set(_vm.form, "night", $$v)
                       },
-                      expression: "night"
+                      expression: "form.night"
                     }
                   })
                 ],
@@ -85249,7 +85586,7 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _vm.day == "true" || _vm.night == "true"
+          _vm.form.day == "true" || _vm.form.night == "true"
             ? _c(
                 "b-form-group",
                 { key: "question_3", attrs: { label: "What is their name?" } },
@@ -85268,11 +85605,11 @@ var render = function() {
                               placeholder: "First Name"
                             },
                             model: {
-                              value: _vm.first_name,
+                              value: _vm.form.first_name,
                               callback: function($$v) {
-                                _vm.first_name = $$v
+                                _vm.$set(_vm.form, "first_name", $$v)
                               },
-                              expression: "first_name"
+                              expression: "form.first_name"
                             }
                           })
                         ],
@@ -85290,11 +85627,11 @@ var render = function() {
                               placeholder: "Last Name"
                             },
                             model: {
-                              value: _vm.last_name,
+                              value: _vm.form.last_name,
                               callback: function($$v) {
-                                _vm.last_name = $$v
+                                _vm.$set(_vm.form, "last_name", $$v)
                               },
-                              expression: "last_name"
+                              expression: "form.last_name"
                             }
                           })
                         ],
@@ -85308,7 +85645,7 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _vm.night && (_vm.day == "true" || _vm.night == "true")
+          _vm.form.night && (_vm.form.day == "true" || _vm.form.night == "true")
             ? _c(
                 "b-form-group",
                 {
@@ -85325,11 +85662,11 @@ var render = function() {
                       name: "radios-btn-default"
                     },
                     model: {
-                      value: _vm.dietary_requirement,
+                      value: _vm.form.dietary_requirement,
                       callback: function($$v) {
-                        _vm.dietary_requirement = $$v
+                        _vm.$set(_vm.form, "dietary_requirement", $$v)
                       },
-                      expression: "dietary_requirement"
+                      expression: "form.dietary_requirement"
                     }
                   })
                 ],
@@ -85337,7 +85674,7 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _vm.dietary_requirement == "other"
+          _vm.form.dietary_requirement == "other"
             ? _c(
                 "b-form-group",
                 {
@@ -85353,11 +85690,11 @@ var render = function() {
                       "max-rows": "6"
                     },
                     model: {
-                      value: _vm.dietary_details,
+                      value: _vm.form.dietary_details,
                       callback: function($$v) {
-                        _vm.dietary_details = $$v
+                        _vm.$set(_vm.form, "dietary_details", $$v)
                       },
-                      expression: "dietary_details"
+                      expression: "form.dietary_details"
                     }
                   })
                 ],
@@ -85380,6 +85717,226 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-2e1aa7c6", module.exports)
   }
 }
+
+/***/ }),
+/* 336 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(12)
+/* script */
+var __vue_script__ = __webpack_require__(337)
+/* template */
+var __vue_template__ = __webpack_require__(338)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/invitation/sections/confirm.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-e49c8bcc", Component.options)
+  } else {
+    hotAPI.reload("data-v-e49c8bcc", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 337 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	name: 'invite.section.confirm'
+});
+
+/***/ }),
+/* 338 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [_c("h2", [_vm._v("Thank you")])])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-e49c8bcc", module.exports)
+  }
+}
+
+/***/ }),
+/* 339 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "invite-container col-sm-6 offset-sm-3" },
+    [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "transition",
+        { attrs: { name: "component-fade", mode: "out-in" } },
+        _vm._l(_vm.components, function(c, i) {
+          return _vm.step.number == i
+            ? _c(
+                "div",
+                { key: "key_" + i },
+                [
+                  _vm.response.message
+                    ? _c(
+                        "div",
+                        { staticClass: "alert-container" },
+                        [
+                          _vm.response.success
+                            ? _c(
+                                "b-alert",
+                                { attrs: { show: "", variant: "success" } },
+                                [_vm._v(_vm._s(_vm.response.message))]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.response.error
+                            ? _c(
+                                "b-alert",
+                                { attrs: { show: "", variant: "danger" } },
+                                [_vm._v(_vm._s(_vm.response.message))]
+                              )
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    c.component,
+                    _vm._b(
+                      {
+                        tag: "component",
+                        attrs: { "existing-data": _vm.existingData },
+                        on: { updated: _vm.update }
+                      },
+                      "component",
+                      c.props,
+                      false
+                    )
+                  )
+                ],
+                1
+              )
+            : _vm._e()
+        }),
+        0
+      ),
+      _vm._v(" "),
+      !_vm.response.success && _vm.editable
+        ? _c("div", { staticClass: "buttons" }, [
+            _c(
+              "button",
+              {
+                attrs: { disabled: _vm.step.number == 0 },
+                on: {
+                  click: function($event) {
+                    _vm.step.number--
+                  }
+                }
+              },
+              [_vm._v("Previous")]
+            ),
+            _vm._v(" "),
+            _vm.step.number + 1 == _vm.components.length
+              ? _c("button", { on: { click: _vm.submit } }, [_vm._v("Finish")])
+              : _c(
+                  "button",
+                  {
+                    attrs: { disabled: !_vm.step.complete },
+                    on: {
+                      click: function($event) {
+                        _vm.step.number++
+                      }
+                    }
+                  },
+                  [_vm._v("Next")]
+                )
+          ])
+        : _vm._e()
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "invite-header" }, [
+      _c("img", { attrs: { src: "/images/invite/header.png", alt: "" } })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-77b30a60", module.exports)
+  }
+}
+
+/***/ }),
+/* 340 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

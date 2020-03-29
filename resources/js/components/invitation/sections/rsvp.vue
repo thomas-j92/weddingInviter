@@ -77,6 +77,8 @@
 						requirement: '',
 						details: ''
 					},
+					type: 'guest',
+					guest_type: '',
 				},
 			}
 		},
@@ -117,6 +119,9 @@
 			if(this.existingData !== undefined) {
 				this.form = this.existingData;
 			}
+
+			// store if guest is main guest or additional
+			this.form.guest_type = this.guest.type;
 
 			// push values when first mounted 
 			this.pushValues();

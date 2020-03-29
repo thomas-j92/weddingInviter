@@ -23,7 +23,7 @@
 		  </div>
 		</transition>
 		
-		<div class="buttons">
+		<div class="buttons" v-if="!response.success && editable">
 			<button @click="step.number--" :disabled="step.number == 0">Previous</button>
 
 			<button v-if="(step.number+1) == components.length" @click="submit">Finish</button>
@@ -53,35 +53,45 @@
 					error: false,
 					success: false,
 					message: false
-				}
+				},
+				editable: false,
 			}
 		},
 		mounted() {
 			const self = this;
 
-			let sectionNum = 0;
+			// check if invite has already been rsvp'ed - if it hasn't, invite is editable
+			let isEditable = false;
+			self.invite.guests.forEach(guest => {
+				if(guest.rsvp == 0) {
+					isEditable = true;
+				}
+			})
+			self.editable = isEditable;
 
+			let sectionNum = 0;
 			// add invite intro
 			this.components.push({
 				component:inviteIntro,
 				props: {
 					'invite': self.invite,
 					'sectionNum': sectionNum,
+					'editable': self.editable
 				}
 			});
 
 			// add rsvp component for each guest
-			// this.invite.guests.forEach(guest => {
-			// 	sectionNum++;
+			this.invite.guests.forEach(guest => {
+				sectionNum++;
 
-			// 	this.components.push({
-			// 		component: rsvpSection,
-			// 		props: {
-			// 			'guest': guest,
-			// 			'sectionNum': sectionNum,
-			// 		}
-			// 	});
-			// });
+				this.components.push({
+					component: rsvpSection,
+					props: {
+						'guest': guest,
+						'sectionNum': sectionNum,
+					}
+				});
+			});
 
 			// add plus one component for each guest
 			this.invite.plus_ones.forEach(plusOne => {
@@ -90,7 +100,8 @@
 				this.components.push({
 					component: plusOneSection,
 					props: {
-						'sectionNum': sectionNum
+						'sectionNum': sectionNum,
+						'plusOne': plusOne
 					}
 				})
 			})
@@ -144,12 +155,6 @@
 					 			self.response.error 	= true;
 					 		}
 					 		self.response.message = resp.data.message;
-
-					 		setTimeout(function() {
-					 			self.response.success 	= false;
-					 			self.response.error 	= false;
-					 			self.response.message 	= false;
-					 		}, 5000)
 					 	}
 					 })
 			}

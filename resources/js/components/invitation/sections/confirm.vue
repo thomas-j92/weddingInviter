@@ -1,9 +1,6 @@
 <template>
 	<div>
 		<h2>Thank you</h2>
-	
-		<p>Please review & submit your data</p>
-	</p>
 	</div>
 </template>
 
