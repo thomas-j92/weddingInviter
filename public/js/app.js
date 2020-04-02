@@ -82546,6 +82546,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'admin.invite.view',
@@ -82865,7 +82871,21 @@ var render = function() {
     "section",
     { attrs: { id: "viewInvite" } },
     [
-      _c("h2", [_vm._v("Invite")]),
+      _c(
+        "b-container",
+        [
+          _c(
+            "b-row",
+            [
+              _c("b-col", [
+                _c("h3", { staticClass: "mt-3" }, [_vm._v("Invite")])
+              ])
+            ],
+            1
+          )
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "b-card",

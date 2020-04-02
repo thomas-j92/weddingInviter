@@ -1,6 +1,12 @@
 <template>
 	<section id="viewInvite">
-		<h2>Invite</h2>
+		<b-container>
+			<b-row>
+				<b-col>
+					<h3 class="mt-3">Invite</h3>
+				</b-col>
+			</b-row>
+		</b-container>
 
 		<b-card class="custom" no-body>
 			<b-card-header>Guest</b-card-header>
