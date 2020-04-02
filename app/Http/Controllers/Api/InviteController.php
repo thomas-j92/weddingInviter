@@ -366,6 +366,8 @@ class InviteController extends Controller
         // whether rsvp update was a success
         $success    = false;
 
+        // dd($request);
+
         // handle request differently based off what type of guest they are
         switch($request['guestType']) {
             case 'main':
@@ -374,12 +376,13 @@ class InviteController extends Controller
                 $guest = InviteGuests::find($request['selected']['id']);
 
                 // update main guest RSVP details
-                $guest->attending_day     = $request['selected']['attending_day'];
-                $guest->attending_night   = $request['selected']['attending_night'];
+                $guest->attending_day       = $request['selected']['attending_day'];
+                $guest->attending_night     = $request['selected']['attending_night'];
+                $guest->rsvp                = 1;
                 $guest->save();
 
                 // update response message
-                $message    = 'Main guest RSVP updated';
+                $message    = ucwords($request['guestType']) . ' guest RSVP updated';
 
                 // update to success
                 $success    = true;
