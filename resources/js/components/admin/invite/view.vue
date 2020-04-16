@@ -189,6 +189,51 @@
 			</b-card-body>
 		</b-card>
 
+		<b-card class="custom" no-body>
+			<b-card-header>
+				Activity
+			</b-card-header>
+
+			<b-card-body>
+				<div v-if="!activity.loading">
+					<b-table :fields="activity.fields" :items="activity.data" v-if="activity.data.length > 0">
+						<template v-slot:cell(type)="data">
+							{{ data.item.properties.item | capitalize }}
+						</template>
+						<template v-slot:cell(updates)="data">
+							<b-button v-b-modal.activity_updates v-if="data.item.properties.old" size="sm" @click="activity.selected = data.item" block>View</b-button>
+						</template>
+						<template v-slot:cell(area)="data">
+							<b-badge variant="secondary" v-if="data.item.properties.area == 'admin'">{{ data.item.properties.area }}</b-badge>
+							<b-badge variant="primary" v-else>{{ data.item.properties.area }}</b-badge>
+						</template>
+					</b-table>
+					<no-data text="No activity found." v-else></no-data>
+				</div>
+				<div v-else>
+					<loading></loading>
+				</div>
+			</b-card-body>
+		</b-card>
+
+		<b-modal id="activity_updates" title="Activity log" ok-only>
+			<b-table :items="activityUpdates">
+				<template v-slot:cell(item)="data">
+					{{ data.item.item | capitalize }}
+				</template>
+				<template v-slot:cell(from)="data">
+					<p v-if="data.item.from == 1">Yes</p>
+					<p v-else-if="data.item.from == 0">No</p>
+					<p v-else>{{ data.item.from }}</p>
+				</template>
+				<template v-slot:cell(to)="data">
+					<p v-if="data.item.to == 1">Yes</p>
+					<p v-else-if="data.item.to == 0">No</p>
+					<p v-else>{{ data.item.to }}</p>
+				</template>
+			</b-table>
+		</b-modal>
+
 		<b-modal id="add-additional-guests" title="Add Additional Guests" ok-title="Submit" @ok="updateAdditionalGuests">
 			<div v-if="!all_additional_guests.loading">
 				<b-table 
@@ -430,6 +475,33 @@
 				rsvp: {
 					guestType: null,
 					selected: null,
+				},
+				activity: {
+					data: [],
+					fields: [
+						{
+							key: 'description',
+							label: 'Description'
+						},
+						{
+							key: 'area',
+							label: 'Area'
+						},
+						{
+							key: 'type',
+							label: 'Type'
+						},
+						{
+							key: 'updates',
+							label: 'Updates'
+						},
+						{
+							key: 'created_at_format',
+							label: 'Date'
+						}
+					],
+					loading: false,
+					selected: false,
 				}
 			}
 		},
@@ -451,6 +523,29 @@
 				}
 				
 				return inviteType;
+			},
+			activityUpdates() {
+				let updates = [];
+
+				if(this.activity.selected) {
+					let newAttributes 	= this.activity.selected.properties.attributes;
+					let oldAttributes 	= this.activity.selected.properties.old;
+
+					Object.keys(newAttributes).forEach(function(key) {
+						let oldVal = oldAttributes[key];
+						let newVal = newAttributes[key];
+
+						if(oldVal != newVal) {
+							updates.push({
+								item: key.replace("_", " "),
+								from: oldVal,
+								to: newVal
+							});
+						}
+					})
+				}
+
+				return updates;
 			}
 		},
 		methods: {
@@ -474,6 +569,9 @@
 
 					 		// stop loading gif
 					 		self.inviteLoading = false;
+
+					 		// get activity 
+							self.getActivity();
 					 	}
 					 })
 			},
@@ -644,6 +742,24 @@
 				this.rsvp.selected	= guest;
 
 				this.$bvModal.show('edit-rsvp');
+			},
+			getActivity() {
+
+				const self = this;
+
+				// mark as loading
+				self.activity.loading = true;
+
+				// get activity
+				axios.get(this.baseUrl+"/api/invite/activity/"+self.inviteId)
+					 .then((resp) => {
+					 	if(resp.data) {
+					 		self.activity.data = resp.data;
+					 	}
+
+					 	// marked as loaded
+					 	self.activity.loading = false;
+					 });
 			}
 		},
 		mounted() {
@@ -655,6 +771,13 @@
 
 			// get all available additional guests
 			this.getAdditional();
+		},
+		filters: {
+		  capitalize: function (value) {
+		    if (!value) return ''
+		    value = value.toString()
+		    return value.charAt(0).toUpperCase() + value.slice(1)
+		  }
 		}
 	}
 </script>

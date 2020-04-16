@@ -17,7 +17,9 @@ use Mail;
 use App\Mail\Invite as MailInvite;
 
 // Load libaries 
+use Carbon\Carbon;
 use Validator;
+use Spatie\Activitylog\Models\Activity;
 
 class InviteController extends Controller
 {
@@ -395,5 +397,42 @@ class InviteController extends Controller
             'message'   => $message
         ]);
 
+    }
+
+    /**
+     * Get all activity for Invite.
+     * @param  [Integer] $id Invite ID.
+     * @return [Object] Collection of all activity.
+     */
+    public function getActivity($id) {
+
+        // get Invite
+        $invite = Invite::find($id);
+
+        // used to store all Activity
+        $collection = collect([]);
+
+        // data to be sent back as response
+        $response_data = false;
+
+        // get Invite Guest activity
+        $activity = Activity::all()->last();
+        if($activity) {
+            $activity = $activity->where('properties->invite_id', $id)
+                                 ->orderBy('created_at', 'DESC')
+                                 ->get();
+
+            // loop through Activity and store formatted date
+            foreach($activity->all() as $a) {
+                $createdAt = Carbon::createFromFormat('Y-m-d H:i:s', $a->created_at);
+                $createdAt = $createdAt->format('d/m/Y H:i:s');
+
+                $a->created_at_format = $createdAt;
+            }
+           
+           $response_data = $activity->all();
+       }
+
+       return response()->json($response_data);
     }
 }
