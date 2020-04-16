@@ -14,7 +14,7 @@ class PlusOne extends Model
 	use LogsActivity;
     protected $logFillable = true;
 
-	protected $fillable = ['first_name', 'last_name', 'vegetarian', 'vegan', 'dietary_requirements'];
+	protected $fillable = ['first_name', 'last_name', 'vegetarian', 'vegan', 'dietary_requirements', 'rsvp'];
 
 	// used to store where PlusOne was updated
     public $area        = 'admin';

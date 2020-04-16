@@ -227,6 +227,7 @@ class InviteController extends Controller
                         $guest->rsvp            = true;
                         $guest->attending_day   = ($data['rsvp']['day'] == 'true') ? 1 : 0;
                         $guest->attending_night = ($data['rsvp']['night'] == 'true') ? 1 : 0; 
+                        $guest->area            = 'web'; // used for activity logging
                         $guest->save();
 
                         // update dietary requirements
@@ -241,11 +242,13 @@ class InviteController extends Controller
                         $message = 'Thank you, this has been submitted';
                     } elseif($data['type'] == 'plus_one') {
                         $plus_one                           = PlusOne::find($data['id']);
+                        $plus_one->rsvp                     = true;
                         $plus_one->first_name               = $data['first_name'];
                         $plus_one->last_name                = $data['last_name'];
                         $plus_one->vegetarian               = ($data['dietary_requirement'] == 'vegetarian') ? 1 : 0;
                         $plus_one->vegan                    = ($data['dietary_requirement'] == 'vegan') ? 1 : 0;
                         $plus_one->dietary_requirements     = $data['dietary_details'];
+                        $plus_one->area                     = 'web'; // used for activity logging
                         $plus_one->save();
 
                         // brand the request as a success
