@@ -12,7 +12,7 @@ class PlusOne extends Model
 {
 	// Specify what columns to log activity on
 	use LogsActivity;
-    protected $logFillable = true;
+    protected static $logAttributes = ['attending_day', 'attending_night', 'rsvp'];
 
 	protected $fillable = ['first_name', 'last_name', 'vegetarian', 'vegan', 'dietary_requirements', 'rsvp'];
 
