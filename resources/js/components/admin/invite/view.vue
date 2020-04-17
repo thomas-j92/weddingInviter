@@ -143,8 +143,32 @@
 							</div>
 						</template>
 
+						<template v-slot:cell(attending_day)="data">
+							<h4>
+								<b-badge variant="secondary" v-if="data.item.rsvp == 0">N/A</b-badge>
+								<b-badge variant="success" v-else-if="data.item.attending_day == 1">Yes</b-badge>
+								<b-badge variant="danger" v-else="data.item.attending_day == 0">No</b-badge>
+							</h4>
+						</template>
+
+						<template v-slot:cell(attending_night)="data">
+							<h4>
+								<b-badge variant="secondary" v-if="data.item.rsvp == 0">N/A</b-badge>
+								<b-badge variant="success" v-else-if="data.item.attending_night == 1">Yes</b-badge>
+								<b-badge variant="danger" v-else="data.item.attending_night == 0">No</b-badge>
+							</h4>
+						</template>
+
 						<template v-slot:cell(btns)="data">
-							<b-button variant="danger" size="sm" @click="deletePlusOne(data.item.id)"><i class="fas fa-trash"></i></b-button>
+							<b-dropdown id="dropdown-1" size="sm" dropleft class="m-0">
+								<template v-slot:button-content>
+							      <i class="fas fa-cog"></i>
+							    </template>
+								
+								<b-dropdown-item v-b-modal.edit-rsvp @click='showRsvpModal("plus_one", data.item)'><i class="far fa-envelope"></i> RSVP</b-dropdown-item>
+							    <b-dropdown-divider></b-dropdown-divider>
+								<b-dropdown-item @click="deletePlusOne(data.item.id)"><i class="fas fa-trash"></i> Delete</b-dropdown-item>
+							</b-dropdown>
 						</template>
 					</b-table>
 					<no-data text="No plus ones found." v-else></no-data>
@@ -467,6 +491,14 @@
 							label: 'Last name'
 						},
 						{
+							key: 'attending_day',
+							label: 'Day'
+						},
+						{
+							key: 'attending_night',
+							label: 'Night'
+						},
+						{
 							key: 'btns',
 							label: ''
 						}
@@ -739,7 +771,7 @@
 			},
 			showRsvpModal(guest_type, guest) {
 				this.rsvp.guestType = guest_type;
-				this.rsvp.selected	= guest;
+				this.rsvp.selected	= Object.assign({}, guest);
 
 				this.$bvModal.show('edit-rsvp');
 			},

@@ -93272,6 +93272,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'admin.invite.view',
@@ -93351,6 +93375,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				}, {
 					key: 'last_name',
 					label: 'Last name'
+				}, {
+					key: 'attending_day',
+					label: 'Day'
+				}, {
+					key: 'attending_night',
+					label: 'Night'
 				}, {
 					key: 'btns',
 					label: ''
@@ -93609,7 +93639,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		showRsvpModal: function showRsvpModal(guest_type, guest) {
 			this.rsvp.guestType = guest_type;
-			this.rsvp.selected = guest;
+			this.rsvp.selected = Object.assign({}, guest);
 
 			this.$bvModal.show('edit-rsvp');
 		},
@@ -94169,25 +94199,151 @@ var render = function() {
                                 }
                               },
                               {
+                                key: "cell(attending_day)",
+                                fn: function(data) {
+                                  return [
+                                    _c(
+                                      "h4",
+                                      [
+                                        data.item.rsvp == 0
+                                          ? _c(
+                                              "b-badge",
+                                              {
+                                                attrs: { variant: "secondary" }
+                                              },
+                                              [_vm._v("N/A")]
+                                            )
+                                          : data.item.attending_day == 1
+                                          ? _c(
+                                              "b-badge",
+                                              { attrs: { variant: "success" } },
+                                              [_vm._v("Yes")]
+                                            )
+                                          : _c(
+                                              "b-badge",
+                                              { attrs: { variant: "danger" } },
+                                              [_vm._v("No")]
+                                            )
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                }
+                              },
+                              {
+                                key: "cell(attending_night)",
+                                fn: function(data) {
+                                  return [
+                                    _c(
+                                      "h4",
+                                      [
+                                        data.item.rsvp == 0
+                                          ? _c(
+                                              "b-badge",
+                                              {
+                                                attrs: { variant: "secondary" }
+                                              },
+                                              [_vm._v("N/A")]
+                                            )
+                                          : data.item.attending_night == 1
+                                          ? _c(
+                                              "b-badge",
+                                              { attrs: { variant: "success" } },
+                                              [_vm._v("Yes")]
+                                            )
+                                          : _c(
+                                              "b-badge",
+                                              { attrs: { variant: "danger" } },
+                                              [_vm._v("No")]
+                                            )
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                }
+                              },
+                              {
                                 key: "cell(btns)",
                                 fn: function(data) {
                                   return [
                                     _c(
-                                      "b-button",
+                                      "b-dropdown",
                                       {
+                                        staticClass: "m-0",
                                         attrs: {
-                                          variant: "danger",
-                                          size: "sm"
+                                          id: "dropdown-1",
+                                          size: "sm",
+                                          dropleft: ""
                                         },
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.deletePlusOne(
-                                              data.item.id
-                                            )
-                                          }
-                                        }
+                                        scopedSlots: _vm._u(
+                                          [
+                                            {
+                                              key: "button-content",
+                                              fn: function() {
+                                                return [
+                                                  _c("i", {
+                                                    staticClass: "fas fa-cog"
+                                                  })
+                                                ]
+                                              },
+                                              proxy: true
+                                            }
+                                          ],
+                                          null,
+                                          true
+                                        )
                                       },
-                                      [_c("i", { staticClass: "fas fa-trash" })]
+                                      [
+                                        _vm._v(" "),
+                                        _c(
+                                          "b-dropdown-item",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "b-modal",
+                                                rawName: "v-b-modal.edit-rsvp",
+                                                modifiers: { "edit-rsvp": true }
+                                              }
+                                            ],
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.showRsvpModal(
+                                                  "plus_one",
+                                                  data.item
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "far fa-envelope"
+                                            }),
+                                            _vm._v(" RSVP")
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("b-dropdown-divider"),
+                                        _vm._v(" "),
+                                        _c(
+                                          "b-dropdown-item",
+                                          {
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.deletePlusOne(
+                                                  data.item.id
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fas fa-trash"
+                                            }),
+                                            _vm._v(" Delete")
+                                          ]
+                                        )
+                                      ],
+                                      1
                                     )
                                   ]
                                 }
@@ -94195,7 +94351,7 @@ var render = function() {
                             ],
                             null,
                             false,
-                            1728877354
+                            552430979
                           )
                         })
                       : _c("no-data", {
