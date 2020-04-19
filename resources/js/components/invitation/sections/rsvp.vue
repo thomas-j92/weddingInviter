@@ -5,7 +5,7 @@
 
 
 		<transition-group name="list" tag="p">
-		<b-form-group label="Will you be attending the day?" key="question_1">
+		<b-form-group label="Will you be attending the day?" key="question_1" v-if="invite.day == 1">
 		  <b-form-radio-group
 		    id="attending-day"
 		    v-model="form.rsvp.day"
@@ -16,7 +16,7 @@
 		  ></b-form-radio-group>
 		</b-form-group>
 
-		<b-form-group label="Will you be attending the night?" v-if="form.rsvp.day" key="question_2">
+		<b-form-group label="Will you be attending the night?" v-if="invite.night == 1 && (invite.day == 0 || form.rsvp.day)" key="question_2">
 		  <b-form-radio-group
 		    id="attending-night"
 		    v-model="form.rsvp.night"
@@ -27,7 +27,7 @@
 		  ></b-form-radio-group>
 		</b-form-group>
 
-		<b-form-group label="Do you have any dietary requirements?" v-if="form.rsvp.night && (form.rsvp.day == 'true' || form.rsvp.night == 'true')" key="question_3">
+		<b-form-group label="Do you have any dietary requirements?" v-if="showDietRequirements" key="question_3">
 		  <b-form-radio-group
 		    id="dietary-requirements"
 		    v-model="form.diet.requirement"
@@ -54,7 +54,7 @@
 <script>
 	export default {
 		name: 'invite.section.rsvp',
-		props: ['guest', 'sectionNum', 'existingData'],
+		props: ['guest', 'sectionNum', 'existingData', 'invite'],
 		data() {
 			return {
 				rsvpOptions: [
@@ -104,6 +104,23 @@
 				}
 
 				return complete;
+			},
+			showDietRequirements() {
+				let show = false;
+
+				if(this.invite.day && !this.invite.night) {
+					if(this.form.rsvp.day == 'true') {
+						show = true;
+					}
+				}
+
+				if(this.invite.day && this.invite.night) {
+					if(this.form.rsvp.day !== '' && this.form.rsvp.night !== '') {
+						show = true;
+					}
+				}
+
+				return show;
 			}
 		},
 		watch: {

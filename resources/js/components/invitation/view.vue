@@ -89,6 +89,7 @@
 					props: {
 						'guest': guest,
 						'sectionNum': sectionNum,
+						'invite': self.invite,
 					}
 				});
 			});

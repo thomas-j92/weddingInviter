@@ -95813,7 +95813,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				component: __WEBPACK_IMPORTED_MODULE_1__sections_rsvp_vue___default.a,
 				props: {
 					'guest': guest,
-					'sectionNum': sectionNum
+					'sectionNum': sectionNum,
+					'invite': self.invite
 				}
 			});
 		});
@@ -96357,7 +96358,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'invite.section.rsvp',
-	props: ['guest', 'sectionNum', 'existingData'],
+	props: ['guest', 'sectionNum', 'existingData', 'invite'],
 	data: function data() {
 		return {
 			rsvpOptions: [{ 'text': 'Yes', 'value': 'true' }, { 'text': 'No', 'value': 'false' }],
@@ -96400,6 +96401,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			}
 
 			return complete;
+		},
+		showDietRequirements: function showDietRequirements() {
+			var show = false;
+
+			if (this.invite.day && !this.invite.night) {
+				if (this.form.rsvp.day == 'true') {
+					show = true;
+				}
+			}
+
+			if (this.invite.day && this.invite.night) {
+				if (this.form.rsvp.day !== '' && this.form.rsvp.night !== '') {
+					show = true;
+				}
+			}
+
+			return show;
 		}
 	},
 	watch: {
@@ -96461,34 +96479,36 @@ var render = function() {
         "transition-group",
         { attrs: { name: "list", tag: "p" } },
         [
-          _c(
-            "b-form-group",
-            {
-              key: "question_1",
-              attrs: { label: "Will you be attending the day?" }
-            },
-            [
-              _c("b-form-radio-group", {
-                attrs: {
-                  id: "attending-day",
-                  options: _vm.rsvpOptions,
-                  buttons: "",
-                  "button-variant": "outline-primary",
-                  name: "radios-btn-default"
+          _vm.invite.day == 1
+            ? _c(
+                "b-form-group",
+                {
+                  key: "question_1",
+                  attrs: { label: "Will you be attending the day?" }
                 },
-                model: {
-                  value: _vm.form.rsvp.day,
-                  callback: function($$v) {
-                    _vm.$set(_vm.form.rsvp, "day", $$v)
-                  },
-                  expression: "form.rsvp.day"
-                }
-              })
-            ],
-            1
-          ),
+                [
+                  _c("b-form-radio-group", {
+                    attrs: {
+                      id: "attending-day",
+                      options: _vm.rsvpOptions,
+                      buttons: "",
+                      "button-variant": "outline-primary",
+                      name: "radios-btn-default"
+                    },
+                    model: {
+                      value: _vm.form.rsvp.day,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form.rsvp, "day", $$v)
+                      },
+                      expression: "form.rsvp.day"
+                    }
+                  })
+                ],
+                1
+              )
+            : _vm._e(),
           _vm._v(" "),
-          _vm.form.rsvp.day
+          _vm.invite.night == 1 && (_vm.invite.day == 0 || _vm.form.rsvp.day)
             ? _c(
                 "b-form-group",
                 {
@@ -96517,8 +96537,7 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _vm.form.rsvp.night &&
-          (_vm.form.rsvp.day == "true" || _vm.form.rsvp.night == "true")
+          _vm.showDietRequirements
             ? _c(
                 "b-form-group",
                 {
