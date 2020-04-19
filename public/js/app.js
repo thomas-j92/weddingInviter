@@ -93296,6 +93296,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'admin.invite.view',
@@ -93410,6 +93425,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				}],
 				loading: false,
 				selected: false
+			},
+			updateInviteType: {
+				day: 'false',
+				night: 'false'
 			}
 		};
 	},
@@ -93419,7 +93438,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			return this.$route.params.inviteId;
 		},
 		inviteType: function inviteType() {
-			var inviteType = '';
+			var inviteType = 'Not set';
 
 			if (this.invite) {
 				if (this.invite.day && this.invite.night) {
@@ -93465,6 +93484,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				if (resp.data) {
 					// store main person assigned to Invite
 					self.main_guest = resp.data.main_guest;
+
+					// update invite type details
+					self.updateInviteType.day = resp.data.day == 1 ? 'true' : 'false';
+					self.updateInviteType.night = resp.data.night == 1 ? 'true' : 'false';
 
 					// store additional guests assigned to Invite
 					self.additional_guests.data = resp.data.additional_guests;
@@ -93659,6 +93682,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				// marked as loaded
 				self.activity.loading = false;
 			});
+		},
+		updateType: function updateType() {
+
+			var self = this;
+
+			// structure data
+			var updateArr = {
+				day: self.updateInviteType.day,
+				night: self.updateInviteType.night
+			};
+
+			axios.put(this.baseUrl + "/api/invite/" + self.inviteId, updateArr).then(function (resp) {
+				if (resp.data) {
+					if (resp.data.success) {
+						self.toast('Updated', resp.data.message);
+					} else {
+						self.toast('Error', resp.data.message, 'danger');
+					}
+
+					// refresh data
+					self.getInvite();
+				}
+			});
 		}
 	},
 	mounted: function mounted() {
@@ -93744,7 +93790,26 @@ var render = function() {
                         _c("b-col", { attrs: { sm: "4" } }, [
                           _c("h5", [_vm._v("Type")]),
                           _vm._v(" "),
-                          _c("p", [_vm._v(_vm._s(_vm.inviteType))])
+                          _c(
+                            "p",
+                            [
+                              _vm._v(_vm._s(_vm.inviteType) + " "),
+                              _c(
+                                "b-link",
+                                {
+                                  directives: [
+                                    {
+                                      name: "b-modal",
+                                      rawName: "v-b-modal.update-invite-type",
+                                      modifiers: { "update-invite-type": true }
+                                    }
+                                  ]
+                                },
+                                [_vm._v("Update")]
+                              )
+                            ],
+                            1
+                          )
                         ])
                       ],
                       1
@@ -93891,7 +93956,7 @@ var render = function() {
           _c(
             "b-card-header",
             [
-              _vm._v("\n\t\t\tAdditional Guests\n\n\t\t\t"),
+              _vm._v("\n\t\t\t\tAdditional Guests\n\n\t\t\t\t"),
               _c(
                 "b-button",
                 {
@@ -93928,11 +93993,11 @@ var render = function() {
                                 fn: function(data) {
                                   return [
                                     _vm._v(
-                                      "\n\t\t\t\t\t\t" +
+                                      "\n\t\t\t\t\t\t\t" +
                                         _vm._s(data.item.person.first_name) +
                                         " " +
                                         _vm._s(data.item.person.last_name) +
-                                        "\n\t\t\t\t\t"
+                                        "\n\t\t\t\t\t\t"
                                     )
                                   ]
                                 }
@@ -93942,9 +94007,9 @@ var render = function() {
                                 fn: function(data) {
                                   return [
                                     _vm._v(
-                                      "\n\t\t\t\t\t\t" +
+                                      "\n\t\t\t\t\t\t\t" +
                                         _vm._s(data.item.person.email) +
-                                        "\n\t\t\t\t\t"
+                                        "\n\t\t\t\t\t\t"
                                     )
                                   ]
                                 }
@@ -94104,7 +94169,7 @@ var render = function() {
                             ],
                             null,
                             false,
-                            3368877051
+                            3751567611
                           )
                         })
                       : _c("no-data", {
@@ -94126,7 +94191,7 @@ var render = function() {
           _c(
             "b-card-header",
             [
-              _vm._v("\n\t\t\tPlus Ones\n\n\t\t\t"),
+              _vm._v("\n\t\t\t\tPlus Ones\n\n\t\t\t\t"),
               _c(
                 "b-button",
                 {
@@ -94165,14 +94230,14 @@ var render = function() {
                                     data.item.first_name !== null
                                       ? _c("div", [
                                           _vm._v(
-                                            "\n\t\t\t\t\t\t\t" +
+                                            "\n\t\t\t\t\t\t\t\t" +
                                               _vm._s(data.item.first_name) +
-                                              "\n\t\t\t\t\t\t"
+                                              "\n\t\t\t\t\t\t\t"
                                           )
                                         ])
                                       : _c("div", [
                                           _vm._v(
-                                            "\n\t\t\t\t\t\t\tNot specified\n\t\t\t\t\t\t"
+                                            "\n\t\t\t\t\t\t\t\tNot specified\n\t\t\t\t\t\t\t"
                                           )
                                         ])
                                   ]
@@ -94185,14 +94250,14 @@ var render = function() {
                                     data.item.last_name !== null
                                       ? _c("div", [
                                           _vm._v(
-                                            "\n\t\t\t\t\t\t\t" +
+                                            "\n\t\t\t\t\t\t\t\t" +
                                               _vm._s(data.item.last_name) +
-                                              "\n\t\t\t\t\t\t"
+                                              "\n\t\t\t\t\t\t\t"
                                           )
                                         ])
                                       : _c("div", [
                                           _vm._v(
-                                            "\n\t\t\t\t\t\t\tNot specified\n\t\t\t\t\t\t"
+                                            "\n\t\t\t\t\t\t\t\tNot specified\n\t\t\t\t\t\t\t"
                                           )
                                         ])
                                   ]
@@ -94351,7 +94416,7 @@ var render = function() {
                             ],
                             null,
                             false,
-                            552430979
+                            380123395
                           )
                         })
                       : _c("no-data", {
@@ -94370,7 +94435,7 @@ var render = function() {
         "b-card",
         { staticClass: "custom", attrs: { "no-body": "" } },
         [
-          _c("b-card-header", [_vm._v("\n\t\t\tFunctions\n\t\t")]),
+          _c("b-card-header", [_vm._v("\n\t\t\t\tFunctions\n\t\t\t")]),
           _vm._v(" "),
           _c(
             "b-card-body",
@@ -94407,7 +94472,7 @@ var render = function() {
         "b-card",
         { staticClass: "custom", attrs: { "no-body": "" } },
         [
-          _c("b-card-header", [_vm._v("\n\t\t\tEmails\n\t\t")]),
+          _c("b-card-header", [_vm._v("\n\t\t\t\tEmails\n\t\t\t")]),
           _vm._v(" "),
           _c("b-card-body", [
             !_vm.emails.loading
@@ -94461,7 +94526,7 @@ var render = function() {
         "b-card",
         { staticClass: "custom", attrs: { "no-body": "" } },
         [
-          _c("b-card-header", [_vm._v("\n\t\t\tActivity\n\t\t")]),
+          _c("b-card-header", [_vm._v("\n\t\t\t\tActivity\n\t\t\t")]),
           _vm._v(" "),
           _c("b-card-body", [
             !_vm.activity.loading
@@ -94481,13 +94546,13 @@ var render = function() {
                                 fn: function(data) {
                                   return [
                                     _vm._v(
-                                      "\n\t\t\t\t\t\t" +
+                                      "\n\t\t\t\t\t\t\t" +
                                         _vm._s(
                                           _vm._f("capitalize")(
                                             data.item.properties.item
                                           )
                                         ) +
-                                        "\n\t\t\t\t\t"
+                                        "\n\t\t\t\t\t\t"
                                     )
                                   ]
                                 }
@@ -94553,7 +94618,7 @@ var render = function() {
                             ],
                             null,
                             false,
-                            2704386990
+                            1965586222
                           )
                         })
                       : _c("no-data", { attrs: { text: "No activity found." } })
@@ -94584,9 +94649,9 @@ var render = function() {
                 fn: function(data) {
                   return [
                     _vm._v(
-                      "\n\t\t\t\t" +
+                      "\n\t\t\t\t\t" +
                         _vm._s(_vm._f("capitalize")(data.item.item)) +
-                        "\n\t\t\t"
+                        "\n\t\t\t\t"
                     )
                   ]
                 }
@@ -95032,6 +95097,90 @@ var render = function() {
               )
             : _vm._e()
         ]
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: { id: "update-invite-type", title: "Edit Invite Type" },
+          on: { ok: _vm.updateType }
+        },
+        [
+          _c(
+            "b-form-group",
+            { attrs: { label: "What are they invited to?" } },
+            [
+              _c(
+                "b-container",
+                [
+                  _c(
+                    "b-row",
+                    [
+                      _c(
+                        "b-col",
+                        [
+                          _c(
+                            "b-form-checkbox",
+                            {
+                              attrs: {
+                                name: "invite_type",
+                                value: "true",
+                                switch: ""
+                              },
+                              on: {
+                                change: function($event) {
+                                  _vm.updateInviteType.night = "true"
+                                }
+                              },
+                              model: {
+                                value: _vm.updateInviteType.day,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.updateInviteType, "day", $$v)
+                                },
+                                expression: "updateInviteType.day"
+                              }
+                            },
+                            [_vm._v("Day")]
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-col",
+                        [
+                          _c(
+                            "b-form-checkbox",
+                            {
+                              attrs: {
+                                name: "invite_type",
+                                value: "true",
+                                switch: ""
+                              },
+                              model: {
+                                value: _vm.updateInviteType.night,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.updateInviteType, "night", $$v)
+                                },
+                                expression: "updateInviteType.night"
+                              }
+                            },
+                            [_vm._v("Night")]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
       )
     ],
     1

@@ -155,7 +155,37 @@ class InviteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        // find Invite
+        $invite = Invite::find($id);
+
+        // default response
+        $response = array(
+            'success'   => false,
+            'message'   => 'An error occurred'
+        );
+
+        // only update Invite elements that are within $request
+        if(isset($request['day'])) {
+            $invite['day'] = ($request['day'] == 'true') ? true : false;
+
+            // mark as successful
+            $response['success']    = true;
+            $response['message']    = 'Invite has been updated';
+        }
+        if(isset($request['night'])) {
+            $invite['night'] = ($request['night'] == 'true') ? true : false;
+
+            // mark as successful
+            $response['success'] = true;
+            $response['message']    = 'Invite has been updated';
+        }
+
+        // save updates
+        $invite->save();
+
+        return response()->json($response);
+
     }
 
     /**

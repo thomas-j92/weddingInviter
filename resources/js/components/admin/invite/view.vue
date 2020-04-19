@@ -24,7 +24,7 @@
 						</b-col>
 						<b-col sm="4">
 							<h5>Type</h5>
-							<p>{{ inviteType }}</p>
+							<p>{{ inviteType }} <b-link v-b-modal.update-invite-type>Update</b-link></p>
 						</b-col>
 					</b-row>
 					<b-row>
@@ -385,6 +385,21 @@
 			    </b-form-group>
 		    </div>
 		</b-modal>
+
+		<b-modal id="update-invite-type" title="Edit Invite Type" @ok="updateType">
+			<b-form-group label="What are they invited to?">
+	    		<b-container>
+	    			<b-row>
+			    		<b-col>
+				     		<b-form-checkbox v-model="updateInviteType.day" name="invite_type" value="true" @change="updateInviteType.night = 'true'" switch>Day</b-form-checkbox>
+				     	</b-col>
+				     	<b-col>
+				      		<b-form-checkbox v-model="updateInviteType.night" name="invite_type" value="true" switch>Night</b-form-checkbox>
+				      	</b-col>
+			      	</b-row>
+    			</b-container>
+		    </b-form-group>
+		</b-modal>
 	</section>
 </template>
 
@@ -534,6 +549,10 @@
 					],
 					loading: false,
 					selected: false,
+				},
+				updateInviteType: {
+					day: 'false',
+					night: 'false',
 				}
 			}
 		},
@@ -542,7 +561,7 @@
 				return this.$route.params.inviteId;
 			},
 			inviteType() {
-				let inviteType = '';
+				let inviteType = 'Not set';
 
 				if(this.invite) {
 					if(this.invite.day && this.invite.night) {
@@ -589,6 +608,10 @@
 					 	if(resp.data) {
 					 		// store main person assigned to Invite
 					 		self.main_guest = resp.data.main_guest;
+
+					 		// update invite type details
+					 		self.updateInviteType.day = (resp.data.day == 1) ? 'true' : 'false';
+					 		self.updateInviteType.night = (resp.data.night == 1) ? 'true' : 'false';
 
 					 		// store additional guests assigned to Invite
 					 		self.additional_guests.data = resp.data.additional_guests;
@@ -792,6 +815,30 @@
 					 	// marked as loaded
 					 	self.activity.loading = false;
 					 });
+			},
+			updateType() {
+
+				const self = this;
+
+				// structure data
+				let updateArr = {
+					day: self.updateInviteType.day,
+					night: self.updateInviteType.night
+				};
+
+				axios.put(this.baseUrl+"/api/invite/"+self.inviteId, updateArr)
+					 .then((resp) => {
+					 	if(resp.data) {
+				 			if(resp.data.success) {
+				 				self.toast('Updated', resp.data.message);
+					 		} else {
+					 			self.toast('Error', resp.data.message, 'danger');
+					 		}
+
+					 		// refresh data
+					 		self.getInvite();
+					 	}
+					 })
 			}
 		},
 		mounted() {
