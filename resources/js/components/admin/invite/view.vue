@@ -200,11 +200,20 @@
 
 			<b-card-body>
 				<div v-if="!emails.loading">
-					<b-table :items="emails.data" :fields="emails.fields" v-if="emails.data.length > 0">
-						<template v-slot:cell(viewBtn)="data">
-							<b-button :to="{name: 'email.view', params: {id: data.item.id}}">View</b-button>
-						</template>
-					</b-table>
+					<div v-if="emails.data.length > 0">
+						<b-table id="emails-table" :items="emails.data" :fields="emails.fields" :per-page="emails.perPage" :current-page="emails.currentPage">
+							<template v-slot:cell(viewBtn)="data">
+								<b-button :to="{name: 'email.view', params: {id: data.item.id}}">View</b-button>
+							</template>
+						</b-table>
+						<b-pagination
+					      v-model="emails.currentPage"
+					      :total-rows="emails.totalRows"
+					      :per-page="emails.perPage"
+					      aria-controls="emails-table"
+					      align="center"
+					    ></b-pagination>
+					</div>
 					<no-data text="No emails found." v-else></no-data>
 				</div>
 				<div v-else>
@@ -220,18 +229,27 @@
 
 			<b-card-body>
 				<div v-if="!activity.loading">
-					<b-table :fields="activity.fields" :items="activity.data" v-if="activity.data.length > 0">
-						<template v-slot:cell(type)="data">
-							{{ data.item.properties.item | capitalize }}
-						</template>
-						<template v-slot:cell(updates)="data">
-							<b-button v-b-modal.activity_updates v-if="data.item.properties.old" size="sm" @click="activity.selected = data.item" block>View</b-button>
-						</template>
-						<template v-slot:cell(area)="data">
-							<b-badge variant="secondary" v-if="data.item.properties.area == 'admin'">{{ data.item.properties.area }}</b-badge>
-							<b-badge variant="primary" v-else>{{ data.item.properties.area }}</b-badge>
-						</template>
-					</b-table>
+					<div v-if="activity.data.length > 0">
+						<b-table id="activity-table" :fields="activity.fields" :items="activity.data" :per-page="activity.perPage" :current-page="activity.currentPage">
+							<template v-slot:cell(type)="data">
+								{{ data.item.properties.item | capitalize }}
+							</template>
+							<template v-slot:cell(updates)="data">
+								<b-button v-b-modal.activity_updates v-if="data.item.properties.old" size="sm" @click="activity.selected = data.item" block>View</b-button>
+							</template>
+							<template v-slot:cell(area)="data">
+								<b-badge variant="secondary" v-if="data.item.properties.area == 'admin'">{{ data.item.properties.area }}</b-badge>
+								<b-badge variant="primary" v-else>{{ data.item.properties.area }}</b-badge>
+							</template>
+						</b-table>
+						<b-pagination
+					      v-model="activity.currentPage"
+					      :total-rows="activity.totalRows"
+					      :per-page="activity.perPage"
+					      aria-controls="activity-table"
+					      align="center"
+					    ></b-pagination>
+					</div>
 					<no-data text="No activity found." v-else></no-data>
 				</div>
 				<div v-else>
@@ -479,7 +497,10 @@
 							key: 'viewBtn',
 							label: ''
 						}
-					]
+					],
+					currentPage: 0,
+					totalRows: 0,
+					perPage: 5,
 				}, 
 				emailsLoading: true,
 				dietary_requirements: [
@@ -549,6 +570,9 @@
 					],
 					loading: false,
 					selected: false,
+					currentPage: 0,
+					totalRows: 0,
+					perPage: 5,
 				},
 				updateInviteType: {
 					day: 'false',
@@ -641,6 +665,9 @@
 
 					 	if(resp.data) {
 					 		self.emails.data = resp.data;
+
+					 		// store number of email records
+					 		self.emails.totalRows = resp.data.length;
 					 	}
 
 					 	self.emails.loading = false
@@ -810,6 +837,9 @@
 					 .then((resp) => {
 					 	if(resp.data) {
 					 		self.activity.data = resp.data;
+
+					 		// store number of activity records
+					 		self.activity.totalRows = resp.data.length;
 					 	}
 
 					 	// marked as loaded

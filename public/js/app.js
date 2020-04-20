@@ -93311,6 +93311,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'admin.invite.view',
@@ -93372,7 +93390,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				}, {
 					key: 'viewBtn',
 					label: ''
-				}]
+				}],
+				currentPage: 0,
+				totalRows: 0,
+				perPage: 5
 			},
 			emailsLoading: true,
 			dietary_requirements: ['none', 'vegan', 'vegetarian', 'other'],
@@ -93424,7 +93445,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					label: 'Date'
 				}],
 				loading: false,
-				selected: false
+				selected: false,
+				currentPage: 0,
+				totalRows: 0,
+				perPage: 5
 			},
 			updateInviteType: {
 				day: 'false',
@@ -93516,6 +93540,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 				if (resp.data) {
 					self.emails.data = resp.data;
+
+					// store number of email records
+					self.emails.totalRows = resp.data.length;
 				}
 
 				self.emails.loading = false;
@@ -93677,6 +93704,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			axios.get(this.baseUrl + "/api/invite/activity/" + self.inviteId).then(function (resp) {
 				if (resp.data) {
 					self.activity.data = resp.data;
+
+					// store number of activity records
+					self.activity.totalRows = resp.data.length;
 				}
 
 				// marked as loaded
@@ -94481,38 +94511,63 @@ var render = function() {
                   "div",
                   [
                     _vm.emails.data.length > 0
-                      ? _c("b-table", {
-                          attrs: {
-                            items: _vm.emails.data,
-                            fields: _vm.emails.fields
-                          },
-                          scopedSlots: _vm._u(
-                            [
-                              {
-                                key: "cell(viewBtn)",
-                                fn: function(data) {
-                                  return [
-                                    _c(
-                                      "b-button",
-                                      {
-                                        attrs: {
-                                          to: {
-                                            name: "email.view",
-                                            params: { id: data.item.id }
-                                          }
-                                        }
-                                      },
-                                      [_vm._v("View")]
-                                    )
-                                  ]
-                                }
+                      ? _c(
+                          "div",
+                          [
+                            _c("b-table", {
+                              attrs: {
+                                id: "emails-table",
+                                items: _vm.emails.data,
+                                fields: _vm.emails.fields,
+                                "per-page": _vm.emails.perPage,
+                                "current-page": _vm.emails.currentPage
+                              },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "cell(viewBtn)",
+                                    fn: function(data) {
+                                      return [
+                                        _c(
+                                          "b-button",
+                                          {
+                                            attrs: {
+                                              to: {
+                                                name: "email.view",
+                                                params: { id: data.item.id }
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("View")]
+                                        )
+                                      ]
+                                    }
+                                  }
+                                ],
+                                null,
+                                false,
+                                1423847520
+                              )
+                            }),
+                            _vm._v(" "),
+                            _c("b-pagination", {
+                              attrs: {
+                                "total-rows": _vm.emails.totalRows,
+                                "per-page": _vm.emails.perPage,
+                                "aria-controls": "emails-table",
+                                align: "center"
+                              },
+                              model: {
+                                value: _vm.emails.currentPage,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.emails, "currentPage", $$v)
+                                },
+                                expression: "emails.currentPage"
                               }
-                            ],
-                            null,
-                            false,
-                            1423847520
-                          )
-                        })
+                            })
+                          ],
+                          1
+                        )
                       : _c("no-data", { attrs: { text: "No emails found." } })
                   ],
                   1
@@ -94535,93 +94590,127 @@ var render = function() {
                   "div",
                   [
                     _vm.activity.data.length > 0
-                      ? _c("b-table", {
-                          attrs: {
-                            fields: _vm.activity.fields,
-                            items: _vm.activity.data
-                          },
-                          scopedSlots: _vm._u(
-                            [
-                              {
-                                key: "cell(type)",
-                                fn: function(data) {
-                                  return [
-                                    _vm._v(
-                                      "\n\t\t\t\t\t\t\t" +
-                                        _vm._s(
-                                          _vm._f("capitalize")(
-                                            data.item.properties.item
-                                          )
-                                        ) +
-                                        "\n\t\t\t\t\t\t"
-                                    )
-                                  ]
-                                }
+                      ? _c(
+                          "div",
+                          [
+                            _c("b-table", {
+                              attrs: {
+                                id: "activity-table",
+                                fields: _vm.activity.fields,
+                                items: _vm.activity.data,
+                                "per-page": _vm.activity.perPage,
+                                "current-page": _vm.activity.currentPage
                               },
-                              {
-                                key: "cell(updates)",
-                                fn: function(data) {
-                                  return [
-                                    data.item.properties.old
-                                      ? _c(
-                                          "b-button",
-                                          {
-                                            directives: [
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "cell(type)",
+                                    fn: function(data) {
+                                      return [
+                                        _vm._v(
+                                          "\n\t\t\t\t\t\t\t\t" +
+                                            _vm._s(
+                                              _vm._f("capitalize")(
+                                                data.item.properties.item
+                                              )
+                                            ) +
+                                            "\n\t\t\t\t\t\t\t"
+                                        )
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    key: "cell(updates)",
+                                    fn: function(data) {
+                                      return [
+                                        data.item.properties.old
+                                          ? _c(
+                                              "b-button",
                                               {
-                                                name: "b-modal",
-                                                rawName:
-                                                  "v-b-modal.activity_updates",
-                                                modifiers: {
-                                                  activity_updates: true
+                                                directives: [
+                                                  {
+                                                    name: "b-modal",
+                                                    rawName:
+                                                      "v-b-modal.activity_updates",
+                                                    modifiers: {
+                                                      activity_updates: true
+                                                    }
+                                                  }
+                                                ],
+                                                attrs: {
+                                                  size: "sm",
+                                                  block: ""
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.activity.selected =
+                                                      data.item
+                                                  }
                                                 }
-                                              }
-                                            ],
-                                            attrs: { size: "sm", block: "" },
-                                            on: {
-                                              click: function($event) {
-                                                _vm.activity.selected =
-                                                  data.item
-                                              }
-                                            }
-                                          },
-                                          [_vm._v("View")]
-                                        )
-                                      : _vm._e()
-                                  ]
-                                }
+                                              },
+                                              [_vm._v("View")]
+                                            )
+                                          : _vm._e()
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    key: "cell(area)",
+                                    fn: function(data) {
+                                      return [
+                                        data.item.properties.area == "admin"
+                                          ? _c(
+                                              "b-badge",
+                                              {
+                                                attrs: { variant: "secondary" }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    data.item.properties.area
+                                                  )
+                                                )
+                                              ]
+                                            )
+                                          : _c(
+                                              "b-badge",
+                                              { attrs: { variant: "primary" } },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    data.item.properties.area
+                                                  )
+                                                )
+                                              ]
+                                            )
+                                      ]
+                                    }
+                                  }
+                                ],
+                                null,
+                                false,
+                                3423863470
+                              )
+                            }),
+                            _vm._v(" "),
+                            _c("b-pagination", {
+                              attrs: {
+                                "total-rows": _vm.activity.totalRows,
+                                "per-page": _vm.activity.perPage,
+                                "aria-controls": "activity-table",
+                                align: "center"
                               },
-                              {
-                                key: "cell(area)",
-                                fn: function(data) {
-                                  return [
-                                    data.item.properties.area == "admin"
-                                      ? _c(
-                                          "b-badge",
-                                          { attrs: { variant: "secondary" } },
-                                          [
-                                            _vm._v(
-                                              _vm._s(data.item.properties.area)
-                                            )
-                                          ]
-                                        )
-                                      : _c(
-                                          "b-badge",
-                                          { attrs: { variant: "primary" } },
-                                          [
-                                            _vm._v(
-                                              _vm._s(data.item.properties.area)
-                                            )
-                                          ]
-                                        )
-                                  ]
-                                }
+                              model: {
+                                value: _vm.activity.currentPage,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.activity, "currentPage", $$v)
+                                },
+                                expression: "activity.currentPage"
                               }
-                            ],
-                            null,
-                            false,
-                            1965586222
-                          )
-                        })
+                            })
+                          ],
+                          1
+                        )
                       : _c("no-data", { attrs: { text: "No activity found." } })
                   ],
                   1
