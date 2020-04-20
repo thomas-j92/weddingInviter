@@ -93781,35 +93781,10 @@ var render = function() {
                           ])
                         ]),
                         _vm._v(" "),
-                        _c("b-col", { attrs: { sm: "5" } }, [
+                        _c("b-col", { attrs: { sm: "4" } }, [
                           _c("h5", [_vm._v("Email")]),
                           _vm._v(" "),
                           _c("p", [_vm._v(_vm._s(_vm.main_guest.person.email))])
-                        ]),
-                        _vm._v(" "),
-                        _c("b-col", { attrs: { sm: "4" } }, [
-                          _c("h5", [_vm._v("Type")]),
-                          _vm._v(" "),
-                          _c(
-                            "p",
-                            [
-                              _vm._v(_vm._s(_vm.inviteType) + " "),
-                              _c(
-                                "b-link",
-                                {
-                                  directives: [
-                                    {
-                                      name: "b-modal",
-                                      rawName: "v-b-modal.update-invite-type",
-                                      modifiers: { "update-invite-type": true }
-                                    }
-                                  ]
-                                },
-                                [_vm._v("Update")]
-                              )
-                            ],
-                            1
-                          )
                         ])
                       ],
                       1
@@ -93817,6 +93792,7 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "b-row",
+                      { staticClass: "mt-2" },
                       [
                         _c("b-col", { attrs: { sm: "3" } }, [
                           _c("h5", [_vm._v("Status")]),
@@ -93840,9 +93816,34 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
+                        _c("b-col", { attrs: { sm: "3" } }, [
+                          _c("h5", [_vm._v("Type")]),
+                          _vm._v(" "),
+                          _c(
+                            "p",
+                            [
+                              _vm._v(_vm._s(_vm.inviteType) + " "),
+                              _c(
+                                "b-link",
+                                {
+                                  directives: [
+                                    {
+                                      name: "b-modal",
+                                      rawName: "v-b-modal.update-invite-type",
+                                      modifiers: { "update-invite-type": true }
+                                    }
+                                  ]
+                                },
+                                [_vm._v("Update")]
+                              )
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
                         _c(
                           "b-col",
-                          { attrs: { sm: "5" } },
+                          { attrs: { sm: "3" } },
                           [
                             _c("h5", [_vm._v("Attending Day")]),
                             _vm._v(" "),
@@ -93891,7 +93892,7 @@ var render = function() {
                         _vm._v(" "),
                         _c(
                           "b-col",
-                          { attrs: { sm: "4" } },
+                          { attrs: { sm: "3" } },
                           [
                             _c("h5", [_vm._v("Attending Night")]),
                             _vm._v(" "),

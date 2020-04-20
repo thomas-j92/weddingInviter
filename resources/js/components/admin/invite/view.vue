@@ -18,16 +18,12 @@
 							<h5>Name</h5>
 							<p>{{ main_guest.person.first_name }} {{ main_guest.person.last_name }}</p>
 						</b-col>
-						<b-col sm="5">
+						<b-col sm="4">
 							<h5>Email</h5>
 							<p>{{ main_guest.person.email }}</p>
 						</b-col>
-						<b-col sm="4">
-							<h5>Type</h5>
-							<p>{{ inviteType }} <b-link v-b-modal.update-invite-type>Update</b-link></p>
-						</b-col>
 					</b-row>
-					<b-row>
+					<b-row class="mt-2">
 						<b-col sm="3">
 							<h5>Status</h5>
 							<h4>
@@ -35,7 +31,11 @@
 								<b-badge variant="warning" v-else>Awaiting Reply</b-badge>
 							</h4>
 						</b-col>
-						<b-col sm="5">
+						<b-col sm="3">
+							<h5>Type</h5>
+							<p>{{ inviteType }} <b-link v-b-modal.update-invite-type>Update</b-link></p>
+						</b-col>
+						<b-col sm="3">
 							<h5>Attending Day</h5>
 							<h4 class="d-inline">
 								<b-badge variant="secondary" v-if="main_guest.rsvp == 0">N/A</b-badge>
@@ -44,7 +44,7 @@
 							</h4>
 							<b-link @click='showRsvpModal("main", main_guest)'>Update</b-link>
 						</b-col>
-						<b-col sm="4">
+						<b-col sm="3">
 							<h5>Attending Night</h5>
 							<h4 class="d-inline">
 								<b-badge variant="secondary" v-if="main_guest.rsvp == 0">N/A</b-badge>
