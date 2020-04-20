@@ -305,7 +305,9 @@ class InviteController extends Controller
         $invite     = Invite::find($invite_id);
 
         // get Emails assigned to Invite
-        $emails     = $invite->emails()->get();
+        $emails     = $invite->emails()
+                             ->orderBy('created_at', 'DESC')
+                             ->get();
 
         return response()->json($emails);
 
