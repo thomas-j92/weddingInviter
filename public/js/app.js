@@ -93391,7 +93391,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					key: 'viewBtn',
 					label: ''
 				}],
-				currentPage: 0,
+				currentPage: 1,
 				totalRows: 0,
 				perPage: 5
 			},
@@ -93446,7 +93446,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				}],
 				loading: false,
 				selected: false,
-				currentPage: 0,
+				currentPage: 1,
 				totalRows: 0,
 				perPage: 5
 			},

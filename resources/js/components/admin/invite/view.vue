@@ -498,7 +498,7 @@
 							label: ''
 						}
 					],
-					currentPage: 0,
+					currentPage: 1,
 					totalRows: 0,
 					perPage: 5,
 				}, 
@@ -570,7 +570,7 @@
 					],
 					loading: false,
 					selected: false,
-					currentPage: 0,
+					currentPage: 1,
 					totalRows: 0,
 					perPage: 5,
 				},
