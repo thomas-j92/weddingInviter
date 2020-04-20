@@ -44,6 +44,11 @@
                         */
                     },
                     {
+                        href: '/admin/people/all',
+                        title: 'People',
+                        icon: 'fa fa-users'
+                    },
+                    {
                         href: '/admin/guests/all',
                         title: 'Guests',
                         icon: 'fa fa-users',

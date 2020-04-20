@@ -197,4 +197,16 @@ class PeopleController extends Controller
 
         return response()->json($response);
     }
+
+    /**
+     * Get all People.
+     */
+    public function get_all() {
+
+        // get all People
+        $people = People::all();
+
+        return response()->json($people);
+
+    }
 }

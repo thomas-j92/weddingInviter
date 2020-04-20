@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // People
 Route::get('people/showAll/{filter?}', 'Api\PeopleController@showAll');
+Route::get('people/get_all/', 'Api\PeopleController@get_all');
 Route::apiResource('people', 'Api\PeopleController', ['as' => 'api']);
 
 // Invite

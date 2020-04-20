@@ -46951,6 +46951,10 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
 			name: 'admin.dashboard',
 			component: __webpack_require__(346)
 		}, {
+			path: 'people/all',
+			name: 'people.all',
+			component: __webpack_require__(386)
+		}, {
 			path: 'guests/:filter',
 			name: 'admin.guests',
 			component: __webpack_require__(349)
@@ -91043,6 +91047,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
                 */
             }, {
+                href: '/admin/people/all',
+                title: 'People',
+                icon: 'fa fa-users'
+            }, {
                 href: '/admin/guests/all',
                 title: 'Guests',
                 icon: 'fa fa-users',
@@ -97327,6 +97335,264 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 383 */,
+/* 384 */,
+/* 385 */,
+/* 386 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(16)
+/* script */
+var __vue_script__ = __webpack_require__(387)
+/* template */
+var __vue_template__ = __webpack_require__(388)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/admin/people/all.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-52b226ac", Component.options)
+  } else {
+    hotAPI.reload("data-v-52b226ac", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 387 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	name: 'people.all',
+	data: function data() {
+		return {
+			people: [],
+			fields: [{
+				key: 'first_name',
+				label: 'First name'
+			}, {
+				key: 'last_name',
+				label: 'Last name'
+			}, {
+				key: 'invite_status',
+				label: 'Invite status'
+			}],
+			isLoaded: false
+		};
+	},
+
+	methods: {
+		get: function get() {
+			var self = this;
+
+			axios.get(this.baseUrl + '/api/people/get_all').then(function (resp) {
+				if (resp.data) {
+					self.people = resp.data;
+
+					self.isLoaded = true;
+				}
+			});
+		},
+		getBadgeVariant: function getBadgeVariant(inviteStatus) {
+			var variant = '';
+
+			if (inviteStatus == 'awaiting_reply') {
+				variant = 'warning';
+			}
+
+			if (inviteStatus == 'not attending') {
+				variant = 'danger';
+			}
+
+			if (inviteStatus == 'attending') {
+				variant = 'success';
+			}
+
+			return variant;
+		}
+	},
+	filters: {
+		capitalize: function capitalize(value) {
+			if (!value) {
+				return '';
+			}
+
+			value = value.toString().replace('_', ' ');
+
+			return value.charAt(0).toUpperCase() + value.slice(1);
+		}
+	},
+	mounted: function mounted() {
+		this.get();
+	}
+});
+
+/***/ }),
+/* 388 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "b-card",
+        [
+          _c(
+            "b-card-body",
+            [
+              _c(
+                "b-card-title",
+                [
+                  _vm._v("People (" + _vm._s(_vm.people.length) + ")"),
+                  _c(
+                    "b-button",
+                    {
+                      directives: [
+                        {
+                          name: "b-modal",
+                          rawName: "v-b-modal.create-guest",
+                          modifiers: { "create-guest": true }
+                        }
+                      ],
+                      staticClass: "float-right",
+                      attrs: { variant: "success" }
+                    },
+                    [
+                      _c("i", { staticClass: "fas fa-plus-circle" }),
+                      _vm._v(" Create")
+                    ]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _vm.isLoaded
+                ? _c(
+                    "div",
+                    [
+                      _vm.people.length > 0
+                        ? _c("b-table", {
+                            attrs: { fields: _vm.fields, items: _vm.people },
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "cell(invite_status)",
+                                  fn: function(data) {
+                                    return [
+                                      _c(
+                                        "b-badge",
+                                        {
+                                          attrs: {
+                                            variant: _vm.getBadgeVariant(
+                                              data.item.invite_status
+                                            )
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            _vm._s(
+                                              _vm._f("capitalize")(
+                                                data.item.invite_status
+                                              )
+                                            )
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  }
+                                }
+                              ],
+                              null,
+                              false,
+                              274966599
+                            )
+                          })
+                        : _c("no-data")
+                    ],
+                    1
+                  )
+                : _c("loading")
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-52b226ac", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
