@@ -33,7 +33,7 @@
 		@ok="createGuest">
 			<div class="d-block text-center">
 				<b-container fluid>
-					<b-row class="my-1" v-for="(item_type, item_name)  in create.inputs" :key="item_name">
+					<b-row class="my-1" v-for="(item_type, item_name) in create.inputs" :key="item_name">
 					  <b-col sm="3">
 					    <label :for="`type-${item_name}`">{{ item_name | prettify }}:</label>
 					  </b-col>

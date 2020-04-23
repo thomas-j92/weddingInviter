@@ -331,6 +331,7 @@ const router = new VueRouter({
 		        {
 		        	path: 'invite/view/:inviteId/',
 		        	component: require('./components/admin/invite/view'),
+		        	name: 'invite.view'
 		        },
 		        {
 		        	path: 'reports',

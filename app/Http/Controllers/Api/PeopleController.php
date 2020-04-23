@@ -178,24 +178,7 @@ class PeopleController extends Controller
      */
     public function destroy($id)
     {
-        $person = People::find($id);
-
-
-        $response = array(
-            'response'  => false
-        );
-        if($person) {
-            $updated = $person->update([
-                'status'    => 'disabled'
-            ]);
-
-            if($updated) {
-                $response['response']   = true;
-                $response['message']    = 'Guest has been removed';
-            }
-        }
-
-        return response()->json($response);
+        
     }
 
     /**
@@ -204,9 +187,79 @@ class PeopleController extends Controller
     public function get_all() {
 
         // get all People
-        $people = People::all();
+        $people = People::with(['invite'])->get();
 
         return response()->json($people);
+
+    }
+
+    /**
+     * Delete Person.
+     */
+    public function deletePerson($id, Request $request) {
+
+        // get Person
+        $person     = People::find($id);
+
+        // response message
+        $response    = array(
+            'message'   => 'Person deleted',
+            'success'   => true
+        );
+
+        // if Person is assigned to Invite
+        if($person->invite()->count() > 0) {
+            // get InviteGuest that Person is assigned to 
+            $inviteGuest    = $person->invite()->first();
+
+            // get Invite that Person is assigned to 
+            $invite         = $inviteGuest->invite()->first();
+
+            // if attempting to delete a main Guest
+            if($request['type'] == 'main') {
+                // loop though all InviteGuest's assigned to Invite and delete them
+                foreach($invite->guests()->get() as $g) {
+                    $g->delete();
+                }
+
+                // delete Invite
+                $invite->delete();
+
+                // update response message
+                $response['message'] = 'Person & Invite deleted';
+            }
+
+            // if attempting to delete an additional Guest
+            if($request['type'] == 'additional') {
+                // unassign guest or delete invite based off input
+                switch($request['option']) {
+                    case 'unassign_guest':
+                        $inviteGuest->delete();
+
+                        // update response message
+                        $response['message'] = 'Person deleted & unassigned from Invite';
+                    break;
+
+                    case 'delete_invite':
+                        // loop though all InviteGuest's assigned to Invite and delete them
+                        foreach($invite->guests()->get() as $g) {
+                            $g->delete();
+                        }
+
+                        // delete Invite
+                        $invite->delete();
+
+                        // update response message
+                        $response['message'] = 'Person & Invite deleted';
+                    break;
+                }
+            }
+        }
+
+        // delete Person
+        $person->delete();
+
+        return response()->json($response);
 
     }
 }

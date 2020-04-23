@@ -3,13 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class People extends Model
 {
+	use SoftDeletes;
 
 	protected $fillable = ['first_name', 'last_name', 'status', 'email'];
-
-	protected $appends = ['invite_status'];
+	protected $appends 	= ['invite_status'];
 
 	/**
 	 * Get any entires within the invite_guests table that are linked to Person.
