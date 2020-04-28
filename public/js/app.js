@@ -46955,6 +46955,10 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
 			name: 'people.all',
 			component: __webpack_require__(349)
 		}, {
+			path: 'people/upload/:id',
+			name: 'upload.process',
+			component: __webpack_require__(389)
+		}, {
 			path: 'guests/:filter',
 			name: 'admin.guests',
 			component: __webpack_require__(352)
@@ -91530,6 +91534,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'people.all',
@@ -91566,7 +91595,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			},
 			isLoaded: false,
 			selected: false,
-			deleteOption: 'unassign_guest'
+			deleteOption: 'unassign_guest',
+			uploadFile: null
 		};
 	},
 
@@ -91648,6 +91678,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				// refresh list
 				self.get();
 			});
+		},
+		bulkUpload: function bulkUpload() {
+			var self = this;
+
+			// form data
+			var formData = new FormData();
+			formData.append('file', this.uploadFile);
+
+			axios.post(this.baseUrl + '/api/people/upload', formData).then(function (resp) {
+				if (resp.data && resp.data.success) {
+					self.$router.push({ name: 'upload.process', params: { id: resp.data.id } });
+				} else {
+					self.toast('Error', resp.data.message, 'error');
+				}
+			}).catch(function (error) {
+				self.toast('An error occurred', error, 'error');
+			});
 		}
 	},
 	filters: {
@@ -91698,7 +91745,9 @@ var render = function() {
               _c(
                 "b-card-title",
                 [
-                  _vm._v("People (" + _vm._s(_vm.people.length) + ")"),
+                  _vm._v(
+                    "People (" + _vm._s(_vm.people.length) + ")\n\t\t\t\t"
+                  ),
                   _c(
                     "b-button",
                     {
@@ -91713,8 +91762,27 @@ var render = function() {
                       attrs: { variant: "success" }
                     },
                     [
-                      _c("i", { staticClass: "fas fa-plus-circle" }),
+                      _c("i", { staticClass: "fas fa-plus-circle mr-1" }),
                       _vm._v(" Create")
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-button",
+                    {
+                      directives: [
+                        {
+                          name: "b-modal",
+                          rawName: "v-b-modal.bulk-upload-modal",
+                          modifiers: { "bulk-upload-modal": true }
+                        }
+                      ],
+                      staticClass: "float-right mr-1",
+                      attrs: { variant: "outline-primary" }
+                    },
+                    [
+                      _c("i", { staticClass: "fas fa-upload mr-1" }),
+                      _vm._v(" Bulk Upload")
                     ]
                   )
                 ],
@@ -92061,7 +92129,11 @@ var render = function() {
       _c(
         "b-modal",
         {
-          attrs: { id: "create-guest", title: "Create Guest" },
+          attrs: {
+            id: "create-guest",
+            title: "Create Guest",
+            "ok-title": "Create"
+          },
           on: { ok: _vm.createGuest }
         },
         [
@@ -92110,6 +92182,66 @@ var render = function() {
             1
           )
         ]
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: {
+            id: "bulk-upload-modal",
+            title: "Bulk Upload",
+            "ok-title": "Upload"
+          },
+          on: { ok: _vm.bulkUpload }
+        },
+        [
+          _c("p", [
+            _vm._v("Used to bulk upload people into the system via CSV")
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v("You can download the template by "),
+            _c(
+              "a",
+              { attrs: { href: "/storage/uploadTemplate.csv", download: "" } },
+              [_vm._v("clicking here")]
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "b-container",
+            [
+              _c(
+                "b-row",
+                [
+                  _c(
+                    "b-col",
+                    [
+                      _c("b-form-file", {
+                        attrs: {
+                          state: Boolean(_vm.uploadFile),
+                          placeholder: "Choose a file or drop it here...",
+                          "drop-placeholder": "Drop file here..."
+                        },
+                        model: {
+                          value: _vm.uploadFile,
+                          callback: function($$v) {
+                            _vm.uploadFile = $$v
+                          },
+                          expression: "uploadFile"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
       )
     ],
     1
@@ -98062,6 +98194,100 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 386 */,
+/* 387 */,
+/* 388 */,
+/* 389 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(15)
+/* script */
+var __vue_script__ = __webpack_require__(390)
+/* template */
+var __vue_template__ = __webpack_require__(391)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/admin/people/upload.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1a095c46", Component.options)
+  } else {
+    hotAPI.reload("data-v-1a095c46", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 390 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	name: 'upload.process'
+});
+
+/***/ }),
+/* 391 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("section", [_c("h2", [_vm._v("Upload")])])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1a095c46", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

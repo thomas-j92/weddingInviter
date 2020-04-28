@@ -22,6 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('people/showAll/{filter?}', 'Api\PeopleController@showAll');
 Route::get('people/get_all/', 'Api\PeopleController@get_all');
 Route::put('people/deletePerson/{id}', 'Api\PeopleController@deletePerson');
+Route::post('people/upload/', 'Api\PeopleController@upload');
 Route::apiResource('people', 'Api\PeopleController', ['as' => 'api']);
 
 // People - new

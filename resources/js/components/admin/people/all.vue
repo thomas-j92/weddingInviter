@@ -2,7 +2,10 @@
 	<div>
 		<b-card>
 			<b-card-body>
-				<b-card-title>People ({{ people.length }})<b-button class="float-right" variant="success" v-b-modal.create-guest><i class="fas fa-plus-circle"></i> Create</b-button></b-card-title>
+				<b-card-title>People ({{ people.length }})
+					<b-button class="float-right" variant="success" v-b-modal.create-guest><i class="fas fa-plus-circle mr-1"></i> Create</b-button>
+					<b-button class="float-right mr-1" variant="outline-primary" v-b-modal.bulk-upload-modal><i class="fas fa-upload mr-1"></i> Bulk Upload</b-button>
+				</b-card-title>
 				<div v-if="isLoaded">
 					<b-table :fields="fields" :items="people" v-if="people.length > 0">
 						<template v-slot:cell(invite_status)="data">
@@ -59,7 +62,8 @@
 		<b-modal 
 		id="create-guest"
 		title="Create Guest"
-		@ok="createGuest">
+		@ok="createGuest"
+		ok-title="Create">
 			<div class="d-block text-center">
 				<b-container fluid>
 					<b-row class="my-1" v-for="(item_type, item_name) in create.inputs" :key="item_name">
@@ -72,6 +76,27 @@
 					</b-row>
 				</b-container>
 			</div>
+		</b-modal>
+
+		<b-modal
+		id="bulk-upload-modal"
+		title="Bulk Upload"
+		@ok="bulkUpload"
+		ok-title="Upload">
+			<p>Used to bulk upload people into the system via CSV</p>
+			<p>You can download the template by <a href="/storage/uploadTemplate.csv" download>clicking here</a></p>
+			<b-container>
+				<b-row>
+					<b-col>
+						<b-form-file
+					      v-model="uploadFile"
+					      :state="Boolean(uploadFile)"
+					      placeholder="Choose a file or drop it here..."
+					      drop-placeholder="Drop file here..."
+					    ></b-form-file>
+					</b-col>
+				</b-row>
+			</b-container>
 		</b-modal>
 	</div>
 </template>
@@ -118,7 +143,8 @@
 				},
 				isLoaded: false,
 				selected: false,
-				deleteOption: 'unassign_guest'
+				deleteOption: 'unassign_guest',
+				uploadFile: null
 			}
 		},
 		methods: {
@@ -203,6 +229,25 @@
 					 	self.get();
 					 });
 			},
+			bulkUpload() {
+				const self = this;
+
+				// form data
+				let formData = new FormData();
+				formData.append('file', this.uploadFile);
+
+				axios.post(this.baseUrl+'/api/people/upload', formData)
+					 .then((resp) => {
+					 	if(resp.data && resp.data.success) {
+					 		self.$router.push({name: 'upload.process', params: {id: resp.data.id}});
+					 	} else {
+					 		self.toast('Error', resp.data.message, 'error');
+					 	}
+					 })
+					 .catch((error) => {
+					 	self.toast('An error occurred', error, 'error');
+					 })
+			}
 		},
 		filters: {
 		  capitalize: function (value) {

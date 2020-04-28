@@ -320,6 +320,11 @@ const router = new VueRouter({
 		        	component: require('./components/admin/people/all')
 		        },
 		        {
+		        	path: 'people/upload/:id',
+		        	name: 'upload.process',
+		        	component: require('./components/admin/people/upload')
+		        },
+		        {
 		         	path: 'guests/:filter',
 		         	name: 'admin.guests',
 		        	component: require('./components/admin/guests/main')

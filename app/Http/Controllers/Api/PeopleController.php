@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 
 // Load models
 use App\People;
+use App\CsvUploadContainer;
+use App\CsvUpload;
 
 // Load libaries 
 use Validator;
@@ -261,5 +263,72 @@ class PeopleController extends Controller
 
         return response()->json($response);
 
+    }
+
+    public function upload(Request $request) {
+
+      // ensure file has been provided
+      $validator = Validator::make($request->all(), [
+          'file'     => 'required|mimes:csv',
+      ]);
+
+      // default response
+      $response = array(
+          'success'   => false,
+          'message'   => 'An error occurred'
+      );
+
+      // read CSV file line-by-line
+      $file_handle = fopen($request['file'], 'r');
+      $dataArr    = array();
+      $headersArr = array();
+      while (!feof($file_handle)) {
+        if(count($headersArr) == 0) {
+          $headersArr[] = fgetcsv($file_handle, 0, ',');
+        } else {
+          $dataArr[] = fgetcsv($file_handle, 0, ',');
+        }
+      }
+      fclose($file_handle);
+
+      $numUploaded = count($dataArr);
+      foreach($dataArr as $d) {
+        $firstName    = $d[0];
+        $lastName     = $d[1];
+        $email        = $d[2];
+        $dayGuest     = $d[3];
+        $nightGuest   = $d[4];
+        $rsvpDay      = $d[5];
+        $rsvpNight    = $d[6];
+        $weddingVenue = $d[7];
+
+        // create CsvUploadContainer
+        $csvUploadContainer = new CsvUploadContainer;
+        $csvUploadContainer->save();
+
+        // create CsvUpload
+        $csvUpload                = new CsvUpload;
+        $csvUpload->first_name    = ($firstName !== '') ? $firstName : null;
+        $csvUpload->last_name     = ($lastName !== '') ? $lastName : null;
+        $csvUpload->email         = ($email !== '') ? $email : null;
+        $csvUpload->day_guest     = ($dayGuest !== '') ? $dayGuest : null;
+        $csvUpload->night_guest   = ($nightGuest !== '') ? $nightGuest : null;
+        $csvUpload->rsvp_day      = ($rsvpDay !== '') ? $rsvpDay : null;
+        $csvUpload->rsvp_night    = ($rsvpNight !== '') ? $rsvpNight : null;
+        $csvUpload->wedding_venue = ($weddingVenue !== '') ? $weddingVenue : null;
+
+        // save 
+        $csvUploadContainer->uploads()->save($csvUpload);
+      }
+
+      if($numUploaded > 0) {
+        $response = array(
+          'success'   => true,
+          'message'   => 'Upload started',
+          'id'        => $csvUploadContainer->id
+        );
+      }
+
+      return response()->json($response);
     }
 }
