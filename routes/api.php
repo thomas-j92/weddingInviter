@@ -25,7 +25,9 @@ Route::put('people/deletePerson/{id}', 'Api\PeopleController@deletePerson');
 Route::post('people/upload/', 'Api\PeopleController@upload');
 Route::apiResource('people', 'Api\PeopleController', ['as' => 'api']);
 
-// People - new
+// CsvUpload
+Route::get('csv_upload/getAll/', 'Api\CsvUploadController@getAll');
+Route::apiResource('csv_upload', 'Api\CsvUploadController', ['as' => 'api']);
 
 // Invite
 Route::get('invite/send/{id}', 'Api\InviteController@send');

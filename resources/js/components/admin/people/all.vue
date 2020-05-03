@@ -1,6 +1,9 @@
 <template>
 	<div>
 		<b-card>
+			<div v-if="uploads">
+				<b-alert :show="uploads.length > 0">Pending upload found. <b-link :to="{name: 'upload.process', params: {id: uploads[0].id}}" >Click here</b-link> to view it.</b-alert>
+			</div>
 			<b-card-body>
 				<b-card-title>People ({{ people.length }})
 					<b-button class="float-right" variant="success" v-b-modal.create-guest><i class="fas fa-plus-circle mr-1"></i> Create</b-button>
@@ -144,7 +147,8 @@
 				isLoaded: false,
 				selected: false,
 				deleteOption: 'unassign_guest',
-				uploadFile: null
+				uploadFile: null,
+				uploads: null,
 			}
 		},
 		methods: {
@@ -158,6 +162,19 @@
 
 					 		self.isLoaded 	= true;
 					 	}
+					 })
+			},
+			getCsvUploads() {
+				const self = this;
+
+				axios.get(this.baseUrl+'/api/csv_upload/getAll')
+					 .then((resp) => {
+					 	if(resp.data) {
+					 		self.uploads = resp.data;
+					 	}
+					 })
+					 .catch((error) => {
+					 	self.toast('An error occurred', error, 'danger');
 					 })
 			},
 			getBadgeVariant(value) {
@@ -274,6 +291,7 @@
 		},
 		mounted() {
 			this.get();
+			this.getCsvUploads();
 		}
 	}
 </script>

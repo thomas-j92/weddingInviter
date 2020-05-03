@@ -303,7 +303,8 @@ class PeopleController extends Controller
         $weddingVenue = $d[7];
 
         // create CsvUploadContainer
-        $csvUploadContainer = new CsvUploadContainer;
+        $csvUploadContainer           = new CsvUploadContainer;
+        $csvUploadContainer->status   = 'pending';
         $csvUploadContainer->save();
 
         // create CsvUpload
@@ -316,6 +317,9 @@ class PeopleController extends Controller
         $csvUpload->rsvp_day      = ($rsvpDay !== '') ? $rsvpDay : null;
         $csvUpload->rsvp_night    = ($rsvpNight !== '') ? $rsvpNight : null;
         $csvUpload->wedding_venue = ($weddingVenue !== '') ? $weddingVenue : null;
+
+        // validate update
+        $csvUpload->validate();
 
         // save 
         $csvUploadContainer->uploads()->save($csvUpload);
