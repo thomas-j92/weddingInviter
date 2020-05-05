@@ -91755,7 +91755,7 @@ var render = function() {
       _c(
         "b-card",
         [
-          _vm.uploads
+          _vm.uploads && _vm.uploads.length > 0
             ? _c(
                 "div",
                 [

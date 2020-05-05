@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<b-card>
-			<div v-if="uploads">
+			<div v-if="uploads && uploads.length > 0">
 				<b-alert :show="uploads.length > 0">Pending upload found. <b-link :to="{name: 'upload.process', params: {id: uploads[0].id}}" >Click here</b-link> to view it.</b-alert>
 			</div>
 			<b-card-body>

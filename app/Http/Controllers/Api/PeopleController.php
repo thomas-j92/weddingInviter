@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Http\Controllers\Controller;
 
 // Load models
+use App\Invite;
+use App\InviteGuests;
 use App\People;
 use App\CsvUploadContainer;
 use App\CsvUpload;
@@ -291,38 +293,97 @@ class PeopleController extends Controller
       }
       fclose($file_handle);
 
-      $numUploaded = count($dataArr);
-      foreach($dataArr as $d) {
-        $firstName    = $d[0];
-        $lastName     = $d[1];
-        $email        = $d[2];
-        $dayGuest     = $d[3];
-        $nightGuest   = $d[4];
-        $rsvpDay      = $d[5];
-        $rsvpNight    = $d[6];
-        $weddingVenue = $d[7];
+      $numUploaded    = count($dataArr);
+      $numSuccessful  = 0;
 
-        // create CsvUploadContainer
+      if($numUploaded > 0) {
+         // create CsvUploadContainer
         $csvUploadContainer           = new CsvUploadContainer;
         $csvUploadContainer->status   = 'pending';
         $csvUploadContainer->save();
 
-        // create CsvUpload
-        $csvUpload                = new CsvUpload;
-        $csvUpload->first_name    = ($firstName !== '') ? $firstName : null;
-        $csvUpload->last_name     = ($lastName !== '') ? $lastName : null;
-        $csvUpload->email         = ($email !== '') ? $email : null;
-        $csvUpload->day_guest     = ($dayGuest !== '') ? $dayGuest : null;
-        $csvUpload->night_guest   = ($nightGuest !== '') ? $nightGuest : null;
-        $csvUpload->rsvp_day      = ($rsvpDay !== '') ? $rsvpDay : null;
-        $csvUpload->rsvp_night    = ($rsvpNight !== '') ? $rsvpNight : null;
-        $csvUpload->wedding_venue = ($weddingVenue !== '') ? $weddingVenue : null;
 
-        // validate update
-        $csvUpload->validate();
+        foreach($dataArr as $d) {
+          $firstName    = $d[0];
+          $lastName     = $d[1];
+          $email        = $d[2];
+          $dayGuest     = $d[3];
+          $nightGuest   = $d[4];
+          $rsvpDay      = $d[5];
+          $rsvpNight    = $d[6];
+          $weddingVenue = $d[7];
 
-        // save 
-        $csvUploadContainer->uploads()->save($csvUpload);
+          // create CsvUpload
+          $csvUpload                = new CsvUpload;
+          $csvUpload->first_name    = ($firstName !== '') ? $firstName : null;
+          $csvUpload->last_name     = ($lastName !== '') ? $lastName : null;
+          $csvUpload->email         = ($email !== '') ? $email : null;
+          $csvUpload->day_guest     = ($dayGuest !== '') ? $dayGuest : null;
+          $csvUpload->night_guest   = ($nightGuest !== '') ? $nightGuest : null;
+          $csvUpload->rsvp_day      = ($rsvpDay !== '') ? $rsvpDay : null;
+          $csvUpload->rsvp_night    = ($rsvpNight !== '') ? $rsvpNight : null;
+          $csvUpload->wedding_venue = ($weddingVenue !== '') ? $weddingVenue : null;
+
+          // validate update
+          // $csvUpload->validate();
+          if($csvUpload->errors['success']) {
+            // update status
+            $csvUpload->status = 'success';
+
+            // increment success count
+            $numSuccessful++;
+
+            // create People from CsvUpload
+            $person               = new People;
+            $person->first_name   = $csvUpload->first_name;
+            $person->last_name    = $csvUpload->last_name;
+            $person->email        = $csvUpload->email;
+
+            // if day/night guest info provided, make Invite
+            if($csvUpload->day_guest || $csvUpload->night_guest) {
+              $yesValues = array('1', 'true', 'yes');
+
+              // make invite 
+              $invite         = new Invite;
+              $invite->day    = (in_array($csvUpload->day_guest, $yesValues)) ? true : false;
+              $invite->night  = (in_array($csvUpload->night_guest, $yesValues)) ? true : false;
+
+              // assign Person to Invite
+              $inviteGuest                    = new InviteGuests;
+              $inviteGuest->rsvp              = ($csvUpload->rsvp_day || $csvUpload->rsvp_night) ? true : false;
+              $inviteGuest->attending_day     = (in_array($csvUpload->rsvp_day, $yesValues)) ? true : false;
+              $inviteGuest->attending_night   = (in_array($csvUpload->rsvp_night, $yesValues)) ? true : false;
+              $inviteGuest->invite()->associate($invite);
+              $inviteGuest->person()->associate($person);
+
+
+              // if rsvp data provided, assign to invite
+              
+
+              // assign Person to Invite
+              // $person->invite()->associate($invite);
+
+            }
+
+
+
+            // create Person
+            $person->save();
+          }
+
+          // assign upload to container
+          // $csvUpload->container()->associate($csvUploadContainer);
+          // $csvUpload->save();
+          $csvUploadContainer->uploads()->save($csvUpload);
+        }
+
+        // update CsvUploadContainer status (if all successful)
+        if($numUploaded == $numSuccessful) {
+          $csvUploadContainer->status = 'uploaded';
+        }
+
+        // create CsvUploadContainer
+        $csvUploadContainer->save();
       }
 
       if($numUploaded > 0) {

@@ -9,8 +9,11 @@ class People extends Model
 {
 	use SoftDeletes;
 
-	protected $fillable = ['first_name', 'last_name', 'status', 'email'];
-	protected $appends 	= ['invite_status'];
+	protected $fillable 	= ['first_name', 'last_name', 'status', 'email'];
+	protected $appends 		= ['invite_status'];
+	protected $attributes 	= [
+        'status' => 'active',
+    ];
 
 	/**
 	 * Get any entires within the invite_guests table that are linked to Person.
