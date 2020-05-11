@@ -25,40 +25,45 @@ class CsvUpload extends Model
 
     	if(strlen($this->first_name) < 2) {
     		$response['success']	= false;
-    		$response['message'][] 	= 'The first name must be at least 2 characters long';
+    		$response['errors'][] 	= 'The first name must be at least 2 characters long';
     	}
 
     	if(strlen($this->last_name) < 2) {
     		$response['success']	= false;
-    		$response['message'][] 	= 'The last name must be at least 2 characters long';
+    		$response['errors'][] 	= 'The last name must be at least 2 characters long';
     	}
+
+        if(is_null($this->email)) {
+            $response['success']    = false;
+            $response['errors'][]   = 'Email address must be entered'; 
+        }
 
         $person = People::where('email', $this->email);
         if($person->count() > 0) {
             $response['success']    = false;
-            $response['message'][]  = 'Email address already exists';
+            $response['errors'][]  = 'Email address already exists';
         }
 
         $rsvpValues = array('1', '0', 'true', 'false', 'yes', 'no');
         if($this->day_guest != '' && !in_array($this->day_guest, $rsvpValues)) {
             $response['success']    = false;
-            $response['message'][]  = 'Day guest - must be ' . implode(", ", $rsvpValues);
+            $response['errors'][]  = 'Day guest - must be ' . implode(", ", $rsvpValues);
         }
         if($this->night_guest != '' && !in_array($this->night_guest, $rsvpValues)) {
             $response['success']    = false;
-            $response['message'][]  = 'Night guest - must be ' . implode(", ", $rsvpValues);
+            $response['errors'][]  = 'Night guest - must be ' . implode(", ", $rsvpValues);
         }
         if($this->rsvp_day != '' && !in_array($this->rsvp_day, $rsvpValues)) {
             $response['success']    = false;
-            $response['message'][]  = 'RSVP day - must be ' . implode(", ", $rsvpValues);
+            $response['errors'][]  = 'RSVP day - must be ' . implode(", ", $rsvpValues);
         }
         if($this->rsvp_night != '' && !in_array($this->rsvp_night, $rsvpValues)) {
             $response['success']    = false;
-            $response['message'][]  = 'RSVP night - must be ' . implode(", ", $rsvpValues);
+            $response['errors'][]  = 'RSVP night - must be ' . implode(", ", $rsvpValues);
         }
         if($this->wedding_venue != '' && !in_array($this->wedding_venue, $rsvpValues)) {
             $response['success']    = false;
-            $response['message'][]  = 'Wedding venue - must be ' . implode(", ", $rsvpValues);
+            $response['errors'][]  = 'Wedding venue - must be ' . implode(", ", $rsvpValues);
         }
 
     	return $response;

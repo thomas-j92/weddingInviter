@@ -92396,13 +92396,120 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'upload.process',
 	data: function data() {
 		return {
 			isLoaded: false,
-			upload: false
+			upload: false,
+			form: {
+				id: null,
+				first_name: null,
+				last_name: null,
+				email: null,
+				day_guest: null,
+				night_guest: null,
+				rsvp_day: null,
+				rsvp_night: null
+			}
 		};
 	},
 	mounted: function mounted() {
@@ -92419,6 +92526,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 					// stop loading gif
 					self.isLoaded = true;
+				}
+			}).catch(function (error) {
+				self.toast('An error occurred', error, 'danger');
+			});
+		},
+		updateSelected: function updateSelected(data) {
+			this.form.id = data.id;
+			this.form.first_name = data.first_name;
+			this.form.last_name = data.last_name;
+			this.form.email = data.email;
+			this.form.day_guest = data.day_guest;
+			this.form.night_guest = data.night_guest;
+			this.form.first_name = data.first_name;
+		},
+		fix: function fix(bvModalEvt) {
+			bvModalEvt.preventDefault();
+
+			var self = this;
+
+			axios.put(this.baseUrl + '/api/csv_upload/' + this.form.id, this.form).then(function (resp) {
+				if (resp.data) {
+					if (resp.data.success) {
+						self.toast('Fixed', 'Person has been uploaded');
+
+						// hide modal
+						self.$bvModal.hide('fix-modal');
+
+						// reload data
+						self.get();
+
+						// redirect
+						self.$router.push({ 'name': 'people.all' });
+					} else {
+						var errors = '';
+						resp.data.errors.forEach(function (error) {
+							errors += error + '\n';
+						});
+						self.toast('Errors', errors, 'danger');
+					}
 				}
 			}).catch(function (error) {
 				self.toast('An error occurred', error, 'danger');
@@ -92459,9 +92605,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				key: 'rsvp_night',
 				label: 'Night'
 			}, {
+				key: 'status',
+				label: 'Uploaded?'
+			}, {
 				key: 'solution',
 				label: ''
 			}];
+		},
+		rsvpOptions: function rsvpOptions() {
+			return [{ text: 'Yes', value: '1' }, { text: 'No', value: '0' }];
 		}
 	}
 });
@@ -92535,15 +92687,71 @@ var render = function() {
                                   }
                                 },
                                 {
+                                  key: "cell(status)",
+                                  fn: function(data) {
+                                    return [
+                                      _c(
+                                        "div",
+                                        { staticClass: "upload-status" },
+                                        [
+                                          data.item.status == "success"
+                                            ? _c("i", {
+                                                staticClass: "fas fa-check"
+                                              })
+                                            : _c("i", {
+                                                staticClass: "fas fa-times"
+                                              })
+                                        ]
+                                      )
+                                    ]
+                                  }
+                                },
+                                {
                                   key: "cell(solution)",
                                   fn: function(data) {
-                                    return undefined
+                                    return [
+                                      data.item.status !== "success"
+                                        ? _c(
+                                            "div",
+                                            [
+                                              _c(
+                                                "b-button",
+                                                {
+                                                  directives: [
+                                                    {
+                                                      name: "b-modal",
+                                                      rawName:
+                                                        "v-b-modal.fix-modal",
+                                                      modifiers: {
+                                                        "fix-modal": true
+                                                      }
+                                                    }
+                                                  ],
+                                                  attrs: {
+                                                    size: "sm",
+                                                    variant: "success"
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.updateSelected(
+                                                        data.item
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [_vm._v("Fix")]
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        : _vm._e()
+                                    ]
                                   }
                                 }
                               ],
                               null,
                               false,
-                              2790223993
+                              1735151950
                             )
                           })
                         : _c("no-data")
@@ -92551,6 +92759,252 @@ var render = function() {
                     1
                   )
                 : _c("loading")
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: {
+            id: "fix-modal",
+            title: "Fix upload",
+            size: "md",
+            "ok-variant": "success",
+            "ok-title": "Fix Upload"
+          },
+          on: { ok: _vm.fix }
+        },
+        [
+          _c(
+            "b-row",
+            [
+              _c(
+                "b-col",
+                [
+                  _c(
+                    "b-form-group",
+                    {
+                      attrs: {
+                        id: "firstName-fieldset",
+                        label: "First name",
+                        "label-for": "firstName-input"
+                      }
+                    },
+                    [
+                      _c("b-form-input", {
+                        attrs: { id: "firstName-input", trim: "" },
+                        model: {
+                          value: _vm.form.first_name,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "first_name", $$v)
+                          },
+                          expression: "form.first_name"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-col",
+                [
+                  _c(
+                    "b-form-group",
+                    {
+                      attrs: {
+                        id: "lastName-fieldset",
+                        label: "Last name",
+                        "label-for": "lastName-input"
+                      }
+                    },
+                    [
+                      _c("b-form-input", {
+                        attrs: { id: "lastName-1", trim: "" },
+                        model: {
+                          value: _vm.form.last_name,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "last_name", $$v)
+                          },
+                          expression: "form.last_name"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "b-row",
+            [
+              _c(
+                "b-col",
+                [
+                  _c(
+                    "b-form-group",
+                    {
+                      attrs: {
+                        id: "email-fieldset",
+                        label: "Email",
+                        "label-for": "email-input"
+                      }
+                    },
+                    [
+                      _c("b-form-input", {
+                        attrs: { id: "email-1", trim: "" },
+                        model: {
+                          value: _vm.form.email,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "email", $$v)
+                          },
+                          expression: "form.email"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "b-row",
+            [
+              _c(
+                "b-col",
+                [
+                  _c(
+                    "b-form-group",
+                    { attrs: { label: "Day guest?" } },
+                    [
+                      _c("b-form-radio-group", {
+                        attrs: {
+                          id: "dayGuest-input",
+                          options: _vm.rsvpOptions,
+                          plain: "",
+                          name: "dayGuest"
+                        },
+                        model: {
+                          value: _vm.form.day_guest,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "day_guest", $$v)
+                          },
+                          expression: "form.day_guest"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-col",
+                [
+                  _c(
+                    "b-form-group",
+                    { attrs: { label: "Night guest?" } },
+                    [
+                      _c("b-form-radio-group", {
+                        attrs: {
+                          id: "nightGuest-input",
+                          options: _vm.rsvpOptions,
+                          plain: "",
+                          name: "nightGuest"
+                        },
+                        model: {
+                          value: _vm.form.night_guest,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "night_guest", $$v)
+                          },
+                          expression: "form.night_guest"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "b-row",
+            [
+              _c(
+                "b-col",
+                [
+                  _c(
+                    "b-form-group",
+                    { attrs: { label: "Rsvp day?" } },
+                    [
+                      _c("b-form-radio-group", {
+                        attrs: {
+                          id: "rsvpDay-input",
+                          options: _vm.rsvpOptions,
+                          plain: "",
+                          name: "rsvpDay"
+                        },
+                        model: {
+                          value: _vm.form.rsvp_day,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "rsvp_day", $$v)
+                          },
+                          expression: "form.rsvp_day"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-col",
+                [
+                  _c(
+                    "b-form-group",
+                    { attrs: { label: "Rsvp night?" } },
+                    [
+                      _c("b-form-radio-group", {
+                        attrs: {
+                          id: "rsvpNight-input",
+                          options: _vm.rsvpOptions,
+                          plain: "",
+                          name: "rsvpNight"
+                        },
+                        model: {
+                          value: _vm.form.rsvp_night,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "rsvp_night", $$v)
+                          },
+                          expression: "form.rsvp_night"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
             ],
             1
           )

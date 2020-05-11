@@ -324,8 +324,6 @@ class PeopleController extends Controller
           $csvUpload->rsvp_night    = ($rsvpNight !== '') ? $rsvpNight : null;
           $csvUpload->wedding_venue = ($weddingVenue !== '') ? $weddingVenue : null;
 
-          // validate update
-          // $csvUpload->validate();
           if($csvUpload->errors['success']) {
             // update status
             $csvUpload->status = 'success';
@@ -355,25 +353,12 @@ class PeopleController extends Controller
               $inviteGuest->attending_night   = (in_array($csvUpload->rsvp_night, $yesValues)) ? true : false;
               $inviteGuest->invite()->associate($invite);
               $inviteGuest->person()->associate($person);
-
-
-              // if rsvp data provided, assign to invite
-              
-
-              // assign Person to Invite
-              // $person->invite()->associate($invite);
-
             }
-
-
 
             // create Person
             $person->save();
           }
 
-          // assign upload to container
-          // $csvUpload->container()->associate($csvUploadContainer);
-          // $csvUpload->save();
           $csvUploadContainer->uploads()->save($csvUpload);
         }
 
