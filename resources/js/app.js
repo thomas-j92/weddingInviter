@@ -325,10 +325,15 @@ const router = new VueRouter({
 		        	component: require('./components/admin/people/upload')
 		        },
 		        {
-		         	path: 'guests/:filter',
-		         	name: 'admin.guests',
-		        	component: require('./components/admin/guests/main')
+		         	path: 'invites/all',
+		         	name: 'invites.all',
+		        	component: require('./components/admin/invites/all')
 		        },
+		        // {
+		        //  	path: 'guests/:filter',
+		        //  	name: 'admin.guests',
+		        // 	component: require('./components/admin/guests/main')
+		        // },
 		        {
 		        	path: 'invite/create/:personId?/',
 		        	component: require('./components/admin/invite/main'),

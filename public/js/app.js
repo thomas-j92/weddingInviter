@@ -46959,10 +46959,16 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
 			name: 'upload.process',
 			component: __webpack_require__(352)
 		}, {
-			path: 'guests/:filter',
-			name: 'admin.guests',
+			path: 'invites/all',
+			name: 'invites.all',
 			component: __webpack_require__(355)
-		}, {
+		},
+		// {
+		//  	path: 'guests/:filter',
+		//  	name: 'admin.guests',
+		// 	component: require('./components/admin/guests/main')
+		// },
+		{
 			path: 'invite/create/:personId?/',
 			component: __webpack_require__(358)
 		}, {
@@ -91056,28 +91062,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 title: 'People',
                 icon: 'fa fa-users'
             }, {
-                href: '/admin/guests/all',
-                title: 'Guests',
-                icon: 'fa fa-users',
-                child: [{
-                    href: '/admin/guests/all',
-                    title: 'All'
-                }, {
-                    href: '/admin/guests/day_guests',
-                    title: 'Day Guests'
-                }, {
-                    href: '/admin/guests/night_guests',
-                    title: 'Night Guests'
-                }, {
-                    href: '/admin/guests/not_attending',
-                    title: 'Not Attending'
-                }, {
-                    href: '/admin/guests/awaiting_reply',
-                    title: 'Awaiting Reply'
-                }, {
-                    href: '/admin/guests/not_invited',
-                    title: 'Not Invited'
-                }]
+                href: '/admin/invites/all',
+                title: 'Invites',
+                icon: 'fas fa-envelope-open-text'
+                // icon: 'fa fa-users',
+                // child: [
+                //     {
+                //         href: '/admin/guests/all',
+                //         title: 'All',
+                //     },
+                //     {
+                //         href: '/admin/guests/day_guests',
+                //         title: 'Day Guests',
+                //     },
+                //     {
+                //         href: '/admin/guests/night_guests',
+                //         title: 'Night Guests',
+                //     },
+                //     {
+                //         href: '/admin/guests/not_attending',
+                //         title: 'Not Attending',
+                //     },
+                //     {
+                //         href: '/admin/guests/awaiting_reply',
+                //         title: 'Awaiting Reply',
+                //     },
+                //     {
+                //         href: '/admin/guests/not_invited',
+                //         title: 'Not Invited',
+                //     }
+                // ]
             }, {
                 href: '/admin/reports',
                 title: 'Reports',
@@ -93051,7 +93065,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/js/components/admin/guests/main.vue"
+Component.options.__file = "resources/js/components/admin/invites/all.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -93060,9 +93074,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-58c931b2", Component.options)
+    hotAPI.createRecord("data-v-4bd54521", Component.options)
   } else {
-    hotAPI.reload("data-v-58c931b2", Component.options)
+    hotAPI.reload("data-v-4bd54521", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -93152,29 +93166,87 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	name: 'admin.guests.main',
+	name: 'admin.invites.all',
 	mounted: function mounted() {
 		this.getAll();
 	},
 	created: function created() {},
 	data: function data() {
 		return {
-			fields: ['first_name', 'last_name', 'email', { key: 'options', label: '' }],
-			people: [],
-			create: {
-				inputs: {
-					'first_name': 'text',
-					'last_name': 'text',
-					'email': 'text'
-				},
-				models: {
-					'first_name': '',
-					'last_name': '',
-					'email': ''
-				}
-			},
+			invites: [],
+			fields: [{ key: 'main_guest', label: 'Main guest' }, { key: 'invite_type', label: 'Invite type' }, { key: 'invite_status', label: 'Invite status' }, { key: 'rsvp_day', label: "Day" }, { key: 'rsvp_night', label: "Night" }, { key: 'num_additionals', label: 'Additional guests' }, { key: 'options', label: '' }],
+			additionalFields: [{ key: 'name', label: 'Name' }, { key: 'attending_day', label: 'Attending day' }, { key: 'attending_night', label: 'Attending night' }],
 			isLoaded: false,
 			selected: false
 		};
@@ -93183,21 +93255,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	computed: {
 		filter: function filter() {
 			return this.$route.params.filter;
-		},
-		formattedFilter: function formattedFilter() {
-			// get filter
-			var filter = this.$route.params.filter;
-
-			// replace underscores with space
-			var replacedString = filter.replace("_", " ");
-
-			// add count to title if data is loaded
-			if (this.isLoaded) {
-				replacedString += ' (' + this.people.length + ')';
-			}
-
-			return replacedString;
 		}
+		// formattedFilter: function() {
+		// 	// get filter
+		// 	let filter = this.$route.params.filter;
+
+		// 	// replace underscores with space
+		// 	let replacedString = filter.replace("_", " ");
+
+		// 	// add count to title if data is loaded
+		// 	if(this.isLoaded) {
+		// 		replacedString += ' ('+this.people.length+')';
+		// 	}
+
+		// 	return replacedString;
+		// }
 	},
 	filters: {
 		capitalize: function capitalize(value) {
@@ -93228,9 +93300,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var self = this;
 
 			this.isLoaded = false;
-			axios.get(this.baseUrl + '/api/people/showAll/' + this.filter).then(function (resp) {
+			axios.get(this.baseUrl + '/api/invite/getAll').then(function (resp) {
 				if (resp.data) {
-					self.people = resp.data;
+					self.invites = resp.data;
 
 					// mark component as loaded - will stop loading gif
 					self.isLoaded = true;
@@ -93312,43 +93384,193 @@ var render = function() {
           _c(
             "b-card-body",
             [
-              _c(
-                "b-card-title",
-                [
-                  _vm._v(
-                    _vm._s(_vm._f("capitalize")(_vm.formattedFilter)) + " "
-                  ),
-                  _c(
-                    "b-button",
-                    {
-                      directives: [
-                        {
-                          name: "b-modal",
-                          rawName: "v-b-modal.create-guest",
-                          modifiers: { "create-guest": true }
-                        }
-                      ],
-                      staticClass: "float-right",
-                      attrs: { variant: "success" }
-                    },
-                    [
-                      _c("i", { staticClass: "fas fa-plus-circle" }),
-                      _vm._v(" Create")
-                    ]
-                  )
-                ],
-                1
-              ),
+              _c("b-card-title", [
+                _vm._v(
+                  "\n\t\t\t\tInvites (" +
+                    _vm._s(_vm.invites.length) +
+                    ")\n\t\t\t"
+                )
+              ]),
               _vm._v(" "),
               _vm.isLoaded
                 ? _c(
                     "div",
                     [
-                      _vm.people.length > 0
+                      _vm.invites.length > 0
                         ? _c("b-table", {
-                            attrs: { fields: _vm.fields, items: _vm.people },
+                            attrs: { fields: _vm.fields, items: _vm.invites },
                             scopedSlots: _vm._u(
                               [
+                                {
+                                  key: "cell(main_guest)",
+                                  fn: function(data) {
+                                    return [
+                                      _vm._v(
+                                        "\n\t\t\t\t\t\t" +
+                                          _vm._s(
+                                            data.item.main_guest.person
+                                              .first_name
+                                          ) +
+                                          " " +
+                                          _vm._s(
+                                            data.item.main_guest.person
+                                              .last_name
+                                          ) +
+                                          "\n\t\t\t\t\t"
+                                      )
+                                    ]
+                                  }
+                                },
+                                {
+                                  key: "cell(invite_type)",
+                                  fn: function(data) {
+                                    return [
+                                      data.item.day == 1 && data.item.night == 1
+                                        ? _c("span", [_vm._v("Day & Night")])
+                                        : data.item.day == 1
+                                        ? _c("span", [_vm._v("Day")])
+                                        : data.item.night == 1
+                                        ? _c("span", [_vm._v("Night")])
+                                        : _c("span", [_vm._v("N/A")])
+                                    ]
+                                  }
+                                },
+                                {
+                                  key: "cell(invite_status)",
+                                  fn: function(data) {
+                                    return [
+                                      data.item.rsvp
+                                        ? _c(
+                                            "span",
+                                            {
+                                              staticClass: "badge badge-success"
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n\t\t\t\t\t\t\tRSVP'd\n\t\t\t\t\t\t"
+                                              )
+                                            ]
+                                          )
+                                        : _c(
+                                            "span",
+                                            {
+                                              staticClass: "badge badge-warning"
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n\t\t\t\t\t\t\tAwaiting reply\n\t\t\t\t\t\t"
+                                              )
+                                            ]
+                                          )
+                                    ]
+                                  }
+                                },
+                                {
+                                  key: "cell(rsvp_day)",
+                                  fn: function(data) {
+                                    return [
+                                      data.item.main_guest.rsvp
+                                        ? _c("span", [
+                                            data.item.main_guest.attending_day
+                                              ? _c("span", {
+                                                  staticClass:
+                                                    "badge badge-success"
+                                                })
+                                              : _c("span", {
+                                                  staticClass:
+                                                    "badge badge-danger"
+                                                })
+                                          ])
+                                        : _c(
+                                            "span",
+                                            {
+                                              staticClass:
+                                                "badge badge-secondary"
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n\t\t\t\t\t\t\tN/A\n\t\t\t\t\t\t"
+                                              )
+                                            ]
+                                          )
+                                    ]
+                                  }
+                                },
+                                {
+                                  key: "cell(rsvp_night)",
+                                  fn: function(data) {
+                                    return [
+                                      data.item.main_guest.rsvp
+                                        ? _c("span", [
+                                            data.item.main_guest.attending_night
+                                              ? _c("span", {
+                                                  staticClass:
+                                                    "badge badge-success"
+                                                })
+                                              : _c("span", {
+                                                  staticClass:
+                                                    "badge badge-danger"
+                                                })
+                                          ])
+                                        : _c(
+                                            "span",
+                                            {
+                                              staticClass:
+                                                "badge badge-secondary"
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n\t\t\t\t\t\t\tN/A\n\t\t\t\t\t\t"
+                                              )
+                                            ]
+                                          )
+                                    ]
+                                  }
+                                },
+                                {
+                                  key: "cell(num_additionals)",
+                                  fn: function(data) {
+                                    return [
+                                      data.item.additional_guests.length +
+                                        data.item.plus_ones.length >
+                                      0
+                                        ? _c(
+                                            "b-link",
+                                            {
+                                              on: { click: data.toggleDetails }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n\t\t\t\t\t\t\t" +
+                                                  _vm._s(
+                                                    data.item.additional_guests
+                                                      .length +
+                                                      data.item.plus_ones.length
+                                                  ) +
+                                                  "\n\t\t\t\t\t\t\t(" +
+                                                  _vm._s(
+                                                    data.detailsShowing
+                                                      ? "hide"
+                                                      : "show"
+                                                  ) +
+                                                  ")\n\t\t\t\t\t\t"
+                                              )
+                                            ]
+                                          )
+                                        : _c("span", [
+                                            _vm._v(
+                                              "\n\t\t\t\t\t\t\t" +
+                                                _vm._s(
+                                                  data.item.additional_guests
+                                                    .length +
+                                                    data.item.plus_ones.length
+                                                ) +
+                                                "\n\t\t\t\t\t\t"
+                                            )
+                                          ])
+                                    ]
+                                  }
+                                },
                                 {
                                   key: "cell(options)",
                                   fn: function(data) {
@@ -93356,83 +93578,10 @@ var render = function() {
                                       _c(
                                         "b-dropdown",
                                         {
-                                          staticClass: "m-md-2 guest-dropdown",
-                                          attrs: { text: "Options" }
+                                          staticClass: "guest-dropdown",
+                                          attrs: { text: "Options", size: "sm" }
                                         },
                                         [
-                                          _c(
-                                            "b-dropdown-group",
-                                            [
-                                              _c(
-                                                "b-dropdown-text",
-                                                {
-                                                  staticClass: "dropdown-title"
-                                                },
-                                                [_vm._v("Person")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "b-dropdown-item",
-                                                {
-                                                  directives: [
-                                                    {
-                                                      name: "b-modal",
-                                                      rawName:
-                                                        "v-b-modal.edit-guest",
-                                                      modifiers: {
-                                                        "edit-guest": true
-                                                      }
-                                                    }
-                                                  ],
-                                                  on: {
-                                                    click: function($event) {
-                                                      return _vm.changeSelected(
-                                                        data.item
-                                                      )
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _c("i", {
-                                                    staticClass: "fas fa-edit"
-                                                  }),
-                                                  _vm._v(" Edit")
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "b-dropdown-item",
-                                                {
-                                                  directives: [
-                                                    {
-                                                      name: "b-modal",
-                                                      rawName:
-                                                        "v-b-modal.remove-guest",
-                                                      modifiers: {
-                                                        "remove-guest": true
-                                                      }
-                                                    }
-                                                  ],
-                                                  on: {
-                                                    click: function($event) {
-                                                      return _vm.changeSelected(
-                                                        data.item
-                                                      )
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _c("i", {
-                                                    staticClass:
-                                                      "fas fa-times-circle"
-                                                  }),
-                                                  _vm._v(" Remove")
-                                                ]
-                                              )
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
                                           _c(
                                             "b-dropdown-group",
                                             [
@@ -93444,45 +93593,310 @@ var render = function() {
                                                 [_vm._v("Invite")]
                                               ),
                                               _vm._v(" "),
-                                              !data.item.invite
-                                                ? _c(
-                                                    "b-dropdown-item",
-                                                    {
-                                                      attrs: {
-                                                        to:
-                                                          "/admin/invite/create/" +
-                                                          data.item.id
-                                                      }
-                                                    },
-                                                    [
-                                                      _c("i", {
-                                                        staticClass:
-                                                          "fas fa-edit"
-                                                      }),
-                                                      _vm._v(" Create")
-                                                    ]
-                                                  )
-                                                : _c(
-                                                    "b-dropdown-item",
-                                                    {
-                                                      attrs: {
-                                                        to:
-                                                          "/admin/invite/view/" +
-                                                          data.item.invite
-                                                            .invite_id
-                                                      }
-                                                    },
-                                                    [
-                                                      _c("i", {
-                                                        staticClass:
-                                                          "fas fa-eye"
-                                                      }),
-                                                      _vm._v(" View")
-                                                    ]
-                                                  )
+                                              _c(
+                                                "b-dropdown-item",
+                                                {
+                                                  attrs: {
+                                                    to:
+                                                      "/admin/invite/view/" +
+                                                      data.item.id
+                                                  }
+                                                },
+                                                [
+                                                  _c("i", {
+                                                    staticClass:
+                                                      "fas fa-eye mr-1"
+                                                  }),
+                                                  _vm._v(" View")
+                                                ]
+                                              )
                                             ],
                                             1
                                           )
+                                        ],
+                                        1
+                                      )
+                                    ]
+                                  }
+                                },
+                                {
+                                  key: "row-details",
+                                  fn: function(data) {
+                                    return [
+                                      _c(
+                                        "b-card",
+                                        { attrs: { "no-body": "" } },
+                                        [
+                                          _c("b-card-header", [
+                                            _vm._v(
+                                              "\n\t\t\t\t\t\t\t\tAdditional guests\n\t\t\t\t\t\t\t"
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("b-table", {
+                                            attrs: {
+                                              items:
+                                                data.item.additional_guests,
+                                              fields: _vm.additionalFields
+                                            },
+                                            scopedSlots: _vm._u(
+                                              [
+                                                {
+                                                  key: "cell(name)",
+                                                  fn: function(row) {
+                                                    return [
+                                                      _vm._v(
+                                                        "\n\t\t\t\t\t\t\t\t\t" +
+                                                          _vm._s(
+                                                            row.item.person
+                                                              .first_name
+                                                          ) +
+                                                          " " +
+                                                          _vm._s(
+                                                            row.item.person
+                                                              .first_name
+                                                          ) +
+                                                          "\n\t\t\t\t\t\t\t\t"
+                                                      )
+                                                    ]
+                                                  }
+                                                },
+                                                {
+                                                  key: "cell(attending_day)",
+                                                  fn: function(row) {
+                                                    return [
+                                                      row.item.rsvp
+                                                        ? _c("span", [
+                                                            row.item
+                                                              .attending_day
+                                                              ? _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "badge badge-success"
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "Yes"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              : _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "badge badge-danger"
+                                                                  },
+                                                                  [_vm._v("No")]
+                                                                )
+                                                          ])
+                                                        : _c(
+                                                            "span",
+                                                            {
+                                                              staticClass:
+                                                                "badge badge-secondary"
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "\n\t\t\t\t\t\t\t\t\t\tN/A\n\t\t\t\t\t\t\t\t\t"
+                                                              )
+                                                            ]
+                                                          )
+                                                    ]
+                                                  }
+                                                },
+                                                {
+                                                  key: "cell(attending_night)",
+                                                  fn: function(row) {
+                                                    return [
+                                                      row.item.rsvp
+                                                        ? _c("span", [
+                                                            row.item
+                                                              .attending_night
+                                                              ? _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "badge badge-success"
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "Yes"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              : _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "badge badge-danger"
+                                                                  },
+                                                                  [_vm._v("No")]
+                                                                )
+                                                          ])
+                                                        : _c(
+                                                            "span",
+                                                            {
+                                                              staticClass:
+                                                                "badge badge-secondary"
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "\n\t\t\t\t\t\t\t\t\t\tN/A\n\t\t\t\t\t\t\t\t\t"
+                                                              )
+                                                            ]
+                                                          )
+                                                    ]
+                                                  }
+                                                }
+                                              ],
+                                              null,
+                                              true
+                                            )
+                                          })
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "b-card",
+                                        { attrs: { "no-body": "" } },
+                                        [
+                                          _c("b-card-header", [
+                                            _vm._v(
+                                              "\n\t\t\t\t\t\t\t\tPlus ones\n\t\t\t\t\t\t\t"
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("b-table", {
+                                            attrs: {
+                                              items: data.item.plus_ones,
+                                              fields: _vm.additionalFields
+                                            },
+                                            scopedSlots: _vm._u(
+                                              [
+                                                {
+                                                  key: "cell(name)",
+                                                  fn: function(row) {
+                                                    return [
+                                                      row.item.first_name ||
+                                                      row.item.last_name
+                                                        ? _c("span", [
+                                                            _vm._v(
+                                                              "\n\t\t\t\t\t\t\t\t\t\t" +
+                                                                _vm._s(
+                                                                  row.item
+                                                                    .first_name
+                                                                ) +
+                                                                " " +
+                                                                _vm._s(
+                                                                  row.item
+                                                                    .last_name
+                                                                ) +
+                                                                "\n\t\t\t\t\t\t\t\t\t"
+                                                            )
+                                                          ])
+                                                        : _c("span", [
+                                                            _vm._v(
+                                                              "Not specified"
+                                                            )
+                                                          ])
+                                                    ]
+                                                  }
+                                                },
+                                                {
+                                                  key: "cell(attending_day)",
+                                                  fn: function(row) {
+                                                    return [
+                                                      row.item.rsvp
+                                                        ? _c("span", [
+                                                            row.item
+                                                              .attending_day
+                                                              ? _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "badge badge-success"
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "Yes"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              : _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "badge badge-danger"
+                                                                  },
+                                                                  [_vm._v("No")]
+                                                                )
+                                                          ])
+                                                        : _c(
+                                                            "span",
+                                                            {
+                                                              staticClass:
+                                                                "badge badge-secondary"
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "\n\t\t\t\t\t\t\t\t\t\tN/A\n\t\t\t\t\t\t\t\t\t"
+                                                              )
+                                                            ]
+                                                          )
+                                                    ]
+                                                  }
+                                                },
+                                                {
+                                                  key: "cell(attending_night)",
+                                                  fn: function(row) {
+                                                    return [
+                                                      row.item.rsvp
+                                                        ? _c("span", [
+                                                            row.item
+                                                              .attending_night
+                                                              ? _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "badge badge-success"
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "Yes"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              : _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "badge badge-danger"
+                                                                  },
+                                                                  [_vm._v("No")]
+                                                                )
+                                                          ])
+                                                        : _c(
+                                                            "span",
+                                                            {
+                                                              staticClass:
+                                                                "badge badge-secondary"
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "\n\t\t\t\t\t\t\t\t\t\tN/A\n\t\t\t\t\t\t\t\t\t"
+                                                              )
+                                                            ]
+                                                          )
+                                                    ]
+                                                  }
+                                                }
+                                              ],
+                                              null,
+                                              true
+                                            )
+                                          })
                                         ],
                                         1
                                       )
@@ -93492,7 +93906,7 @@ var render = function() {
                               ],
                               null,
                               false,
-                              1950055599
+                              282497021
                             )
                           })
                         : _c("no-data")
@@ -93505,135 +93919,6 @@ var render = function() {
           )
         ],
         1
-      ),
-      _vm._v(" "),
-      _c(
-        "b-modal",
-        {
-          attrs: { id: "create-guest", title: "Create Guest" },
-          on: { ok: _vm.createGuest }
-        },
-        [
-          _c(
-            "div",
-            { staticClass: "d-block text-center" },
-            [
-              _c(
-                "b-container",
-                { attrs: { fluid: "" } },
-                _vm._l(_vm.create.inputs, function(item_type, item_name) {
-                  return _c(
-                    "b-row",
-                    { key: item_name, staticClass: "my-1" },
-                    [
-                      _c("b-col", { attrs: { sm: "3" } }, [
-                        _c("label", { attrs: { for: "type-" + item_name } }, [
-                          _vm._v(_vm._s(_vm._f("prettify")(item_name)) + ":")
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "b-col",
-                        { attrs: { sm: "9" } },
-                        [
-                          _c("b-form-input", {
-                            attrs: { id: "type-" + item_name, type: item_type },
-                            model: {
-                              value: _vm.create.models[item_name],
-                              callback: function($$v) {
-                                _vm.$set(_vm.create.models, item_name, $$v)
-                              },
-                              expression: "create.models[item_name]"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                }),
-                1
-              )
-            ],
-            1
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "b-modal",
-        {
-          attrs: { id: "edit-guest", title: "Edit Guest" },
-          on: { ok: _vm.editGuest }
-        },
-        [
-          _c(
-            "div",
-            { staticClass: "d-block text-center" },
-            [
-              _c(
-                "b-container",
-                { attrs: { fluid: "" } },
-                _vm._l(_vm.create.inputs, function(item_type, item_name) {
-                  return _c(
-                    "b-row",
-                    { key: item_name, staticClass: "my-1" },
-                    [
-                      _c("b-col", { attrs: { sm: "3" } }, [
-                        _c("label", { attrs: { for: "type-" + item_name } }, [
-                          _vm._v(_vm._s(_vm._f("prettify")(item_name)) + ":")
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "b-col",
-                        { attrs: { sm: "9" } },
-                        [
-                          _c("b-form-input", {
-                            attrs: { id: "type-" + item_name, type: item_type },
-                            model: {
-                              value: _vm.selected[item_name],
-                              callback: function($$v) {
-                                _vm.$set(_vm.selected, item_name, $$v)
-                              },
-                              expression: "selected[item_name]"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                }),
-                1
-              )
-            ],
-            1
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "b-modal",
-        {
-          attrs: { id: "remove-guest", title: "Remove Guest" },
-          on: { ok: _vm.removeGuest }
-        },
-        [
-          _c("p", [
-            _vm._v("Are you sure you want to remove "),
-            _c("span", { staticClass: "confirm-element" }, [
-              _vm._v(
-                _vm._s(_vm.selected.first_name) +
-                  " " +
-                  _vm._s(_vm.selected.last_name)
-              )
-            ]),
-            _vm._v("?")
-          ])
-        ]
       )
     ],
     1
@@ -93645,7 +93930,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-58c931b2", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-4bd54521", module.exports)
   }
 }
 

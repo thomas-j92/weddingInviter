@@ -175,6 +175,15 @@
 	}
 /* End of Breadcrumbs */
 
+/* Badges */
+	.badge {
+		&.badge-warning {
+			color: #d28434;
+   	 		background-color: #fdd2a6;
+		}
+	}
+/* End of Badges */
+
 /* Setup Invite */
 	#createInvite {
 		.plus-ones {

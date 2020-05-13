@@ -39,8 +39,11 @@ class Invite extends Model
         // get main guest
         $mainGuest = $this->guests->where('type', 'main')->first();
 
-        // get InviteGuest with Person details
-        $guest      = InviteGuests::with('person')->find($mainGuest->id);
+        $guest = null;
+        if($mainGuest) {
+            // get InviteGuest with Person details
+            $guest      = InviteGuests::with('person')->find($mainGuest->id);
+        }
 
     	return $guest; 
     }

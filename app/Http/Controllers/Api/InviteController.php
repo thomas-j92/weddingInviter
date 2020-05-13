@@ -484,4 +484,16 @@ class InviteController extends Controller
 
        return response()->json($response_data);
     }
+
+    /**
+     * Get all Invites.
+     */
+    public function getAll() {
+
+        $invites = Invite::with(['plus_ones'])
+                         ->get();
+
+        return response()->json($invites);
+
+    }
 }

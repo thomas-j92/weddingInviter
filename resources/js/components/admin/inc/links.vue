@@ -49,35 +49,36 @@
                         icon: 'fa fa-users'
                     },
                     {
-                        href: '/admin/guests/all',
-                        title: 'Guests',
-                        icon: 'fa fa-users',
-                        child: [
-                            {
-                                href: '/admin/guests/all',
-                                title: 'All',
-                            },
-                            {
-                                href: '/admin/guests/day_guests',
-                                title: 'Day Guests',
-                            },
-                            {
-                                href: '/admin/guests/night_guests',
-                                title: 'Night Guests',
-                            },
-                            {
-                                href: '/admin/guests/not_attending',
-                                title: 'Not Attending',
-                            },
-                            {
-                                href: '/admin/guests/awaiting_reply',
-                                title: 'Awaiting Reply',
-                            },
-                            {
-                                href: '/admin/guests/not_invited',
-                                title: 'Not Invited',
-                            }
-                        ]
+                        href: '/admin/invites/all',
+                        title: 'Invites',
+                        icon: 'fas fa-envelope-open-text',
+                        // icon: 'fa fa-users',
+                        // child: [
+                        //     {
+                        //         href: '/admin/guests/all',
+                        //         title: 'All',
+                        //     },
+                        //     {
+                        //         href: '/admin/guests/day_guests',
+                        //         title: 'Day Guests',
+                        //     },
+                        //     {
+                        //         href: '/admin/guests/night_guests',
+                        //         title: 'Night Guests',
+                        //     },
+                        //     {
+                        //         href: '/admin/guests/not_attending',
+                        //         title: 'Not Attending',
+                        //     },
+                        //     {
+                        //         href: '/admin/guests/awaiting_reply',
+                        //         title: 'Awaiting Reply',
+                        //     },
+                        //     {
+                        //         href: '/admin/guests/not_invited',
+                        //         title: 'Not Invited',
+                        //     }
+                        // ]
                     },
                     {
                         href: '/admin/reports',

@@ -30,6 +30,7 @@ Route::get('csv_upload/getAll/', 'Api\CsvUploadController@getAll');
 Route::apiResource('csv_upload', 'Api\CsvUploadController', ['as' => 'api']);
 
 // Invite
+Route::get('invite/getAll', 'Api\InviteController@getAll');
 Route::get('invite/send/{id}', 'Api\InviteController@send');
 Route::get('invite/getEmails/{id}', 'Api\InviteController@getEmails');
 Route::post('invite/web/', 'Api\InviteController@webCreate');
