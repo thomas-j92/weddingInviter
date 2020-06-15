@@ -21,6 +21,7 @@ class PeopleTableSeeder extends Seeder
 	            'last_name' 	=> $faker->lastName,
                 'status'        => 'active',
 	            'email' 		=> $faker->email,
+                'image'         => 'images/avatar.jpg',
 	            'created_at' 	=> date('Y-m-d H:i:s')
 	        ]);
     	}
@@ -31,6 +32,7 @@ class PeopleTableSeeder extends Seeder
             'last_name'     => 'Jinks',
             'status'        => 'active',
             'email'         => 'tommy_jinks@hotmail.co.uk',
+            'image'         => 'images/avatar.jpg',
             'created_at'    => date('Y-m-d H:i:s')
         ]);
     }

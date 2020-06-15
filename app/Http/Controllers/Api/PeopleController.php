@@ -16,6 +16,7 @@ use App\CsvUpload;
 
 // Load libaries 
 use Validator;
+use Illuminate\Support\Facades\Storage;
 
 class PeopleController extends Controller
 {
@@ -267,6 +268,9 @@ class PeopleController extends Controller
 
     }
 
+    /**
+     * Bulk upload.
+     */
     public function upload(Request $request) {
 
       // ensure file has been provided
@@ -380,5 +384,12 @@ class PeopleController extends Controller
       }
 
       return response()->json($response);
+    }
+
+    public function updateAvatar(Request $request) {
+
+      $path = $request->file('file')->store('avatars');
+
+      dd($request);
     }
 }

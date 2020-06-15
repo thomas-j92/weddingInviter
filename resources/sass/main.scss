@@ -193,3 +193,25 @@
 		}
 	}
 /* End of Setup Invite */
+
+/* View Person */
+	.person-view {
+		.person-image {
+			text-align: center;
+			img {
+				border: 2px solid #2a2a30;
+    			border-top-left-radius: 0.5em;
+    			border-top-right-radius: 0.5em;
+			}
+			.upload-btn {
+				background-color: #2a2a2f;
+			    color: #eeeeee;
+			    padding: 1em;
+			    &:hover {
+			    	opacity: 0.8;
+			    	cursor: pointer;
+			    }
+			}
+		}
+	}
+/* End of View Person */

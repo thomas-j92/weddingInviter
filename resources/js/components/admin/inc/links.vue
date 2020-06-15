@@ -81,6 +81,11 @@
                         // ]
                     },
                     {
+                        href: '/admin/saveTheDates/all',
+                        title: 'Save the dates',
+                        icon: 'fas fa-envelope-open-text',
+                    },
+                    {
                         href: '/admin/reports',
                         title: 'Reports',
                         icon: 'fa fa-chart-pie',

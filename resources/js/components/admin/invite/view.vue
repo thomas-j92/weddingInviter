@@ -18,9 +18,13 @@
 							<h5>Name</h5>
 							<p>{{ main_guest.person.first_name }} {{ main_guest.person.last_name }}</p>
 						</b-col>
-						<b-col sm="4">
+						<b-col sm="3">
 							<h5>Email</h5>
 							<p>{{ main_guest.person.email }}</p>
+						</b-col>
+						<b-col sm="5">
+							<h5>Save the date</h5>
+							<p>No <b-link @click="sendSaveTheDate">Send</b-link></p>
 						</b-col>
 					</b-row>
 					<b-row class="mt-2">
@@ -868,6 +872,27 @@
 					 		// refresh data
 					 		self.getInvite();
 					 	}
+					 })
+			},
+			sendSaveTheDate() {
+				const self = this;
+
+				// structure data
+				let saveTheDateData = {
+					inviteId: this.inviteId,
+				};
+
+				// send save the date
+				axios.post(this.baseUrl+'/api/save_the_date', saveTheDateData)
+					 .then((resp) => {
+					 	if(resp.data) {
+					 		self.toast('Email sent', resp.data.message);
+					 	} else {
+					 		self.toast('Error', resp.data.message, 'danger');
+					 	}
+					 })
+					 .catch((error) => {
+					 	self.toast('An error occurred', error, 'danger');
 					 })
 			}
 		},

@@ -4,13 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class People extends Model
 {
 	use SoftDeletes;
 
 	protected $fillable 	= ['first_name', 'last_name', 'status', 'email'];
-	protected $appends 		= ['invite_status'];
+	protected $appends 		= ['invite_status', 'created_at_format'];
 	protected $attributes 	= [
         'status' => 'active',
     ];
@@ -49,5 +50,9 @@ class People extends Model
 		}
 
 		return 'not_invited';
+	}
+
+	public function getCreatedAtFormatAttribute() {
+		return Carbon::parse($this->created_at)->format('d/m/Y H:i:s');
 	}
 }

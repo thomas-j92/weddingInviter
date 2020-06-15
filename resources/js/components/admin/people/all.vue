@@ -22,6 +22,7 @@
 							<b-dropdown class="person-dropdown">
 								<b-dropdown-group>
 									<b-dropdown-text class="dropdown-title">Person</b-dropdown-text>
+									<b-dropdown-item :to="{name: 'person.view', params: {id: data.item.id}}"><i class="fas fa-user-alt mr-1"></i> View</b-dropdown-item>
 							    	<b-dropdown-item @click="showModal('delete-person-modal', data.item)"><i class="fas fa-trash mr-1"></i> Delete</b-dropdown-item>
 							    </b-dropdown-group>
 

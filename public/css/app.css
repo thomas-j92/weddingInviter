@@ -25508,6 +25508,31 @@ body {
 
 /* End of Setup Invite */
 
+/* View Person */
+
+.person-view .person-image {
+  text-align: center;
+}
+
+.person-view .person-image img {
+  border: 2px solid #2a2a30;
+  border-top-left-radius: 0.5em;
+  border-top-right-radius: 0.5em;
+}
+
+.person-view .person-image .upload-btn {
+  background-color: #2a2a2f;
+  color: #eeeeee;
+  padding: 1em;
+}
+
+.person-view .person-image .upload-btn:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+/* End of View Person */
+
 /* Fonts */
 
 @font-face {

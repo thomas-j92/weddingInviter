@@ -23,6 +23,7 @@ Route::get('people/showAll/{filter?}', 'Api\PeopleController@showAll');
 Route::get('people/get_all/', 'Api\PeopleController@get_all');
 Route::put('people/deletePerson/{id}', 'Api\PeopleController@deletePerson');
 Route::post('people/upload/', 'Api\PeopleController@upload');
+Route::post('people/avatar/', 'Api\PeopleController@updateAvatar');
 Route::apiResource('people', 'Api\PeopleController', ['as' => 'api']);
 
 // CsvUpload
@@ -41,6 +42,9 @@ Route::delete('invite/deletePlusOne/{id}', 'Api\InviteController@deletePlusOne')
 Route::put('invite/updateRsvp', 'Api\InviteController@updateRsvp');
 Route::get('invite/activity/{id}', 'Api\InviteController@getActivity');
 Route::apiResource('invite', 'Api\InviteController', ['as' => 'api']);
+
+// SaveTheDate
+Route::apiResource('save_the_date', 'Api\SaveTheDateController', ['as' => 'api']);
 
 // Email
 Route::get('email/getAll/', 'Api\EmailController@getAll');
