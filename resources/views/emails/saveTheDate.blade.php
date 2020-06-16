@@ -6,29 +6,28 @@
 
 @section('content')
 
-	<div class="container">
-		<div class="row blue-bg">
-			<div class="col col-6" id="">
+	<div class="email-container">
+		<div class="email-row blue-bg" id="std-header">
+			<div class="email-col email-col-6">
 				<p>We're getting married</p>
 
 			</div>
-			<div class="col col-6">
+			<div class="email-col email-col-6">
 				<p>Jessica & Thomas</p>
 			</div>
 		</div>
 
-		<div class="row">
-			<div class="col col-3 mr-1 rose-gold" >
-				{{-- <img src="{{ $message->embed('images/emails/rose-gold.jpg') }}"> --}}
+		<div class="email-row" id="std-subheading">
+			<div class="email-col email-col-3 mr-1 rose-gold" >
 				<img src="{{ asset('images/emails/rose-gold.jpeg') }}">
 			</div>
-			<div class="col col-9 blue-bg">
+			<div class="email-col email-col-9 blue-bg">
 				<p>Save our date</p>
 			</div>
 		</div>
 
-		<div class="row address_container">
-			<div class="col col-11 mr-1 blue-bg">
+		<div class="email-row address_container" id="std-details">
+			<div class="email-col email-col-11 mr-1 blue-bg">
 				<p class="date">Wednesday 27th | October 2021</p>
 
 				<div class="address">
@@ -39,7 +38,7 @@
 					<p class="postcode">WV15 6HL</p>
 				</div>
 			</div>
-			<div class="col col-1">
+			<div class="email-col email-col-1">
 				<img src="{{ asset('images/emails/rose-gold.jpeg') }}">
 			</div>
 		</div>
@@ -49,36 +48,43 @@
 @endsection
 
 <style>
-	@font-face {
-	    font-family: 'Aphrodite';
-	    src: url('{{ public_path('fonts/save_the_dates/aphrodite-text.otf') }}');
-	    /*src: url('/fonts/save_the_dates/aphrodite-text.otf');*/
+	.email-container {
+		color: #FFF;
 	}
-	p {
-		font-family: Aphrodite;
-	}
-	.row {
-		display: flex;
-		wdith: 100%;
+	.email-row {
+		display: -webkit-box;
+	    display: -ms-flexbox;
+	    display: flex;
+	    -ms-flex-wrap: wrap;
+	    flex-wrap: wrap;
+		width: 100%;
 		margin-bottom: 1em;
+	}
+	.email-col {
+		position: relative;
+		-ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
 	}
 	.mr-1 {
 		margin-right: 1em;
 	}
-	.col-1 {
+	.email-col-1 {
 		width: 8.333333%;
 	}
-	.col-3 {
+	.email-col-3 {
 		width: 25%;
 	}
-	.col-6 {
+	.email-col-6 {
 		width: 50%;
 		float:left;
 	}
-	.col-9 {
+	.email-col-9 {
 		width: 75%;
 	}
-	.col-11 {
+	.email-col-11 {
 		width: 91.666667%;
 	}
 	.blue-bg {
@@ -90,5 +96,17 @@
 	}
 	.address_container img {
 		height: 100%;
+	}
+	#std-header .email-col p,
+	#std-subheading .email-col p {
+		padding: 1em;
+		margin: 0;
+		text-align: center;
+	}
+	#std-subheading .email-col p {
+		width: 100%;
+	    position: absolute;
+	    top: 50%;
+	    transform: translate(0, -50%);
 	}
 </style>

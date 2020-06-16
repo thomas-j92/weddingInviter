@@ -887,6 +887,10 @@
 					 .then((resp) => {
 					 	if(resp.data) {
 					 		self.toast('Email sent', resp.data.message);
+
+					 		// refresh additional data
+					 		self.getInvite();
+					 		self.getEmails();
 					 	} else {
 					 		self.toast('Error', resp.data.message, 'danger');
 					 	}

@@ -96245,6 +96245,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			axios.post(this.baseUrl + '/api/save_the_date', saveTheDateData).then(function (resp) {
 				if (resp.data) {
 					self.toast('Email sent', resp.data.message);
+
+					// refresh additional data
+					self.getInvite();
 				} else {
 					self.toast('Error', resp.data.message, 'danger');
 				}
