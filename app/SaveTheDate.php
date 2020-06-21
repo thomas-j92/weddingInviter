@@ -31,10 +31,13 @@ class SaveTheDate extends Model
     public function send() {
 
     	// send saveTheDate to main guest of Invite
-    	$mainGuest = $this->invite->main_guest->person;
+    	$mainGuest     = $this->invite->main_guest->person;
+
+        // all guests
+        $guests         = $this->invite->guests;
 
         // send saveTheDate
-        $saveTheDateMail = new SaveTheDateMail('Save The Date');
+        $saveTheDateMail = new SaveTheDateMail($guests);
     	Mail::to($mainGuest->email)->send($saveTheDateMail);
 
         // html render

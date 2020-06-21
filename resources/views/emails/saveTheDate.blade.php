@@ -6,138 +6,137 @@
 
 @section('content')
 	
-	<div class="email-container">
+	<div class="container">
+		<div class="email-container">
 
-		<div class="email-body">
+			<div class="email-body">
+				
+				<div class="header-image">
+					<img src="{{ asset('images/emails/save_the_dates/header.png') }}" alt="Save the dates">
+				</div>
 
-			<p class="std-desc">Would like you to save our date, Wednesday 27th of October, 2021.</p>
-			
-			<table cellspacing="0" cellpadding="0" class="std-details">
-				<tr>
-					<td class="blue-bg">
-						<p class="date">Wednesday 27th | October 2021</p>
 
-						<div class="address">
-							<p class="address_1">The Mills Barn</p>
-							<p class="address_2">Alveley</p>
-							<p class="address_3">Near Bridnorth</p>
-							<p class="county">Shropshire</p>
-							<p class="postcode">WV15 6HL</p>
-						</div>
-					</td>
-				</tr>
-			</table>
+				<div class="greeting-container">
+					<p>{{ $greeting }}</p>
+				</div>
+
+				<div class="divider">
+					<img src="{{ asset('images/emails/save_the_dates/mill-barn-pink.png') }}" alt="Divider">
+				</div>
+
+				<div class="desc-container">
+					<img src="{{ asset('images/emails/save_the_dates/jess-tom.png') }}" alt="Jess and Tom">
+					<p class="desc">invite you to share their celebration</p>
+					<p class="desc small">on</p>
+					<p class="date">Wednesday, 27th October 2021</p>
+					<p class="desc small">at</p>
+				</div>
+				
+				<table cellspacing="0" cellpadding="0" class="std-details">
+					<tr>
+						<td class="blue-bg">
+							<div class="address">
+								<p class="address_1">The Mills Barn</p>
+								<p class="address_2">Alveley</p>
+								<p class="address_3">
+									<span id="part-1">Near Bridnorth</span><span id="part-2">Shropshire</span><span id="part-3">WV15 6HL</span>
+								</p>
+							</div>
+						</td>
+					</tr>
+				</table>
+
+				<table class="footer">
+					<tr>
+						<td>
+							<p>The venue has limited rooms available for guests to book if they would like to spend the night after celebrating with us. Please enquire via email <a href="mailto:thehappycouple@jinkswedding.co.uk">thehappycouple@jinkswedding.co.uk</a></p>
+						</td>
+					</tr>
+					<tr>
+						<td>	
+							<p>To give all our guests the opportunity to celebrate without having to worry about little eyes and little ears, we politely request no children.</p>
+						</td>
+					</tr>
+				</table>
+			</div>
 		</div>
-		
 	</div>
-	{{-- <div class="email-container">
-		<table cellspacing="0" cellpadding="0" class="std-heading">
-			<tr>
-				<td class="blue-bg" width="80%">
-					<p>We're getting married</p>
-					<p>Jessica & Thomas</p>
-				</td>
-				<td width="20%">
-					<img src="{{ asset('images/mill-logo.png') }}">
-				</td>
-			</tr>
-		</table>
-
-		<table cellspacing="0" cellpadding="0" class="std-wording">
-			<tr>
-				<td width="25%" class="img">
-					<img src="{{ asset('images/emails/rose-gold.jpeg') }}">
-				</td>
-				<td width="75%" class="blue-bg">
-					<p>Save our date</p>
-				</td>
-			</tr>
-		</table>
-
-		<table cellspacing="0" cellpadding="0" class="std-details">
-			<tr>
-				<td width="90%" class="blue-bg">
-					<p class="date">Wednesday 27th | October 2021</p>
-
-					<div class="address">
-						<p class="address_1">The Mills Barn</p>
-						<p class="address_2">Alveley</p>
-						<p class="address_3">Near Bridnorth</p>
-						<p class="county">Shropshire</p>
-						<p class="postcode">WV15 6HL</p>
-					</div>
-				</td>
-				<td width="10%" class="img">
-					<img src="{{ asset('images/emails/rose-gold.jpeg') }}">
-				</td>
-			</tr>
-		</table>
-	</div> --}}
-
 @endsection
 
 <style>
+	.container {
+		background-color: #003452;
+		padding: 1em;
+	}
 	.email-container {
-		background-image: url({{ asset('images/emails/rose-gold.jpeg') }});
-		height: 20em;
+		background-image: url({{ asset('images/emails/save_the_dates/bg.png') }});
+		height: 59em;
 		position: relative;
 	}
 	.email-container .email-body {
-		background-color: rgb(15, 21, 33);
+		background-color: #003452;
+		background-image: url({{ asset('images/emails/save_the_dates/confetti.png') }});
+		background-repeat: no-repeat;
 		position: absolute;
-	    left: 1em;
-	    right: 1em;
-	    bottom: 1em;
-	    top: 1em;
+	    left: 0.4em;
+	    right: 0.4em;
+	    bottom: 0.4em;
+	    top: 0.4em;
+	}
+	.email-container .email-body .greeting-container p {
+		color: #fba198;
+    	font-size: 1.5em;
+	}
+	.email-container .email-body .desc-container img {
+		margin: 0 auto;
+	    display: block;
+	    padding-bottom: 1em;
+	}
+	.email-container .email-body .desc-container .desc.small {
+		font-size: 0.8em;
+		padding: 0.5em;
+	}
+	.email-container .email-body .date {
+		font-size: 1.3em;
+		color: #fba198;
+	}
+	.email-container .email-body .header-image img {
+		margin: 0 auto;
+    	display: block;
+   	 	padding: 1em;
+   	 	padding-top: 6em;
+	}
+	.email-container .divider {
+		width: 2em;
+	    margin: 1.5em auto;
 	}
 	.email-container table {
 		width: 100%;
 	}
 	.email-container p {
+		color: #fbcbc6;
 		margin: 0;
 		text-align: center;
+		font-family: Tahoma, Geneva, sans-serif;
 	}
-	.std-desc {
-		padding-bottom: 2em;
+	.email-container .email-body .std-details {
+		padding-bottom: 1em;
 	}
-	/*.email-container p {
-		margin: 0;
-		color: #FFF;
-		font-family: "Trebuchet MS", Helvetica, sans-serif;
+	.email-container .email-body .std-details .address {
+		padding-bottom: 1em;
 	}
-	/*.email-container p {
-		margin: 0;
-		color: #FFF;
-		font-family: "Trebuchet MS", Helvetica, sans-serif;
+	.email-container .email-body .std-details .address #part-1,
+	.email-container .email-body .std-details .address #part-2{
+		border-right: 1px solid #da928b;
+		padding-right: 0.5em;
+    	margin-right: 0.5em;
 	}
-	.email-container table {
-		border: 0;
-		width: 100%;
-		margin-bottom: 1em;
-	}
-	.email-container .blue-bg {
-		background-color: #121828;
-	}
-	.email-container .std-heading p {
-		text-align: center;
-		padding: 0.5em 0em;
-	}
-	.email-container .std-wording p {
-		text-align: center;
-	}
-	.email-container .std-details p {
-		text-align: center;
-	}
-	.email-container .std-wording .img {
-		padding-right: 1em;
-	}
-	.email-container .std-wording img {
-		height: auto;
-	}
-	.email-container .std-details .img {
-		padding-left: 1em;
-	}
-	.email-container .std-details img {
-		height: 15em;
-	}*/
+	.email-container .email-body .footer p {
+		font-size: 0.7em;
+		color: #2f6782;
+		padding-bottom: 0.5em;
+		color: #ffbab3;
+		margin: 1em 2em;
+		margin-top: 0em;
+	} 
 </style>

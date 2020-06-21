@@ -16,9 +16,10 @@ class SaveTheDate extends Mailable
      *
      * @return void
      */
-    public function __construct($subject)
+    public function __construct($guests)
     {
-        $this->subject  = $subject;
+        $this->subject      = 'Save The Date';
+        $this->guests       = $guests;
     }
 
     /**
@@ -28,9 +29,27 @@ class SaveTheDate extends Mailable
      */
     public function build()
     {
-         return $this->subject($this->subject)
-                    ->markdown('emails.saveTheDate');
-                    // ->with(['message' => $this]);
+        // calculate greeting 
+        $greeting = '';
+        foreach($this->guests as $i => $guest) {
+            $person     = $guest->person;
+
+            $greeting   .= $person->first_name;
+
+            if($i == (count($this->guests)-2)) {
+                $greeting .= ' & ';
+            } else {
+                if($i+1 !== count($this->guests)) {
+                    $greeting .= ', ';
+                }
+            }
+        }
+
+        return $this->subject($this->subject)
+                    ->markdown('emails.saveTheDate')
+                    ->with([
+                        'greeting' => $greeting
+                    ]);
                     // ->with([
                     //     'name'     => ($this->person->first_name . ' ' . $this->person->last_name),
                     //     'code'     => $this->invite->code
