@@ -44,6 +44,10 @@ Route::get('invite/activity/{id}', 'Api\InviteController@getActivity');
 Route::apiResource('invite', 'Api\InviteController', ['as' => 'api']);
 
 // SaveTheDate
+Route::get('save_the_date/getAll/', 'Api\SaveTheDateController@getAll');
+Route::get('save_the_date/getBulkRequests/', 'Api\SaveTheDateController@getBulkRequests');
+Route::get('save_the_date/getBulkSend/{id}', 'Api\SaveTheDateController@getBulkSend');
+Route::post('save_the_date/saveBulkSend/', 'Api\SaveTheDateController@saveBulkSend');
 Route::apiResource('save_the_date', 'Api\SaveTheDateController', ['as' => 'api']);
 
 // Email
