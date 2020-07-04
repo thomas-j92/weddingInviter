@@ -15,6 +15,7 @@ class UpdateEmailsAddEmailAddress extends Migration
     {
         Schema::table('emails', function (Blueprint $table) {
             $table->string('email_address');
+            $table->longText('cc')->nullable();
         });
     }
 
@@ -27,6 +28,7 @@ class UpdateEmailsAddEmailAddress extends Migration
     {
         Schema::table('emails', function (Blueprint $table) {
             $table->dropColumn('email_address');
+            $table->dropColumn('cc');
         });
     }
 }

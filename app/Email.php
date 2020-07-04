@@ -16,4 +16,8 @@ class Email extends Model
     public function invite() {
     	return $this->belongsTo('App\Invite', 'invite_id');
     }
+
+    public function save_the_date() {
+    	return $this->hasOne('App\SaveTheDate');
+    }
 }

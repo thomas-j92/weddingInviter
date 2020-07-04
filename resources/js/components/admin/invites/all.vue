@@ -67,7 +67,7 @@
 						</template>
 
 						<template v-slot:row-details="data">
-							<b-card no-body>
+							<b-card v-if="data.item.additional_guests.length > 0" no-body>
 								<b-card-header>
 									Additional guests
 								</b-card-header>
@@ -98,7 +98,7 @@
 								</b-table>
 							</b-card>
 
-							<b-card no-body>
+							<b-card v-if="data.item.plus_ones.length > 0" no-body>
 								<b-card-header>
 									Plus ones
 								</b-card-header>

@@ -1,12 +1,11 @@
 @extends('emails.inc.main', ['showHeader' => false, 'showFooter' => false])
 
 @section('header')
-	panel
 @endsection
 
 @section('content')
 	
-	<div class="container">
+	<div class="parent-container">
 		<div class="email-container">
 
 			<div class="email-body">
@@ -64,7 +63,7 @@
 @endsection
 
 <style>
-	.container {
+	.parent-container {
 		background-color: #003452;
 		padding: 1em;
 	}

@@ -9,9 +9,11 @@ use App\Mail\SaveTheDate as SaveTheDateMail;
 
 // Load libaries
 use Mail;
+use Carbon\Carbon;
 
 class SaveTheDate extends Model
 {
+    protected $appends = ['created_at_format', 'CC_format'];
 
 	public static function boot() {
         parent::boot();
@@ -23,6 +25,18 @@ class SaveTheDate extends Model
 
     public function invite() {
     	return $this->belongsTo('App\Invite', 'invite_id');
+    }
+
+    public function email() {
+        return $this->belongsTo('App\Email');
+    }
+
+    public function getCreatedAtFormatAttribute() {
+        return Carbon::parse($this->created_at)->format('d/m/Y H:i:s');
+    }
+
+    public function getCCFormatAttribute() {
+        return unserialize($this->cc);
     }
 
     /** 
@@ -38,7 +52,9 @@ class SaveTheDate extends Model
 
         // send saveTheDate
         $saveTheDateMail = new SaveTheDateMail($guests);
-    	Mail::to($mainGuest->email)->send($saveTheDateMail);
+    	Mail::to($this->to)
+            ->cc($this->CC_format)
+            ->send($saveTheDateMail);
 
         // html render
         $emailHtml = ($saveTheDateMail)->render();
@@ -48,7 +64,11 @@ class SaveTheDate extends Model
         $emailLog->subject          = 'Save the date sent';
         $emailLog->html             = $emailHtml;
         $emailLog->email_address    = $mainGuest->email;
+        $emailLog->cc               = $this->cc;
         $emailLog->invite_id        = $this->invite_id;
         $emailLog->save();
+
+        // update email ID
+        $this->email()->associate($emailLog);
     }
 }

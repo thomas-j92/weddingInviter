@@ -1,6 +1,9 @@
 <template>
 	<div>
-		dashboard
+
+		<countdown></countdown>
+		
+		
 	</div>
 </template>
 

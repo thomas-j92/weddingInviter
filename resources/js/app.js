@@ -237,9 +237,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueAxios from 'vue-axios'
 import BootstrapVue from 'bootstrap-vue'
+import VueCountdownTimer from 'vuejs-countdown-timer'
 Vue.use(VueRouter)
 Vue.use(VueAxios, axios)
 Vue.use(BootstrapVue)
+Vue.use(VueCountdownTimer)
 
 // Sidebar
 import VueSidebarMenu from 'vue-sidebar-menu'
@@ -252,6 +254,9 @@ import loading from './components/useful/loading'
 // No data text
 import no_data from './components/useful/no-data'
 
+// Countdown
+import countdown from './components/admin/dashboard/countdown'
+
 // Mixin
 if(document.head.querySelector('meta[name="api-base-url"]')) {
 	Vue.axios.defaults.baseURL = document.head.querySelector('meta[name="api-base-url"]').content;
@@ -263,6 +268,7 @@ if(document.head.querySelector('meta[name="api-base-url"]')) {
 	    }
 	  },
 	  components: {
+	  	countdown,
 	  	loading,
 	  	'no-data': no_data
 	  },
@@ -333,6 +339,11 @@ const router = new VueRouter({
 		        	path: 'saveTheDates/all',
 		        	name: 'saveTheDates.all',
 		        	component: require('./components/admin/saveTheDates/all')
+		        },
+		        {
+		        	path: 'saveTheDates/bulk/:id',
+		        	name: 'saveTheDates.bulk',
+		        	component: require('./components/admin/saveTheDates/bulkUpload')
 		        },
 		        {
 		         	path: 'invites/all',

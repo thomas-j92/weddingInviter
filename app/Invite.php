@@ -32,6 +32,10 @@ class Invite extends Model
         return $this->hasMany('App\Email', 'invite_id', 'id');
     }
 
+    public function save_the_dates() {
+        return $this->hasMany('App\SaveTheDate', 'invite_id', 'id');
+    }
+
     /**
      * Get main guest assigned to an Invite.
      */

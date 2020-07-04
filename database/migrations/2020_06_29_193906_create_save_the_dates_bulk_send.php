@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableSaveTheDateTable extends Migration
+class CreateSaveTheDatesBulkSend extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,15 @@ class CreateTableSaveTheDateTable extends Migration
      */
     public function up()
     {
-        Schema::create('save_the_dates', function (Blueprint $table) {
+        Schema::create('save_the_dates_bulk_send_elements', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('invite_id');
-            $table->unsignedBigInteger('email_id');
-            $table->longText('to');
-            $table->longText('cc')->nullable();
+            $table->unsignedBigInteger('container_id');
+            $table->longText('status');
             $table->timestamps();
 
             $table->foreign('invite_id')->references('id')->on('invites');
-            $table->foreign('email_id')->references('id')->on('emails');
+            $table->foreign('container_id')->references('id')->on('save_the_dates_bulk_send_containers');
         });
     }
 
@@ -33,6 +32,6 @@ class CreateTableSaveTheDateTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('save_the_dates');
+        Schema::dropIfExists('save_the_dates_bulk_send_elements');
     }
 }

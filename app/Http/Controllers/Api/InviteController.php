@@ -129,7 +129,9 @@ class InviteController extends Controller
      */
     public function show($id)
     {
-        $invite = Invite::with(['plus_ones'])
+        $invite = Invite::with(['plus_ones', 'save_the_dates' => function($query) {
+                            $query->orderBy('created_at', 'DESC');
+                        }])
                         ->find($id);
 
         return response()->json($invite);
