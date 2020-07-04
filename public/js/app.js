@@ -96248,6 +96248,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 					// refresh additional data
 					self.getInvite();
+					self.getEmails();
 				} else {
 					self.toast('Error', resp.data.message, 'danger');
 				}

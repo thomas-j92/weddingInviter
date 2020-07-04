@@ -25533,6 +25533,25 @@ body {
 
 /* End of View Person */
 
+.under_construction {
+  display: block;
+}
+
+.under_construction .left-section {
+  background-color: blue;
+}
+
+.under_construction .left-section .couple-image {
+  background-image: url("/images/web/under_construction/bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 50em;
+}
+
+.under_construction .right-section {
+  background-color: red;
+}
+
 /* Fonts */
 
 @font-face {

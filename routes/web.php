@@ -14,6 +14,9 @@
 // Admin Auth
 Auth::routes();
 
+// under maintenance 
+Route::get('/', 'WebController@under_construction');
+
 Route::get('/logout', 'Auth\LoginController@logout');
 
 // Get user details
