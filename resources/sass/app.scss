@@ -10,11 +10,27 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~bootstrap-vue/dist/bootstrap-vue.css";
 
+// Fonts
+@font-face {
+  font-family: Happy;
+  src: url('/fonts/Happy Iness.otf');
+}
+@font-face {
+  font-family: Rothman;
+  src: url('/fonts/RothmanPlain.ttf');
+}
+
 // Main settings
 @import 'main';
 
+// Screen size settings
+@import 'screen-sizes';
+
 // Under construction page
 @import 'under_construction';
+
+// Animations 
+@import 'animations';
 
 // Invite settings
 @import 'invite';

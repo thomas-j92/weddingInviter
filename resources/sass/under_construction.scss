@@ -1,15 +1,139 @@
 .under_construction {
 	display: block;
+	background-color: #003452;
+	color: #fba198;
+	color: #fbcbc6;
+
+	.left-section,
+	.right-section {
+		padding: 0;
+		margin: 0;
+	}
 	.left-section {
-		background-color: blue;
+		height: 24em;
+
 		.couple-image {
 			background-image: url('/images/web/under_construction/bg.jpg');
 			background-repeat: no-repeat;
   			background-size: cover;
-  			height: 50em;
+  			height: 100%;
+  			position: relative;
+  			.countdown {
+  				display: flex;
+			    justify-content: center;
+			    align-items: center;
+			    height: 100%;
+			    color: #2f6782;
+			    z-index: 111;
+			    position: relative;
+  				.countdown-element {
+  					background-color: white;
+  					display: inline-block;
+  					width: 5em;
+				    height: 5em;
+				    border-radius: 1em;
+				    margin: 0.2em;
+
+				    -moz-box-shadow: 0 0 5px #fff;
+					-webkit-box-shadow: 0 0 5px #fff;
+					box-shadow: 0px 0px 5px #fff;
+  					.number {
+  						font-size: 1.5em;
+  						display: block;
+  						text-align: center;
+  						padding-top: 0.4em;
+  					}
+  					.text {
+  						display: block;
+  						text-align: center;
+  					}
+  				}
+  			}
+  			#cover {
+  				position: absolute;
+  				top: 0;
+  				bottom: 0;
+  				left: 0;
+  				right: 0;
+  				background-color: #023452;
+    			opacity: 0.3;
+    			z-index: 11;
+  			}
+		}
+		@include tablet {
+			height: initial;
+			.couple-image {
+				.countdown {
+					.countdown-element {
+						width: 7em;
+					    height: 7em;
+					    border-radius: 4em;
+					    margin: 0.5em;
+					    .number {
+					    	font-size: 2em;
+					    }
+					}
+				}
+			}
+		}
+		@include desktop {
+			height: initial;
+			.couple-image {
+				.countdown {
+					.countdown-element {
+						width: 7em;
+					    height: 7em;
+					    border-radius: 4em;
+					    margin: 0.5em;
+					    .number {
+							font-size: 2em;
+					    }
+					}
+				}
+			}
 		}
 	}
 	.right-section {
-		background-color: red;
+		// font-family: Rothman;
+		#mills-barns-logo {
+			display: block;
+		    width: 6em;
+		    margin: 0 auto;
+		    padding-bottom: 4em;
+		}
+		.big-title,
+		.sub-title,
+		.mini-title {
+			font-family: Happy;
+			letter-spacing: 5px;
+		}
+		.big-title {
+			font-size: 4em;
+		    text-align: center;
+		    padding: 0.5em;
+		    padding-bottom: 1em;
+		}
+		.sub-title {
+			font-size: 3em;
+		}
+		.mini-title {
+			font-size: 2em;
+		}
+		p {
+		    font-size: 1.2em;
+			padding: 0.5em 0.2em;
+			margin: 0;
+		}
+		#under-construction-text {
+			text-align: center;
+		}
+		#faqs {
+			margin-top: 3em;
+			background-color: #022e48;
+			padding: 3em 2em;
+			.faq {
+				padding: 1em 0em;
+			}
+		}
 	}
 }
