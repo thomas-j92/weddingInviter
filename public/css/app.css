@@ -25318,6 +25318,11 @@ a.text-dark:focus {
 
 /* All pages */
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   background-color: #eee;
   font-family: "Montserrat",sans-serif;
@@ -25329,6 +25334,10 @@ body {
 
 .content-container .content {
   padding-left: 2em;
+}
+
+.no-padding {
+  padding: 0;
 }
 
 /* End of all pages */
@@ -25542,6 +25551,90 @@ body {
 }
 
 /* End of View Person */
+
+/* Login */
+
+.login-app {
+  height: 100%;
+}
+
+.login-app .left-section {
+  background-color: #FFF;
+  padding-top: 8em;
+}
+
+.login-app .left-section .logo {
+  width: 5em;
+  margin: 0 auto;
+  display: block;
+}
+
+.login-app .left-section .remember-me {
+  margin-top: 1.8em;
+}
+
+.login-app .left-section .form-control {
+  height: 3em;
+  font-size: 1.2em;
+}
+
+.login-app .right-section {
+  background-image: url("/images/web/login/bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.login-app .right-section .cover {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #db928a;
+  opacity: 0.3;
+}
+
+.login-app h2 {
+  font-size: 1.8em;
+  margin-top: 0.8em;
+  margin-bottom: 0.5em;
+  color: #db928a;
+  text-align: center;
+}
+
+.login-app button {
+  background-color: #db928a;
+  border-color: #a95b51;
+}
+
+.login-app button:hover {
+  background-color: #e2a9a3;
+  border-color: #c7857e;
+}
+
+.login-app button:focus,
+.login-app button:active {
+  color: #fff;
+  background-color: #c36c63 !important;
+  border-color: #a9564e !important;
+  -webkit-box-shadow: 0 0 0 0.2rem #f7cdc9;
+  box-shadow: 0 0 0 0.2rem #f7cdc9;
+}
+
+.login-app #reset-password .left-section {
+  padding-top: 15em;
+}
+
+.login-app #reset-password .right-section {
+  background-image: url("/images/web/login/bg2.jpg");
+}
+
+.login-app #reset-password-confirm .right-section {
+  background-image: url("/images/web/login/bg3.jpg");
+}
+
+/* End of Login */
 
 .under_construction {
   display: block;

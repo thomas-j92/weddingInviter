@@ -1,6 +1,6 @@
 @component('mail::layout')
     {{-- Header --}}
-    @if($showHeader)
+    @if(isset($showHeader) && $showHeader)
         @slot('header')
             @component('mail::header', ['url' => config('app.url')])
                 {{ config('app.name') }}
@@ -21,7 +21,7 @@
     @endisset
 
     {{-- Footer --}}
-    @if($showFooter)
+    @if(isset($showFooter) && $showFooter)
         @slot('footer')
             @component('mail::footer')
                 © {{ date('Y') }} {{ config('app.name') }}. @lang('All rights reserved.')
