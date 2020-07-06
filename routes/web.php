@@ -12,7 +12,7 @@
 */
 
 // Admin Auth
-Auth::routes();
+Auth::routes(['register' => false]);
 
 // under maintenance 
 Route::get('/', 'WebController@under_construction');
