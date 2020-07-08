@@ -939,32 +939,6 @@
 					 	}
 					 })
 			},
-			sendSaveTheDate() {
-				const self = this;
-
-				// structure data
-				let saveTheDateData = {
-					inviteId: this.inviteId,
-					additional: this.save_the_dates.form.additional_guest
-				};
-
-				// send save the date
-				axios.post(this.baseUrl+'/api/save_the_date', saveTheDateData)
-					 .then((resp) => {
-					 	if(resp.data) {
-					 		self.toast('Email sent', resp.data.message);
-
-					 		// refresh additional data
-					 		self.getInvite();
-					 		self.getEmails();
-					 	} else {
-					 		self.toast('Error', resp.data.message, 'danger');
-					 	}
-					 })
-					 .catch((error) => {
-					 	self.toast('An error occurred', error, 'danger');
-					 })
-			}
 		},
 		mounted() {
 			// get invite details

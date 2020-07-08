@@ -93940,18 +93940,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			}
 		},
 		saveBulkUpload: function saveBulkUpload() {
+			var _this = this;
+
 			var self = this;
 
 			axios.post(this.baseUrl + '/api/save_the_date/saveBulkSend', this.bulkSendElements).then(function (resp) {
-				// if(resp.data) {
-				// 	// store saveTheDates
-				// 	self.allSaveTheDates = resp.data;
+				if (resp.data && resp.data.success) {
+					// notification
+					self.toast('Success', 'Bulk send has been created');
 
-				// 	// stop loading
-				// 	self.isLoaded = true;
-				// } else {
-				// 	self.toast('An error occurred', error, 'danger');
-				// }
+					// reload data
+					_this.getBulkRequests();
+
+					// stop loading
+					self.isLoaded = true;
+				} else {
+					self.toast('An error occurred', error, 'danger');
+				}
 			}).catch(function (error) {
 				self.toast('An error occurred', error, 'danger');
 			});
@@ -94921,6 +94926,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -94933,7 +94942,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			}, {
 				text: 'Bulk Send'
 			}],
-			stds: []
+			stds: [],
+			showing: null
 		};
 	},
 
@@ -94956,6 +94966,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			axios.get(this.baseUrl + '/api/save_the_date/getBulkSend/' + this.id).then(function (resp) {
 				if (resp.data) {
 					self.stds = resp.data;
+
+					self.showing = 0;
+				}
+			});
+		},
+		next: function next() {
+			this.showing++;
+		},
+		updateBulkUpload: function updateBulkUpload() {
+			var self = this;
+
+			// update status
+			var element = self.stds.elements[this.showing];
+			axios.get(this.baseUrl + '/api/save_the_date/bulkElementSent/' + element.id).then(function (resp) {
+				if (resp.data) {
+					self.toast('Success', 'Save the date has been sent');
+
+					self.next();
 				}
 			});
 		}
@@ -95058,12 +95086,89 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'saveTheDates.send',
 	props: ['inviteId'],
 	data: function data() {
-		return {};
+		return {
+			invite: null,
+			save_the_dates: {
+				form: {
+					main_guest: "1",
+					additional_guest: []
+				}
+			},
+			additional_guests: {}
+		};
+	},
+	mounted: function mounted() {
+		this.getInvite();
+	},
+
+	methods: {
+		getInvite: function getInvite() {
+			var self = this;
+
+			axios.get("/api/invite/" + this.inviteId).then(function (resp) {
+				if (resp.data) {
+					// store Invite details
+					self.invite = resp.data;
+
+					// store main person assigned to Invite
+					self.invite.main_guest = resp.data.main_guest;
+
+					// update invite type details
+					// self.updateInviteType.day = (resp.data.day == 1) ? 'true' : 'false';
+					// self.updateInviteType.night = (resp.data.night == 1) ? 'true' : 'false';
+
+					// store additional guests assigned to Invite
+					// self.additional_guests.data = resp.data.additional_guests;
+
+					// store Plus One details
+					// self.plus_ones.data = resp.data.plus_ones;
+
+
+					// set default additional guest values for save the date modal
+					if (self.invite.additional_guests.length > 0) {
+						self.invite.additional_guests.forEach(function (additional) {
+							self.save_the_dates.form.additional_guest[additional.person_id] = "0";
+						});
+					}
+
+					// stop loading gif
+					// self.inviteLoading = false;
+
+					// get activity 
+					// self.getActivity();
+				}
+			});
+		},
+		sendSaveTheDate: function sendSaveTheDate() {
+			var self = this;
+
+			// structure data
+			var saveTheDateData = {
+				inviteId: this.inviteId,
+				additional: this.save_the_dates.form.additional_guest
+			};
+
+			// send save the date
+			axios.post(this.baseUrl + '/api/save_the_date', saveTheDateData).then(function (resp) {
+				if (resp.data) {
+					self.toast('Email sent', resp.data.message);
+
+					// refresh additional data
+					self.$emit('sent', true);
+				} else {
+					self.toast('Error', resp.data.message, 'danger');
+				}
+			}).catch(function (error) {
+				self.toast('An error occurred', error, 'danger');
+			});
+		}
 	}
 });
 
@@ -95075,93 +95180,99 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "send-std" },
-    [
-      _c("h2", [_vm._v("Main guest")]),
-      _vm._v(" "),
-      _c("p", [_vm._v("The main guest will always be sent this email.")]),
-      _vm._v(" "),
-      _vm.invite.main_guest
-        ? _c(
-            "b-form-group",
-            [
-              _c(
-                "b-container",
+  return _vm.invite
+    ? _c(
+        "div",
+        { staticClass: "send-std" },
+        [
+          _c("h2", [_vm._v("Main guest")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("The main guest will always be sent this email.")]),
+          _vm._v(" "),
+          _vm.invite.main_guest
+            ? _c(
+                "b-form-group",
                 [
                   _c(
-                    "b-row",
-                    [
-                      _c("b-col", [
-                        _vm._v(
-                          "\n\t\t\t\t\t\t" +
-                            _vm._s(_vm.invite.main_guest.person.first_name) +
-                            " " +
-                            _vm._s(_vm.invite.main_guest.person.last_name) +
-                            "\n\t\t\t\t\t"
-                        )
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "b-row",
+                    "b-container",
                     [
                       _c(
-                        "b-col",
+                        "b-row",
                         [
-                          _c(
-                            "b-form-radio",
-                            {
-                              attrs: {
-                                name: "std-main-guest",
-                                disabled: true,
-                                value: "1"
-                              },
-                              model: {
-                                value: _vm.save_the_dates.form.main_guest,
-                                callback: function($$v) {
-                                  _vm.$set(
-                                    _vm.save_the_dates.form,
-                                    "main_guest",
-                                    $$v
-                                  )
-                                },
-                                expression: "save_the_dates.form.main_guest"
-                              }
-                            },
-                            [_vm._v("Yes")]
-                          )
+                          _c("b-col", [
+                            _vm._v(
+                              "\n\t\t\t\t\t\t" +
+                                _vm._s(
+                                  _vm.invite.main_guest.person.first_name
+                                ) +
+                                " " +
+                                _vm._s(_vm.invite.main_guest.person.last_name) +
+                                "\n\t\t\t\t\t"
+                            )
+                          ])
                         ],
                         1
                       ),
                       _vm._v(" "),
                       _c(
-                        "b-col",
+                        "b-row",
                         [
                           _c(
-                            "b-form-radio",
-                            {
-                              attrs: {
-                                name: "std-main-guest",
-                                disabled: true,
-                                value: "0"
-                              },
-                              model: {
-                                value: _vm.save_the_dates.form.main_guest,
-                                callback: function($$v) {
-                                  _vm.$set(
-                                    _vm.save_the_dates.form,
-                                    "main_guest",
-                                    $$v
-                                  )
+                            "b-col",
+                            [
+                              _c(
+                                "b-form-radio",
+                                {
+                                  attrs: {
+                                    name: "std-main-guest",
+                                    disabled: true,
+                                    value: "1"
+                                  },
+                                  model: {
+                                    value: _vm.save_the_dates.form.main_guest,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.save_the_dates.form,
+                                        "main_guest",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "save_the_dates.form.main_guest"
+                                  }
                                 },
-                                expression: "save_the_dates.form.main_guest"
-                              }
-                            },
-                            [_vm._v("No")]
+                                [_vm._v("Yes")]
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-col",
+                            [
+                              _c(
+                                "b-form-radio",
+                                {
+                                  attrs: {
+                                    name: "std-main-guest",
+                                    disabled: true,
+                                    value: "0"
+                                  },
+                                  model: {
+                                    value: _vm.save_the_dates.form.main_guest,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.save_the_dates.form,
+                                        "main_guest",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "save_the_dates.form.main_guest"
+                                  }
+                                },
+                                [_vm._v("No")]
+                              )
+                            ],
+                            1
                           )
                         ],
                         1
@@ -95172,114 +95283,123 @@ var render = function() {
                 ],
                 1
               )
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _c("h2", [_vm._v("Additional guest(s)")]),
-      _vm._v(" "),
-      _c(
-        "b-form-group",
-        _vm._l(_vm.invite.additional_guests, function(additional, index) {
-          return _c(
-            "b-container",
-            { key: "additional_" + index },
-            [
-              _c(
-                "b-row",
-                [
-                  _c("b-col", [
-                    _vm._v(
-                      "\n\t\t\t\t\t\t" +
-                        _vm._s(additional.person.first_name) +
-                        " " +
-                        _vm._s(additional.person.last_name) +
-                        "\n\t\t\t\t\t"
-                    )
-                  ])
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "b-row",
-                [
-                  _c(
-                    "b-col",
+            : _vm._e(),
+          _vm._v(" "),
+          _c("h2", [_vm._v("Additional guest(s)")]),
+          _vm._v(" "),
+          _vm.invite.additional_guests
+            ? _c(
+                "b-form-group",
+                _vm._l(_vm.invite.additional_guests, function(
+                  additional,
+                  index
+                ) {
+                  return _c(
+                    "b-container",
+                    { key: "additional_" + index },
                     [
                       _c(
-                        "b-form-radio",
-                        {
-                          attrs: {
-                            name: "std-main-guest-" + index,
-                            value: "1"
-                          },
-                          model: {
-                            value:
-                              _vm.save_the_dates.form.additional_guest[
-                                additional.person_id
-                              ],
-                            callback: function($$v) {
-                              _vm.$set(
-                                _vm.save_the_dates.form.additional_guest,
-                                additional.person_id,
-                                $$v
-                              )
-                            },
-                            expression:
-                              "save_the_dates.form.additional_guest[additional.person_id]"
-                          }
-                        },
-                        [_vm._v("Yes")]
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "b-col",
-                    [
+                        "b-row",
+                        [
+                          _c("b-col", [
+                            _vm._v(
+                              "\n\t\t\t\t\t\t" +
+                                _vm._s(additional.person.first_name) +
+                                " " +
+                                _vm._s(additional.person.last_name) +
+                                "\n\t\t\t\t\t"
+                            )
+                          ])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
                       _c(
-                        "b-form-radio",
-                        {
-                          attrs: {
-                            name: "std-main-guest-" + index,
-                            value: "0"
-                          },
-                          model: {
-                            value:
-                              _vm.save_the_dates.form.additional_guest[
-                                additional.person_id
-                              ],
-                            callback: function($$v) {
-                              _vm.$set(
-                                _vm.save_the_dates.form.additional_guest,
-                                additional.person_id,
-                                $$v
+                        "b-row",
+                        [
+                          _c(
+                            "b-col",
+                            [
+                              _c(
+                                "b-form-radio",
+                                {
+                                  attrs: {
+                                    name: "std-main-guest-" + index,
+                                    value: "1"
+                                  },
+                                  model: {
+                                    value:
+                                      _vm.save_the_dates.form.additional_guest[
+                                        additional.person_id
+                                      ],
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.save_the_dates.form
+                                          .additional_guest,
+                                        additional.person_id,
+                                        $$v
+                                      )
+                                    },
+                                    expression:
+                                      "save_the_dates.form.additional_guest[additional.person_id]"
+                                  }
+                                },
+                                [_vm._v("Yes")]
                               )
-                            },
-                            expression:
-                              "save_the_dates.form.additional_guest[additional.person_id]"
-                          }
-                        },
-                        [_vm._v("No")]
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-col",
+                            [
+                              _c(
+                                "b-form-radio",
+                                {
+                                  attrs: {
+                                    name: "std-main-guest-" + index,
+                                    value: "0"
+                                  },
+                                  model: {
+                                    value:
+                                      _vm.save_the_dates.form.additional_guest[
+                                        additional.person_id
+                                      ],
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.save_the_dates.form
+                                          .additional_guest,
+                                        additional.person_id,
+                                        $$v
+                                      )
+                                    },
+                                    expression:
+                                      "save_the_dates.form.additional_guest[additional.person_id]"
+                                  }
+                                },
+                                [_vm._v("No")]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
                       )
                     ],
                     1
                   )
-                ],
+                }),
                 1
               )
-            ],
-            1
-          )
-        }),
+            : _vm._e(),
+          _vm._v(" "),
+          _c("b-button", { on: { click: _vm.sendSaveTheDate } }, [
+            _vm._v("Send")
+          ])
+        ],
         1
       )
-    ],
-    1
-  )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -95310,9 +95430,25 @@ var render = function() {
           _vm._v(" "),
           _c("h2", [_vm._v("Bulk upload")]),
           _vm._v(" "),
-          _c("save-std")
+          _vm._l(_vm.stds.elements, function(std, index) {
+            return _c(
+              "div",
+              { staticClass: "std" },
+              [
+                _vm.showing == index
+                  ? _c("save-std", {
+                      attrs: { "invite-id": std.invite_id },
+                      on: { sent: _vm.updateBulkUpload }
+                    })
+                  : _vm._e()
+              ],
+              1
+            )
+          }),
+          _vm._v(" "),
+          _c("b-button", { on: { click: _vm.next } }, [_vm._v("Next")])
         ],
-        1
+        2
       )
     ],
     1
@@ -98036,30 +98172,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					// refresh data
 					self.getInvite();
 				}
-			});
-		},
-		sendSaveTheDate: function sendSaveTheDate() {
-			var self = this;
-
-			// structure data
-			var saveTheDateData = {
-				inviteId: this.inviteId,
-				additional: this.save_the_dates.form.additional_guest
-			};
-
-			// send save the date
-			axios.post(this.baseUrl + '/api/save_the_date', saveTheDateData).then(function (resp) {
-				if (resp.data) {
-					self.toast('Email sent', resp.data.message);
-
-					// refresh additional data
-					self.getInvite();
-					self.getEmails();
-				} else {
-					self.toast('Error', resp.data.message, 'danger');
-				}
-			}).catch(function (error) {
-				self.toast('An error occurred', error, 'danger');
 			});
 		}
 	},

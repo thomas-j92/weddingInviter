@@ -185,7 +185,10 @@ class SaveTheDateController extends Controller
                 'invite_id' => $r,
             ]);
         }
-        dd($request);
+        
+        return response()->json([
+            'success' => true,
+        ]);
     }
 
     /**
@@ -194,10 +197,27 @@ class SaveTheDateController extends Controller
     public function getBulkSend($id) {
 
         // get STD_Bulk_Container
-        $container = STD_Bulk_Container::with(['elements'])
-                                       ->find($id);
+        $container = STD_Bulk_Container::with(['elements' => function ($query) {
+            $query->where('status', 'pending');
+        }])->find($id);
 
         return response()->json($container);
         
+    }
+
+    /**
+     * Update bulk element to sent status.
+     */
+    public function bulkElementSent($id) {
+        // get SaveTheDate bulk element
+        $element = STD_Bulk_Element::find($id);
+
+        // update SaveTheDate bulk element
+        $element->status = 'sent';
+        $element->save();
+
+        return response()->json([
+            'success' => true,
+        ]);
     }
 }

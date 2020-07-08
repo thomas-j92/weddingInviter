@@ -48,6 +48,7 @@ Route::get('save_the_date/getAll/', 'Api\SaveTheDateController@getAll');
 Route::get('save_the_date/getBulkRequests/', 'Api\SaveTheDateController@getBulkRequests');
 Route::get('save_the_date/getBulkSend/{id}', 'Api\SaveTheDateController@getBulkSend');
 Route::post('save_the_date/saveBulkSend/', 'Api\SaveTheDateController@saveBulkSend');
+Route::get('save_the_date/bulkElementSent/{id}', 'Api\SaveTheDateController@bulkElementSent');
 Route::apiResource('save_the_date', 'Api\SaveTheDateController', ['as' => 'api']);
 
 // Email

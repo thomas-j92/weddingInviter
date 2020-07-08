@@ -334,15 +334,18 @@
 
 				axios.post(this.baseUrl+'/api/save_the_date/saveBulkSend', this.bulkSendElements)
 					 .then((resp) => {
-					 	// if(resp.data) {
-					 	// 	// store saveTheDates
-					 	// 	self.allSaveTheDates = resp.data;
+					 	if(resp.data && resp.data.success) {
+					 		// notification
+					 		self.toast('Success', 'Bulk send has been created');
 
-					 	// 	// stop loading
-					 	// 	self.isLoaded = true;
-					 	// } else {
-					 	// 	self.toast('An error occurred', error, 'danger');
-					 	// }
+					 		// reload data
+					 		this.getBulkRequests();
+
+					 		// stop loading
+					 		self.isLoaded = true;
+					 	} else {
+					 		self.toast('An error occurred', error, 'danger');
+					 	}
 					 })
 					 .catch((error) => {
 					 	self.toast('An error occurred', error, 'danger');
