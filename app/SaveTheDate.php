@@ -51,10 +51,12 @@ class SaveTheDate extends Model
         $guests         = $this->invite->guests;
 
         // send saveTheDate
-        $saveTheDateMail = new SaveTheDateMail($guests);
-    	Mail::to($this->to)
-            ->cc($this->CC_format)
-            ->send($saveTheDateMail);
+        $saveTheDateMail   = new SaveTheDateMail($guests);
+    	$mail              = Mail::to($this->to);
+        if($this->CC_format && count($this->CC_format)) {
+            $mail->cc($this->CC_format);
+        }
+        $mail->send($saveTheDateMail);
 
         // html render
         $emailHtml = ($saveTheDateMail)->render();

@@ -5,11 +5,16 @@
 
 			<h2>Bulk upload</h2>
 			
-			<div class="std" v-for="(std, index) in stds.elements">
-				<save-std :invite-id="std.invite_id" v-if="showing == index" @sent="updateBulkUpload"></save-std>
-			</div>
+			<div v-if="stds.elements">
+				<div class="std" v-for="(std, index) in stds.elements">
+					<save-std :invite-id="std.invite_id" v-if="showing == index" @sent="updateBulkUpload"></save-std>
+				</div>
 
-			<b-button @click="next">Next</b-button>
+				<b-button @click="next" v-if="(showing+1) < stds.elements.length">Next</b-button>
+			</div>
+			<div v-else>
+				<loading></loading>
+			</div>
 		</b-card>
 	</div>
 </template>
@@ -31,6 +36,7 @@
 				],
 				stds: [],
 				showing: null,
+				isLoading: true,
 			}
 		},
 		components: {
@@ -48,10 +54,16 @@
 			getAll() {
 				const self = this;
 
+				// starting loading gif
+				self.isLoading = true;
+
 				axios.get(this.baseUrl+'/api/save_the_date/getBulkSend/'+this.id)
 					 .then((resp) => {
 					 	if(resp.data) {
 					 		self.stds = resp.data;
+
+					 		// starting loading gif
+							self.isLoading = false;
 
 					 		self.showing = 0;
 					 	}
@@ -70,7 +82,11 @@
 					 	if(resp.data) {
 					 		self.toast('Success', 'Save the date has been sent');
 
-					 		self.next();
+					 		if((self.showing+1) == self.stds.elements.length) {
+					 			self.$router.push({'name': 'saveTheDates.all'});
+					 		} else {
+					 			self.next();
+					 		}
 					 	}
 					 })
 			}

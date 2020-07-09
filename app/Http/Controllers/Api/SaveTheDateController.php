@@ -215,6 +215,17 @@ class SaveTheDateController extends Controller
         // update SaveTheDate bulk element
         $element->status = 'sent';
         $element->save();
+        
+        // check if any other pending bulk elements 
+        $containerElements = $element->container->elements()
+                                                ->where('status', 'pending')
+                                                ->get();                                             
+        
+        // update status of container if all elements have been sent
+        if($containerElements->count() == 0) {
+            $element->container->status = 'complete';
+            $element->container->save();
+        }
 
         return response()->json([
             'success' => true,

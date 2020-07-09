@@ -10,6 +10,6 @@ class STD_Bulk_Element extends Model
     protected $fillable = ['status', 'invite_id'];
 
     public function container() {
-    	return $this->belongsTo('App/STD_Bulk_Container', 'container_id', 'id');
+    	return $this->belongsTo('App\STD_Bulk_Container', 'container_id', 'id');
     }
 }

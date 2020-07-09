@@ -94930,6 +94930,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -94943,7 +94948,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				text: 'Bulk Send'
 			}],
 			stds: [],
-			showing: null
+			showing: null,
+			isLoading: true
 		};
 	},
 
@@ -94963,9 +94969,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		getAll: function getAll() {
 			var self = this;
 
+			// starting loading gif
+			self.isLoading = true;
+
 			axios.get(this.baseUrl + '/api/save_the_date/getBulkSend/' + this.id).then(function (resp) {
 				if (resp.data) {
 					self.stds = resp.data;
+
+					// starting loading gif
+					self.isLoading = false;
 
 					self.showing = 0;
 				}
@@ -94983,7 +94995,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				if (resp.data) {
 					self.toast('Success', 'Save the date has been sent');
 
-					self.next();
+					if (self.showing + 1 == self.stds.elements.length) {
+						self.$router.push({ 'name': 'saveTheDates.all' });
+					} else {
+						self.next();
+					}
 				}
 			});
 		}
@@ -95088,6 +95104,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'saveTheDates.send',
@@ -95101,7 +95122,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					additional_guest: []
 				}
 			},
-			additional_guests: {}
+			additional_guests: {},
+			isLoading: true
 		};
 	},
 	mounted: function mounted() {
@@ -95112,24 +95134,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		getInvite: function getInvite() {
 			var self = this;
 
+			// starting loading gif
+			self.isLoading = true;
+
 			axios.get("/api/invite/" + this.inviteId).then(function (resp) {
 				if (resp.data) {
+					// starting loading gif
+					self.isLoading = false;
+
 					// store Invite details
 					self.invite = resp.data;
 
 					// store main person assigned to Invite
 					self.invite.main_guest = resp.data.main_guest;
-
-					// update invite type details
-					// self.updateInviteType.day = (resp.data.day == 1) ? 'true' : 'false';
-					// self.updateInviteType.night = (resp.data.night == 1) ? 'true' : 'false';
-
-					// store additional guests assigned to Invite
-					// self.additional_guests.data = resp.data.additional_guests;
-
-					// store Plus One details
-					// self.plus_ones.data = resp.data.plus_ones;
-
 
 					// set default additional guest values for save the date modal
 					if (self.invite.additional_guests.length > 0) {
@@ -95137,12 +95154,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 							self.save_the_dates.form.additional_guest[additional.person_id] = "0";
 						});
 					}
-
-					// stop loading gif
-					// self.inviteLoading = false;
-
-					// get activity 
-					// self.getActivity();
 				}
 			});
 		},
@@ -95155,10 +95166,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				additional: this.save_the_dates.form.additional_guest
 			};
 
+			// starting loading gif
+			self.isLoading = true;
+
 			// send save the date
 			axios.post(this.baseUrl + '/api/save_the_date', saveTheDateData).then(function (resp) {
 				if (resp.data) {
 					self.toast('Email sent', resp.data.message);
+
+					// starting loading gif
+					self.isLoading = false;
 
 					// refresh additional data
 					self.$emit('sent', true);
@@ -95180,226 +95197,234 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.invite
-    ? _c(
-        "div",
-        { staticClass: "send-std" },
-        [
-          _c("h2", [_vm._v("Main guest")]),
-          _vm._v(" "),
-          _c("p", [_vm._v("The main guest will always be sent this email.")]),
-          _vm._v(" "),
-          _vm.invite.main_guest
-            ? _c(
-                "b-form-group",
-                [
-                  _c(
-                    "b-container",
-                    [
-                      _c(
-                        "b-row",
-                        [
-                          _c("b-col", [
-                            _vm._v(
-                              "\n\t\t\t\t\t\t" +
-                                _vm._s(
-                                  _vm.invite.main_guest.person.first_name
-                                ) +
-                                " " +
-                                _vm._s(_vm.invite.main_guest.person.last_name) +
-                                "\n\t\t\t\t\t"
+  return _c("div", [
+    _vm.invite && !_vm.isLoading
+      ? _c(
+          "div",
+          { staticClass: "send-std" },
+          [
+            _c("h2", [_vm._v("Main guest")]),
+            _vm._v(" "),
+            _c("p", [_vm._v("The main guest will always be sent this email.")]),
+            _vm._v(" "),
+            _vm.invite.main_guest
+              ? _c(
+                  "b-form-group",
+                  [
+                    _c(
+                      "b-container",
+                      [
+                        _c(
+                          "b-row",
+                          [
+                            _c("b-col", [
+                              _vm._v(
+                                "\n\t\t\t\t\t\t\t" +
+                                  _vm._s(
+                                    _vm.invite.main_guest.person.first_name
+                                  ) +
+                                  " " +
+                                  _vm._s(
+                                    _vm.invite.main_guest.person.last_name
+                                  ) +
+                                  "\n\t\t\t\t\t\t"
+                              )
+                            ])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-row",
+                          [
+                            _c(
+                              "b-col",
+                              [
+                                _c(
+                                  "b-form-radio",
+                                  {
+                                    attrs: {
+                                      name: "std-main-guest",
+                                      disabled: true,
+                                      value: "1"
+                                    },
+                                    model: {
+                                      value: _vm.save_the_dates.form.main_guest,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.save_the_dates.form,
+                                          "main_guest",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "save_the_dates.form.main_guest"
+                                    }
+                                  },
+                                  [_vm._v("Yes")]
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-col",
+                              [
+                                _c(
+                                  "b-form-radio",
+                                  {
+                                    attrs: {
+                                      name: "std-main-guest",
+                                      disabled: true,
+                                      value: "0"
+                                    },
+                                    model: {
+                                      value: _vm.save_the_dates.form.main_guest,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.save_the_dates.form,
+                                          "main_guest",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "save_the_dates.form.main_guest"
+                                    }
+                                  },
+                                  [_vm._v("No")]
+                                )
+                              ],
+                              1
                             )
-                          ])
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "b-row",
-                        [
-                          _c(
-                            "b-col",
-                            [
-                              _c(
-                                "b-form-radio",
-                                {
-                                  attrs: {
-                                    name: "std-main-guest",
-                                    disabled: true,
-                                    value: "1"
-                                  },
-                                  model: {
-                                    value: _vm.save_the_dates.form.main_guest,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.save_the_dates.form,
-                                        "main_guest",
-                                        $$v
-                                      )
-                                    },
-                                    expression: "save_the_dates.form.main_guest"
-                                  }
-                                },
-                                [_vm._v("Yes")]
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c("h2", [_vm._v("Additional guest(s)")]),
+            _vm._v(" "),
+            _vm.invite.additional_guests
+              ? _c(
+                  "b-form-group",
+                  _vm._l(_vm.invite.additional_guests, function(
+                    additional,
+                    index
+                  ) {
+                    return _c(
+                      "b-container",
+                      { key: "additional_" + index },
+                      [
+                        _c(
+                          "b-row",
+                          [
+                            _c("b-col", [
+                              _vm._v(
+                                "\n\t\t\t\t\t\t\t" +
+                                  _vm._s(additional.person.first_name) +
+                                  " " +
+                                  _vm._s(additional.person.last_name) +
+                                  "\n\t\t\t\t\t\t"
                               )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "b-col",
-                            [
-                              _c(
-                                "b-form-radio",
-                                {
-                                  attrs: {
-                                    name: "std-main-guest",
-                                    disabled: true,
-                                    value: "0"
-                                  },
-                                  model: {
-                                    value: _vm.save_the_dates.form.main_guest,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.save_the_dates.form,
-                                        "main_guest",
-                                        $$v
-                                      )
+                            ])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-row",
+                          [
+                            _c(
+                              "b-col",
+                              [
+                                _c(
+                                  "b-form-radio",
+                                  {
+                                    attrs: {
+                                      name: "std-main-guest-" + index,
+                                      value: "1"
                                     },
-                                    expression: "save_the_dates.form.main_guest"
-                                  }
-                                },
-                                [_vm._v("No")]
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _c("h2", [_vm._v("Additional guest(s)")]),
-          _vm._v(" "),
-          _vm.invite.additional_guests
-            ? _c(
-                "b-form-group",
-                _vm._l(_vm.invite.additional_guests, function(
-                  additional,
-                  index
-                ) {
-                  return _c(
-                    "b-container",
-                    { key: "additional_" + index },
-                    [
-                      _c(
-                        "b-row",
-                        [
-                          _c("b-col", [
-                            _vm._v(
-                              "\n\t\t\t\t\t\t" +
-                                _vm._s(additional.person.first_name) +
-                                " " +
-                                _vm._s(additional.person.last_name) +
-                                "\n\t\t\t\t\t"
+                                    model: {
+                                      value:
+                                        _vm.save_the_dates.form
+                                          .additional_guest[
+                                          additional.person_id
+                                        ],
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.save_the_dates.form
+                                            .additional_guest,
+                                          additional.person_id,
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "save_the_dates.form.additional_guest[additional.person_id]"
+                                    }
+                                  },
+                                  [_vm._v("Yes")]
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-col",
+                              [
+                                _c(
+                                  "b-form-radio",
+                                  {
+                                    attrs: {
+                                      name: "std-main-guest-" + index,
+                                      value: "0"
+                                    },
+                                    model: {
+                                      value:
+                                        _vm.save_the_dates.form
+                                          .additional_guest[
+                                          additional.person_id
+                                        ],
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.save_the_dates.form
+                                            .additional_guest,
+                                          additional.person_id,
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "save_the_dates.form.additional_guest[additional.person_id]"
+                                    }
+                                  },
+                                  [_vm._v("No")]
+                                )
+                              ],
+                              1
                             )
-                          ])
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "b-row",
-                        [
-                          _c(
-                            "b-col",
-                            [
-                              _c(
-                                "b-form-radio",
-                                {
-                                  attrs: {
-                                    name: "std-main-guest-" + index,
-                                    value: "1"
-                                  },
-                                  model: {
-                                    value:
-                                      _vm.save_the_dates.form.additional_guest[
-                                        additional.person_id
-                                      ],
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.save_the_dates.form
-                                          .additional_guest,
-                                        additional.person_id,
-                                        $$v
-                                      )
-                                    },
-                                    expression:
-                                      "save_the_dates.form.additional_guest[additional.person_id]"
-                                  }
-                                },
-                                [_vm._v("Yes")]
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "b-col",
-                            [
-                              _c(
-                                "b-form-radio",
-                                {
-                                  attrs: {
-                                    name: "std-main-guest-" + index,
-                                    value: "0"
-                                  },
-                                  model: {
-                                    value:
-                                      _vm.save_the_dates.form.additional_guest[
-                                        additional.person_id
-                                      ],
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.save_the_dates.form
-                                          .additional_guest,
-                                        additional.person_id,
-                                        $$v
-                                      )
-                                    },
-                                    expression:
-                                      "save_the_dates.form.additional_guest[additional.person_id]"
-                                  }
-                                },
-                                [_vm._v("No")]
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                }),
-                1
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _c("b-button", { on: { click: _vm.sendSaveTheDate } }, [
-            _vm._v("Send")
-          ])
-        ],
-        1
-      )
-    : _vm._e()
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  }),
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c("b-button", { on: { click: _vm.sendSaveTheDate } }, [
+              _vm._v("Send")
+            ])
+          ],
+          1
+        )
+      : _c("div", [_c("loading")], 1)
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -95430,25 +95455,37 @@ var render = function() {
           _vm._v(" "),
           _c("h2", [_vm._v("Bulk upload")]),
           _vm._v(" "),
-          _vm._l(_vm.stds.elements, function(std, index) {
-            return _c(
-              "div",
-              { staticClass: "std" },
-              [
-                _vm.showing == index
-                  ? _c("save-std", {
-                      attrs: { "invite-id": std.invite_id },
-                      on: { sent: _vm.updateBulkUpload }
-                    })
-                  : _vm._e()
-              ],
-              1
-            )
-          }),
-          _vm._v(" "),
-          _c("b-button", { on: { click: _vm.next } }, [_vm._v("Next")])
+          _vm.stds.elements
+            ? _c(
+                "div",
+                [
+                  _vm._l(_vm.stds.elements, function(std, index) {
+                    return _c(
+                      "div",
+                      { staticClass: "std" },
+                      [
+                        _vm.showing == index
+                          ? _c("save-std", {
+                              attrs: { "invite-id": std.invite_id },
+                              on: { sent: _vm.updateBulkUpload }
+                            })
+                          : _vm._e()
+                      ],
+                      1
+                    )
+                  }),
+                  _vm._v(" "),
+                  _vm.showing + 1 < _vm.stds.elements.length
+                    ? _c("b-button", { on: { click: _vm.next } }, [
+                        _vm._v("Next")
+                      ])
+                    : _vm._e()
+                ],
+                2
+              )
+            : _c("div", [_c("loading")], 1)
         ],
-        2
+        1
       )
     ],
     1
