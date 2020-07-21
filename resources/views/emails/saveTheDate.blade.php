@@ -45,6 +45,10 @@
 					</tr>
 				</table>
 
+				<div class="mark-as-seen">
+					<p><a href="{{ url('save_the_date/seen/'.$code) }} ">Click here</a> to let us know that you've seen this e-mail</p>
+				</div>
+
 				<table class="footer">
 					<tr>
 						<td>

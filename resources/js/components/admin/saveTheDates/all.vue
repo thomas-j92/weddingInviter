@@ -1,6 +1,5 @@
 <template>
 	<div>
-
 		<b-card>
 			<b-card-body>
 				<b-tabs content-class="mt-3">
@@ -17,13 +16,25 @@
 									  </b-dropdown>
 								</template>
 
+								<template v-slot:cell(to_array)="data">
+									<span v-if="data.item.to_array.seen"><i class="fas fa-check-circle"></i></span>
+									<span v-else><i class="fas fa-times-circle"></i></span>
+
+									{{ data.item.to_array.email }}
+								</template>
+
 								<template v-slot:cell(email)="data">
 									<b-link :to="{'name': 'email.view', 'params': {'id': data.item.email_id}}">View Email</b-link>
 								</template>
 
-								<template v-slot:cell(CC_format)="data">
+								<template v-slot:cell(CC_array)="data">
 									<div class="cc-container">
-										<div class="cc" v-for="e in data.item.CC_format">{{ e }}</div>
+										<div class="cc" v-for="e in data.item.CC_array">
+											<span v-if="e.seen"><i class="fas fa-check-circle"></i></span>
+											<span v-else><i class="fas fa-times-circle"></i></span>
+											
+											{{ e.email }}
+										</div>
 									</div>
 								</template>
 							</b-table>
@@ -203,10 +214,11 @@
 						label: 'Sent on'
 					},
 					{
-						key: 'to',
+						key: 'to_array',
+						label: 'To'
 					},
 					{
-						key: 'CC_format',
+						key: 'CC_array',
 						label: 'CC'
 					},
 					{

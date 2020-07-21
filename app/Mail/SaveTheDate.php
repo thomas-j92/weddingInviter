@@ -16,10 +16,11 @@ class SaveTheDate extends Mailable
      *
      * @return void
      */
-    public function __construct($guests)
+    public function __construct($guests, $code)
     {
         $this->subject      = 'Save The Date';
         $this->guests       = $guests;
+        $this->code         = $code;
     }
 
     /**
@@ -48,11 +49,8 @@ class SaveTheDate extends Mailable
         return $this->subject($this->subject)
                     ->markdown('emails.saveTheDate')
                     ->with([
-                        'greeting' => $greeting
+                        'greeting'  => $greeting,
+                        'code'      => $this->code
                     ]);
-                    // ->with([
-                    //     'name'     => ($this->person->first_name . ' ' . $this->person->last_name),
-                    //     'code'     => $this->invite->code
-                    // ]);
     }
 }

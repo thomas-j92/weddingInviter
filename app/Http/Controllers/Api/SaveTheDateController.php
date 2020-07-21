@@ -143,10 +143,10 @@ class SaveTheDateController extends Controller
     public function getAll() {
 
         // get all SaveTheDates
-        $stds = SaveTheDate::all();
+        $stds = SaveTheDate::orderBy('created_at', 'desc')->get();
 
         // get Invites with no sent SaveTheDates
-        $no_stds = Invite::doesntHave('save_the_dates')->get();
+        $no_stds = Invite::doesntHave('save_the_dates')->orderBy('created_at', 'desc')->get();
 
         return response()->json([
             'sent'      => $stds,

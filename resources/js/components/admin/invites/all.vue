@@ -1,10 +1,10 @@
 <template>
 	<div>
-		<b-card>
-			<b-card-body>
+		<b-card no-body>
 				<b-card-title>
 					Invites ({{ invites.length }})
 				</b-card-title>
+			<b-card-body>
 				<div v-if="isLoaded">
 					<b-table :fields="fields" :items="invites" v-if="invites.length > 0">
 						<template v-slot:cell(main_guest)="data">
