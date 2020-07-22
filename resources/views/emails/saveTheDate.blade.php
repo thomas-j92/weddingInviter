@@ -73,7 +73,7 @@
 	}
 	.email-container {
 		background-image: url({{ asset('images/emails/save_the_dates/bg.png') }});
-		height: 59em;
+		height: 62em;
 		position: relative;
 	}
 	.email-container .email-body {
@@ -123,7 +123,7 @@
 		font-family: Tahoma, Geneva, sans-serif;
 	}
 	.email-container .email-body .std-details {
-		padding-bottom: 1em;
+		/*padding-bottom: 1em;*/
 	}
 	.email-container .email-body .std-details .address {
 		padding-bottom: 1em;
@@ -133,6 +133,10 @@
 		border-right: 1px solid #da928b;
 		padding-right: 0.5em;
     	margin-right: 0.5em;
+	}
+	.email-container .email-body .mark-as-seen p {
+		font-size: 0.7em;
+		padding-bottom: 1em;
 	}
 	.email-container .email-body .footer p {
 		font-size: 0.7em;

@@ -3,7 +3,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-8" id="title-container">
-					<img src="/images/mill-logo.png" class="logo" alt="Logo">
+					<img src="/images/mill-barn-pink.png" class="logo" alt="Logo">
 					<p class="main-title">The Jinks Wedding</p>
 				</div>
 				

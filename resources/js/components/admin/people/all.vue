@@ -1,14 +1,15 @@
 <template>
 	<div>
-		<b-card>
+		<b-card no-body>
+			<b-card-title>
+				People ({{ people.length }})
+				<b-button class="float-right" variant="success" v-b-modal.create-guest><i class="fas fa-plus-circle mr-1"></i> Create</b-button>
+					<b-button class="float-right mr-1" variant="outline-primary" v-b-modal.bulk-upload-modal><i class="fas fa-upload mr-1"></i> Bulk Upload</b-button>
+			</b-card-title>
 			<div v-if="uploads && uploads.length > 0">
 				<b-alert :show="uploads.length > 0">Pending upload found. <b-link :to="{name: 'upload.process', params: {id: uploads[0].id}}" >Click here</b-link> to view it.</b-alert>
 			</div>
 			<b-card-body>
-				<b-card-title>People ({{ people.length }})
-					<b-button class="float-right" variant="success" v-b-modal.create-guest><i class="fas fa-plus-circle mr-1"></i> Create</b-button>
-					<b-button class="float-right mr-1" variant="outline-primary" v-b-modal.bulk-upload-modal><i class="fas fa-upload mr-1"></i> Bulk Upload</b-button>
-				</b-card-title>
 				<div v-if="isLoaded">
 					<b-table :fields="fields" :items="people" v-if="people.length > 0">
 						<template v-slot:cell(invite_status)="data">

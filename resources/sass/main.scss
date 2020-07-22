@@ -15,7 +15,7 @@
 		height: 100%;
 	}
 	body {
-		background-color: #eee;
+		background-color: #fdefed;
 		font-family: "Montserrat",sans-serif;
 	}
 	.content-container {
@@ -37,18 +37,23 @@
 			margin-top: 1.4em;
 			.item {
 				display: inline-block;
+				color: #bf746a;
 			}
 		}
 		#title-container {
 			padding-top: 0.4em;
 			.logo {
 				width: 4em;
+				margin-left: 1em;
+    			margin-right: 0.5em;
+			}
+			.main-title {
+				margin: 0;
 			}
 			.logo,
 			.main-title {
 				display: inline-block;
 				float: left;
-				margin: 0;
 				padding-left: 0.2em;
 			}
 		}
@@ -68,10 +73,26 @@
 /* Card */
 	.card {
 		margin: 1em;
+		border: 1px solid #ffdfdb;
+		background-color: initial;
+		border: none;
+		.card-title {
+			margin-bottom: 0em;
+			background-color: #db928a;
+		    color: #fffefe;
+		    padding: 0.8em 1em;
+		    .btn {
+		    	padding: 0.2em 0.5em;
+		    }
+		}
+		.card-header {
+			background-color: rgb(249, 224, 221);
+			border-bottom: 1px solid rgb(239, 173, 165);
+			color: #bd7b73;
+		}
 		.card-body {
-			.card-title {
-				margin-bottom: 1.5em;
-			}
+			background-color: #FFF;
+			border: 1px solid #f1ccc7;
 		}
 		&.custom {
 			.card-header {
@@ -109,9 +130,9 @@
 		float: right;
 	}
 	.main-title {
-		color: #748c73;
+		color: #db928a;
 	    font-size: 2em;
-	    line-height: 50px;
+	    line-height: 2em;
 	    font-family: "Handlee",cursive;
         text-transform: capitalize;
 	}
@@ -151,10 +172,33 @@
 /* End of extra options dropdown */
 
 /* Sidebar modifications */
-	.v-sidebar-menu {
-		padding-bottom: 0 !important;
-		.collapse-btn {
-			display: none !important;
+	.admin-container {
+		.v-sidebar-menu {
+			background-color: #003452;
+			padding-bottom: 0 !important;
+			.collapse-btn {
+				display: none !important;
+			}
+			.vsm-list {
+				.vsm-item {
+					cursor: pointer;
+					.vsm-link {
+						.vsm-icon {
+							background-color: #07507b;
+						}
+						&.router-link-active {
+							-webkit-box-shadow: 3px 0px 0px 0px #025588 inset;
+    						box-shadow: 3px 0px 0px 0px #025588 inset;
+							.vsm-icon {
+								background-color: #0d6ca2;
+							}
+						}
+						&:hover {
+							background-color: rgb(3, 67, 105);
+						}
+					}
+				}
+			}
 		}
 	}
 /* End of sidebar modifcations */
@@ -162,12 +206,19 @@
 /* Dropdown */
 	.dropdown {
 		.dropdown-title {
-			background-color: #CCC;
-    		font-size: 0.8em;
-    		color: #545b62;
+			background-color: #d8887e;
+		    font-size: 1em;
+		    color: #ffffff;
 		}
 		.dropdown-menu {
 			padding: 0;
+			.dropdown-item {
+				padding: 0.6rem 1rem;
+				color: #777777;
+				&:hover {
+					background-color: #fff0ef;
+				}
+			}
 		}
 	}
 /* End of dropdown */
@@ -183,8 +234,11 @@
 /* Badges */
 	.badge {
 		&.badge-warning {
-			color: #d28434;
-   	 		background-color: #fdd2a6;
+			color: #d48379;
+    		background-color: #f9e2df;
+		}
+		&.badge-secondary {
+			background-color: #db9289;
 		}
 	}
 /* End of Badges */
@@ -293,3 +347,37 @@
 		}
 	}
 /* End of Login */
+
+/* Buttons */
+.btn-success {
+	color: #fbe9e6;
+    background-color: #d47c71;
+    border-color: #a5635a;
+    &:hover,
+    &:active {
+    	background-color: #c56155 !important;
+    	border-color: #86534d !important;
+    }
+}
+.btn-secondary {
+	background-color: #d4796e;
+    border-color: #b57870;
+    &.dropdown-toggle {
+    	background-color: #e0968d !important;
+    }
+}
+.btn-outline-primary {
+	color: #ffffff;
+	border-color: #ffffff;
+	&:hover,
+	&:active {
+		background-color: initial !important;
+		text-decoration: underline !important;
+		border-color: initial !important;
+	}
+	&:focus {
+		box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.07);
+		-webkit-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.07);
+	}
+}
+/* End of Buttons */
