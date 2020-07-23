@@ -32,26 +32,32 @@
 		            	</div>
 		            </div>
 		            <div class="col-sm-12 col-md-6 right-section">
-						<h1 class="big-title fadeIn speed-1">The Jinks Wedding</h1>
-						
-						<img src="{{ url('images/web/under_construction/mill-barn-pink.png') }}" alt="The Mill Barns" id="mills-barns-logo" class="fadeIn speed-2">
-						
-						<div id="under-construction-text" class="fadeIn speed-3">
-		            		<h2 class="sub-title">Under construction</h2>
-		            		<p>This website is currently under going construction.</p>
-		            	</div>
+		            	<div id="title-container">
+		            		<div id="title-content">
+								<h1 class="big-title fadeIn speed-1">The Jinks Wedding</h1>
+								
+								<img src="{{ url('images/web/under_construction/mill-barn-pink.png') }}" alt="The Mill Barns" id="mills-barns-logo" class="fadeIn speed-2">
+								
+								<div id="under-construction-text" class="fadeIn speed-3">
+				            		<h2 class="sub-title">Under construction</h2>
+				            		<p>This website is currently under going construction.</p>
+				            	</div>
+			            	</div>
+			            </div>
 						
 						<div id="faqs">
-		            		<h2 class="sub-title fadeIn speed-4">FAQs</h2>
-		            		<div class="faq fadeIn speed-5">
-				            	<h3 class="mini-title">When will the site go live?</h3>
-				            	<p>How long is a piece of string? Seriously though, I am hoping by the start of 2021. I know you are all sitting on the edge of your seat to see it</p>
+							<div id="faq-content">
+			            		<h2 class="sub-title fadeIn speed-4">FAQs</h2>
+			            		<div class="faq fadeIn speed-5">
+					            	<h3 class="mini-title">When will the site go live?</h3>
+					            	<p>How long is a piece of string? Seriously though, I am hoping by the start of 2021. I know you are all sitting on the edge of your seat to see it</p>
+					            </div>
+								
+								<div class="faq fadeIn speed-6">
+					            	<h3 class="mini-title">How can I RSVP?</h3>
+					            	<p>This will all be done via this site. Failure to do so will ultimately lead to persistent mental torture, through the delightful process of email reminders</p>
+				            	</div>
 				            </div>
-							
-							<div class="faq fadeIn speed-6">
-				            	<h3 class="mini-title">How can I RSVP?</h3>
-				            	<p>This will all be done via this site. Failure to do so will ultimately lead to persistent mental torture, through the delightful process of email reminders</p>
-			            	</div>
 		            	</div>
 		            </div>
 	            </div>
