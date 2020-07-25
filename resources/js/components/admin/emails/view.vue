@@ -1,7 +1,7 @@
 <template>
 	<div id="emailViewer">
+		<b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
 		<b-card v-if="email">
-			<b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
 			<b-card-body>
 				<div v-if="isLoaded">
 					<b-row>

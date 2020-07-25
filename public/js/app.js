@@ -99825,14 +99825,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -100292,26 +100284,10 @@ var render = function() {
     { attrs: { id: "viewInvite" } },
     [
       _c(
-        "b-container",
-        [
-          _c(
-            "b-row",
-            [
-              _c("b-col", [
-                _c("h3", { staticClass: "mt-3" }, [_vm._v("Invite")])
-              ])
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
         "b-card",
         { staticClass: "custom", attrs: { "no-body": "" } },
         [
-          _c("b-card-header", [_vm._v("Guest")]),
+          _c("b-card-title", [_vm._v("Guest")]),
           _vm._v(" "),
           _c("b-card-body", [
             !_vm.inviteLoading
@@ -100577,7 +100553,7 @@ var render = function() {
         { staticClass: "custom", attrs: { "no-body": "" } },
         [
           _c(
-            "b-card-header",
+            "b-card-title",
             [
               _vm._v("\n\t\t\t\tAdditional Guests\n\n\t\t\t\t"),
               _c(
@@ -100812,7 +100788,7 @@ var render = function() {
         { staticClass: "custom", attrs: { "no-body": "" } },
         [
           _c(
-            "b-card-header",
+            "b-card-title",
             [
               _vm._v("\n\t\t\t\tPlus Ones\n\n\t\t\t\t"),
               _c(
@@ -101058,7 +101034,7 @@ var render = function() {
         "b-card",
         { staticClass: "custom", attrs: { "no-body": "" } },
         [
-          _c("b-card-header", [_vm._v("\n\t\t\t\tFunctions\n\t\t\t")]),
+          _c("b-card-title", [_vm._v("\n\t\t\t\tFunctions\n\t\t\t")]),
           _vm._v(" "),
           _c(
             "b-card-body",
@@ -101095,7 +101071,7 @@ var render = function() {
         "b-card",
         { staticClass: "custom", attrs: { "no-body": "" } },
         [
-          _c("b-card-header", [_vm._v("\n\t\t\t\tEmails\n\t\t\t")]),
+          _c("b-card-title", [_vm._v("\n\t\t\t\tEmails\n\t\t\t")]),
           _vm._v(" "),
           _c("b-card-body", [
             !_vm.emails.loading
@@ -101174,7 +101150,7 @@ var render = function() {
         "b-card",
         { staticClass: "custom", attrs: { "no-body": "" } },
         [
-          _c("b-card-header", [_vm._v("\n\t\t\t\tActivity\n\t\t\t")]),
+          _c("b-card-title", [_vm._v("\n\t\t\t\tActivity\n\t\t\t")]),
           _vm._v(" "),
           _c("b-card-body", [
             !_vm.activity.loading
@@ -102112,6 +102088,7 @@ var render = function() {
     [
       _c(
         "b-card",
+        { attrs: { "no-body": "" } },
         [
           _c("b-card-title", [_vm._v("\n\t\t\tEmails\n\t\t")]),
           _vm._v(" "),
@@ -102330,12 +102307,12 @@ var render = function() {
     "div",
     { attrs: { id: "emailViewer" } },
     [
+      _c("b-breadcrumb", { attrs: { items: _vm.breadcrumbs } }),
+      _vm._v(" "),
       _vm.email
         ? _c(
             "b-card",
             [
-              _c("b-breadcrumb", { attrs: { items: _vm.breadcrumbs } }),
-              _vm._v(" "),
               _c(
                 "b-card-body",
                 [

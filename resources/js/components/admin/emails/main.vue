@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<b-card>
+		<b-card no-body>
 			<b-card-title>
 				Emails
 			</b-card-title>

@@ -1,15 +1,7 @@
 <template>
 	<section id="viewInvite">
-		<b-container>
-			<b-row>
-				<b-col>
-					<h3 class="mt-3">Invite</h3>
-				</b-col>
-			</b-row>
-		</b-container>
-
 		<b-card class="custom" no-body>
-			<b-card-header>Guest</b-card-header>
+			<b-card-title>Guest</b-card-title>
 
 			<b-card-body>
 				<div v-if="!inviteLoading">
@@ -77,11 +69,11 @@
 		</b-card>
 
 		<b-card class="custom" no-body>
-			<b-card-header>
+			<b-card-title>
 				Additional Guests
 
 				<b-button class="float-right expand" v-b-modal.add-additional-guests>Add</b-button>
-			</b-card-header>
+			</b-card-title>
 
 			<b-card-body>
 				<div v-if="!inviteLoading">
@@ -131,11 +123,11 @@
 		</b-card>
 
 		<b-card class="custom" no-body>
-			<b-card-header>
+			<b-card-title>
 				Plus Ones
 
 				<b-button class="float-right expand" v-b-modal.add-plus-ones>Add</b-button>
-			</b-card-header>
+			</b-card-title>
 
 			<b-card-body>
 				<div v-if="!inviteLoading">
@@ -195,9 +187,9 @@
 		</b-card>
 
 		<b-card class="custom" no-body>
-			<b-card-header>
+			<b-card-title>
 				Functions
-			</b-card-header>
+			</b-card-title>
 
 			<b-card-body>
 				<b-row>
@@ -209,9 +201,9 @@
 		</b-card>
 
 		<b-card class="custom" no-body>
-			<b-card-header>
+			<b-card-title>
 				Emails
-			</b-card-header>
+			</b-card-title>
 
 			<b-card-body>
 				<div v-if="!emails.loading">
@@ -238,9 +230,9 @@
 		</b-card>
 
 		<b-card class="custom" no-body>
-			<b-card-header>
+			<b-card-title>
 				Activity
-			</b-card-header>
+			</b-card-title>
 
 			<b-card-body>
 				<div v-if="!activity.loading">
