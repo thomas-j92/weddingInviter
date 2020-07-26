@@ -93870,6 +93870,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'people.all',
@@ -93990,8 +93992,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				lastName: self.create.models.last_name,
 				email: self.create.models.email
 			};
-
-			axios.post(this.baseUrl + '/api/people/', insertObj).then(function (resp) {
+			console.log(this.baseUrl + '/api/people');
+			axios.post(this.baseUrl + '/api/people22', insertObj).then(function (resp) {
 				if (resp.data.response) {
 					self.toast('Added', resp.data.message, 'success');
 				} else {
@@ -94068,7 +94070,7 @@ var render = function() {
             "b-card-title",
             [
               _vm._v(
-                "\n\t\t\tPeople (" + _vm._s(_vm.people.length) + ")\n\t\t\t"
+                "\n\t\t\tPeopleaaa (" + _vm._s(_vm.people.length) + ")\n\t\t\t"
               ),
               _c(
                 "b-button",
@@ -94509,8 +94511,7 @@ var render = function() {
             id: "create-guest",
             title: "Create Guest",
             "ok-title": "Create"
-          },
-          on: { ok: _vm.createGuest }
+          }
         },
         [
           _c(
@@ -94520,39 +94521,45 @@ var render = function() {
               _c(
                 "b-container",
                 { attrs: { fluid: "" } },
-                _vm._l(_vm.create.inputs, function(item_type, item_name) {
-                  return _c(
-                    "b-row",
-                    { key: item_name, staticClass: "my-1" },
-                    [
-                      _c("b-col", { attrs: { sm: "3" } }, [
-                        _c("label", { attrs: { for: "type-" + item_name } }, [
-                          _vm._v(_vm._s(_vm._f("prettify")(item_name)) + ":")
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "b-col",
-                        { attrs: { sm: "9" } },
-                        [
-                          _c("b-form-input", {
-                            attrs: { id: "type-" + item_name, type: item_type },
-                            model: {
-                              value: _vm.create.models[item_name],
-                              callback: function($$v) {
-                                _vm.$set(_vm.create.models, item_name, $$v)
+                [
+                  _vm._v("\n\n\t\t\t\tsdsds\n\n\t\t\t\t"),
+                  _vm._l(_vm.create.inputs, function(item_type, item_name) {
+                    return _c(
+                      "b-row",
+                      { key: item_name, staticClass: "my-1" },
+                      [
+                        _c("b-col", { attrs: { sm: "3" } }, [
+                          _c("label", { attrs: { for: "type-" + item_name } }, [
+                            _vm._v(_vm._s(_vm._f("prettify")(item_name)) + ":")
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "b-col",
+                          { attrs: { sm: "9" } },
+                          [
+                            _c("b-form-input", {
+                              attrs: {
+                                id: "type-" + item_name,
+                                type: item_type
                               },
-                              expression: "create.models[item_name]"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                }),
-                1
+                              model: {
+                                value: _vm.create.models[item_name],
+                                callback: function($$v) {
+                                  _vm.$set(_vm.create.models, item_name, $$v)
+                                },
+                                expression: "create.models[item_name]"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  })
+                ],
+                2
               )
             ],
             1
