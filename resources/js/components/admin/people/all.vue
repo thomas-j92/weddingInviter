@@ -235,7 +235,7 @@
 					lastName: self.create.models.last_name,
 					email: self.create.models.email
 				};
-
+console.log(this.baseUrl+'/api/people');
 				axios.post(this.baseUrl+'/api/people', insertObj)
 					 .then((resp) => {
 					 	if(resp.data.response) {
