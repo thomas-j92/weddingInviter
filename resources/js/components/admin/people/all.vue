@@ -236,7 +236,7 @@
 					email: self.create.models.email
 				};
 
-				axios.post(this.baseUrl+'/api/people/', insertObj)
+				axios.post(this.baseUrl+'/api/people', insertObj)
 					 .then((resp) => {
 					 	if(resp.data.response) {
 					 		self.toast('Added', resp.data.message, 'success');
