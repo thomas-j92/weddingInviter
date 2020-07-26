@@ -67,7 +67,6 @@
 		<b-modal 
 		id="create-guest"
 		title="Create Guest"
-		@ok="createGuest"
 		ok-title="Create">
 			<div class="d-block text-center">
 				<b-container fluid>
