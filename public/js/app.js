@@ -93990,7 +93990,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				lastName: self.create.models.last_name,
 				email: self.create.models.email
 			};
-			console.log(this.baseUrl + '/api/people');
 			axios.post(this.baseUrl + '/api/people', insertObj).then(function (resp) {
 				if (resp.data.response) {
 					self.toast('Added', resp.data.message, 'success');
