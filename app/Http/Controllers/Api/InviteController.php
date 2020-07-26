@@ -469,7 +469,7 @@ class InviteController extends Controller
         // get Invite Guest activity
         $activity = Activity::all()->last();
         if($activity) {
-            $activity = $activity->where('properties->invite_id', $id)
+            $activity = $activity->whereJsonContains('properties', ['invite_id' => $id])
                                  ->orderBy('created_at', 'DESC')
                                  ->get();
 
