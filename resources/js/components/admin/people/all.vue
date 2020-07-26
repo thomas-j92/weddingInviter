@@ -2,7 +2,7 @@
 	<div>
 		<b-card no-body>
 			<b-card-title>
-				People ({{ people.length }})
+				Peopleaaa ({{ people.length }})
 				<b-button class="float-right" variant="success" v-b-modal.create-guest><i class="fas fa-plus-circle mr-1"></i> Create</b-button>
 					<b-button class="float-right mr-1" variant="outline-primary" v-b-modal.bulk-upload-modal><i class="fas fa-upload mr-1"></i> Bulk Upload</b-button>
 			</b-card-title>
@@ -72,7 +72,7 @@
 				<b-container fluid>
 
 					sdsds
-					
+
 					<b-row class="my-1" v-for="(item_type, item_name) in create.inputs" :key="item_name">
 					  <b-col sm="3">
 					    <label :for="`type-${item_name}`">{{ item_name | prettify }}:</label>
