@@ -103,8 +103,8 @@ class CsvUploadController extends Controller
             $person->email        = $csvUpload->email;
 
             // ensure email isn't null or a duplicate
-            // $checkEmail = People::where('email', $person->email);
-            // if(!is_null($csvUpload->email) && $checkEmail->count() == 0) {
+            $checkEmail = People::where('email', $person->email);
+            if(!is_null($csvUpload->email) && $checkEmail->count() == 0) {
                 // if day/night guest info provided, make Invite
                 if($csvUpload->day_guest || $csvUpload->night_guest) {
                   $yesValues = array('1', 'true', 'yes');
@@ -125,7 +125,7 @@ class CsvUploadController extends Controller
 
                 // create Person
                 $person->save();
-            // }
+            }
           }
 
           // update csv values

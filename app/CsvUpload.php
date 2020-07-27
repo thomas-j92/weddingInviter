@@ -33,16 +33,16 @@ class CsvUpload extends Model
     		$response['errors'][] 	= 'The last name must be at least 2 characters long';
     	}
 
-        // if(is_null($this->email)) {
-        //     $response['success']    = false;
-        //     $response['errors'][]   = 'Email address must be entered'; 
-        // }
+        if(is_null($this->email)) {
+            $response['success']    = false;
+            $response['errors'][]   = 'Email address must be entered'; 
+        }
 
-        // $person = People::where('email', $this->email);
-        // if($person->count() > 0) {
-        //     $response['success']    = false;
-        //     $response['errors'][]  = 'Email address already exists';
-        // }
+        $person = People::where('email', $this->email);
+        if($person->count() > 0) {
+            $response['success']    = false;
+            $response['errors'][]  = 'Email address already exists';
+        }
 
         $rsvpValues = array('1', '0', 'true', 'false', 'yes', 'no');
         if($this->day_guest != '' && !in_array($this->day_guest, $rsvpValues)) {
