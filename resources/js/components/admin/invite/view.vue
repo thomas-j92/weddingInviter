@@ -196,6 +196,9 @@
 					<b-col sm="2">
 						<b-button block variant="primary" @click="sendInvite">Send</b-button>
 					</b-col>
+					<b-col sm="2">
+						<b-button block variant="primary" @click="sendInvite">Preview STD</b-button>
+					</b-col>
 				</b-row>
 			</b-card-body>
 		</b-card>

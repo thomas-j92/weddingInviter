@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-fluid no-padding h-100">
-    <div class="row h-100">
+    <div class="row h-100 w-100 no-margin">
         <div class="col-sm-5 left-section">
             <div class="row">
                 <div class="col-sm-8 offset-sm-2">
