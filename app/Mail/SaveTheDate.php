@@ -16,11 +16,12 @@ class SaveTheDate extends Mailable
      *
      * @return void
      */
-    public function __construct($guests, $code)
+    public function __construct($guests, $code, $file_path)
     {
         $this->subject      = 'Save The Date';
         $this->guests       = $guests;
         $this->code         = $code;
+        $this->file_path    = $file_path;
     }
 
     /**
@@ -44,6 +45,11 @@ class SaveTheDate extends Mailable
                     $greeting .= ', ';
                 }
             }
+        }
+
+        // attach file if one can be found
+        if($this->file_path) {
+             $this->attachFromStorageDisk('local', $this->file_path);
         }
 
         return $this->subject($this->subject)

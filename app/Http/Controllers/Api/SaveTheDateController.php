@@ -231,4 +231,56 @@ class SaveTheDateController extends Controller
             'success' => true,
         ]);
     }
+
+    /**
+     * Generate STD.
+     */
+    public function generate(Request $request, $id) {
+
+        // get Invite
+        $invite = Invite::find($id);
+
+        // create SaveTheDate
+        $std        = new SaveTheDate;
+        $std->to    = $invite->main_guest->person->email;
+
+        // get all additional guest emails for any that need save the date sending to 
+        if($request->additional) {
+            $additionalGuestsArr = array();
+            foreach($request->additional as $person_id => $add) {
+                if($add == '1') {
+                    $person = People::find($person_id);
+
+                    if($person) {
+                        $additionalGuestsArr[] = $person->email;
+                    }
+                }
+            }
+            $std->cc = serialize($additionalGuestsArr);
+        }
+        
+        // assign SaveTheDate to Invite
+        $invite->save_the_dates()->save($std);
+
+        // generate pdf
+        $std->generatePdf();
+
+        return response()->json([
+            'success' => true,
+            'message'   => 'Save the date has been generated'
+        ]);
+    }
+
+    /**
+     * Send preview of STD.
+     */
+    public function preview($id) {
+
+        // get SaveTheDate
+        $std = SaveTheDate::find($id);
+
+        // send SaveTheDate to logged in User
+        $std->send('test@test.com');
+
+    }
 }

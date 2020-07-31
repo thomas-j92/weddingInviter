@@ -3,17 +3,19 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 // Load Mail
 use App\Mail\SaveTheDate as SaveTheDateMail;
 
 // Load libaries
+use PDF;
 use Mail;
 use Carbon\Carbon;
 
 class SaveTheDate extends Model
 {
-    protected $appends = ['created_at_format', 'to_array', 'CC_array'];
+    protected $appends = ['created_at_format', 'sent_at_format', 'to_array', 'CC_array'];
 
 	public static function boot() {
         parent::boot();
@@ -22,7 +24,7 @@ class SaveTheDate extends Model
             // generate random code for save the date
             $item->code = str_random(40);
 
-            $item->send();
+            // $item->send();
         });
     }
 
@@ -40,6 +42,10 @@ class SaveTheDate extends Model
 
     public function getCreatedAtFormatAttribute() {
         return Carbon::parse($this->created_at)->format('d/m/Y H:i:s');
+    }
+
+    public function getSentAtFormatAttribute() {
+        return Carbon::parse($this->sent_at)->format('d/m/Y H:i:s');
     }
 
     public function getCCFormatAttribute() {
@@ -78,10 +84,70 @@ class SaveTheDate extends Model
         return $ccArray;
     }
 
+    /**
+     * Greeting message for SaveTheDate.
+     */
+    public function getGreetingAttribute() {
+        $greeting = '';
+        foreach($this->invite->guests as $i => $guest) {
+            $person     = $guest->person;
+
+            $greeting   .= $person->first_name;
+
+            if($i == (count($this->invite->guests)-2)) {
+                $greeting .= ' & ';
+            } else {
+                if($i+1 !== count($this->invite->guests)) {
+                    $greeting .= ', ';
+                }
+            }
+        }
+
+        return $greeting;
+    }
+
+    /**
+     * Generate PDF.
+     */
+    public function generatePdf($update = true, $testing = false) {
+
+        // Create file
+        $data = [
+            'greeting' => $this->greeting,
+            'code'     => $this->code,
+        ];
+        $pdf = PDF::loadView('pdfs.saveTheDate', $data);
+
+        if($testing) {
+            return $pdf->stream();
+        }
+
+        $output = $pdf->output();
+
+        // Get our disk to store the PDF in.
+        $disk = Storage::disk('local');
+
+        // Save the file with the PDF output.
+        $name = 'save_the_dates/'.$this->invite_id.'/'.$this->id.'/SaveTheDate.pdf';
+        if ($disk->put($name, $output)) {
+            // File created/stored 
+            $filepath = $disk->path($name);
+
+            $this->file_path = $name;
+            if($update) {
+                $this->save();
+            }
+
+            return $name;
+        }
+
+        return FALSE;
+    }
+
     /** 
      * Send save the date.
      */
-    public function send() {
+    public function send($email = false) {
 
     	// send saveTheDate to main guest of Invite
     	$mainGuest     = $this->invite->main_guest->person;
@@ -89,10 +155,16 @@ class SaveTheDate extends Model
         // all guests
         $guests         = $this->invite->guests;
 
+        // sending email
+        $to = $this->to;
+        if($email) {
+            $to = $email;
+        }
+
         // send saveTheDate
-        $saveTheDateMail   = new SaveTheDateMail($guests, $this->code);
-    	$mail              = Mail::to($this->to);
-        if($this->CC_format && count($this->CC_format)) {
+        $saveTheDateMail   = new SaveTheDateMail($guests, $this->code, $this->file_path, $email);
+    	$mail              = Mail::to($to);
+        if(!$email && $this->CC_format && count($this->CC_format)) {
             $mail->cc($this->CC_format);
         }
         $mail->send($saveTheDateMail);

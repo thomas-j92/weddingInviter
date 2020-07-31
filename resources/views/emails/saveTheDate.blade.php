@@ -1,149 +1,46 @@
-@extends('emails.inc.main', ['showHeader' => false, 'showFooter' => false])
+@component('mail::message')
 
-@section('header')
-@endsection
+<div class="header">
+	<img src="{{ asset('/images/emails/save_the_dates/mill-barn-pink.png') }}">
+	<p class="title">The Jinks Wedding</p>
+</div>
 
-@section('content')
-	
-	<div class="parent-container">
-		<div class="email-container">
+<p class="subtitle">Save The Date</p>
 
-			<div class="email-body">
-				
-				<div class="header-image">
-					<img src="{{ asset('images/emails/save_the_dates/header.png') }}" alt="Save the dates">
-				</div>
+<div class="normal-text">
+	<p>{{ $greeting }},</p>
+	<p>Please find attached a Save The Date to our wedding</p>
+</div>
 
+@component('mail::button', ['url' => url('save_the_date/seen/'.$code)])
+Mark this as seen
+@endcomponent
 
-				<div class="greeting-container">
-					<p>{{ $greeting }}</p>
-				</div>
-
-				<div class="divider">
-					<img src="{{ asset('images/emails/save_the_dates/mill-barn-pink.png') }}" alt="Divider">
-				</div>
-
-				<div class="desc-container">
-					<img src="{{ asset('images/emails/save_the_dates/jess-tom.png') }}" alt="Jess and Tom">
-					<p class="desc">invite you to share their celebration</p>
-					<p class="desc small">on</p>
-					<p class="date">Wednesday, 27th October 2021</p>
-					<p class="desc small">at</p>
-				</div>
-				
-				<table cellspacing="0" cellpadding="0" class="std-details">
-					<tr>
-						<td class="blue-bg">
-							<div class="address">
-								<p class="address_1">The Mills Barn</p>
-								<p class="address_2">Alveley</p>
-								<p class="address_3">
-									<span id="part-1">Near Bridnorth</span><span id="part-2">Shropshire</span><span id="part-3">WV15 6HL</span>
-								</p>
-							</div>
-						</td>
-					</tr>
-				</table>
-
-				<div class="mark-as-seen">
-					<p><a href="{{ url('save_the_date/seen/'.$code) }} ">Click here</a> to let us know that you've seen this e-mail</p>
-				</div>
-
-				<table class="footer">
-					<tr>
-						<td>
-							<p>The venue has limited rooms available for guests to book if they would like to spend the night after celebrating with us. Please enquire via email <a href="mailto:thehappycouple@jinkswedding.co.uk">thehappycouple@jinkswedding.co.uk</a></p>
-						</td>
-					</tr>
-					<tr>
-						<td>	
-							<p>To give all our guests the opportunity to celebrate without having to worry about little eyes and little ears, we politely request no children.</p>
-						</td>
-					</tr>
-				</table>
-			</div>
-		</div>
-	</div>
-@endsection
+Thanks,<br>
+The Happy Couple
 
 <style>
-	.parent-container {
-		background-color: #003452;
-		padding: 1em;
-	}
-	.email-container {
-		background-image: url({{ asset('images/emails/save_the_dates/bg.png') }});
-		height: 62em;
-		position: relative;
-	}
-	.email-container .email-body {
-		background-color: #003452;
-		background-image: url({{ asset('images/emails/save_the_dates/confetti.png') }});
-		background-repeat: no-repeat;
-		position: absolute;
-	    left: 0.4em;
-	    right: 0.4em;
-	    bottom: 0.4em;
-	    top: 0.4em;
-	}
-	.email-container .email-body .greeting-container p {
-		color: #fba198;
-    	font-size: 1.5em;
-	}
-	.email-container .email-body .desc-container img {
+	.header img {
 		margin: 0 auto;
-	    display: block;
-	    padding-bottom: 1em;
+		width: 4em;
+		height: 4em;
 	}
-	.email-container .email-body .desc-container .desc.small {
-		font-size: 0.8em;
-		padding: 0.5em;
-	}
-	.email-container .email-body .date {
-		font-size: 1.3em;
-		color: #fba198;
-	}
-	.email-container .email-body .header-image img {
-		margin: 0 auto;
-    	display: block;
-   	 	padding: 1em;
-   	 	padding-top: 6em;
-	}
-	.email-container .divider {
-		width: 2em;
-	    margin: 1.5em auto;
-	}
-	.email-container table {
-		width: 100%;
-	}
-	.email-container p {
-		color: #fbcbc6;
-		margin: 0;
+	.header .title {
+		color: #db928a;
 		text-align: center;
-		font-family: Tahoma, Geneva, sans-serif;
+		font-size: 1.3em;
+		margin-top: 0.7em;
+		margin-bottom: 0;
 	}
-	.email-container .email-body .std-details {
-		/*padding-bottom: 1em;*/
+	.subtitle {
+		color: #b5b5b5;
+		font-size: 1.4em;
+		text-align: center;
+		margin-top: 1em;
 	}
-	.email-container .email-body .std-details .address {
-		padding-bottom: 1em;
+	.normal-text {
+		text-align: center;
+		padding: 1em 2em;
 	}
-	.email-container .email-body .std-details .address #part-1,
-	.email-container .email-body .std-details .address #part-2{
-		border-right: 1px solid #da928b;
-		padding-right: 0.5em;
-    	margin-right: 0.5em;
-	}
-	.email-container .email-body .mark-as-seen p {
-		font-size: 0.7em;
-		padding-bottom: 1em;
-	}
-	.email-container .email-body .footer p {
-		font-size: 0.7em;
-		color: #2f6782;
-		padding-bottom: 0.5em;
-		color: #ffbab3;
-		margin: 1em 2em;
-		margin-top: 0em;
-	} 
 </style>
+@endcomponent

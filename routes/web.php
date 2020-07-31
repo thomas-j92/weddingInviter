@@ -31,3 +31,6 @@ Route::get('/invitation/view/{code}', 'InviteController@guestView');
 // Save the date - mark as seen
 Route::get('/save_the_date/seen/{code}', 'SaveTheDateController@form')->name('std.seen');
 Route::post('/save_the_date/verify/{code}', 'SaveTheDateController@verify')->name('std.verify');
+
+// STD Print Preview
+Route::get('pdf/std/{id}', 'TestController@stdPreview')->name('std.preview');

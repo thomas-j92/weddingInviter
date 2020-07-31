@@ -188,6 +188,70 @@
 
 		<b-card class="custom" no-body>
 			<b-card-title>
+				Save The Date
+			</b-card-title>
+
+			<b-card-body>
+				
+				<b-row v-if="invite">
+					<b-col>
+						<b-card class="custom no-margin" no-body>
+							<b-card-title>
+								Created on
+							</b-card-title>
+							<b-card-body>
+								<div v-if="recentStd && recentStd.created_at_format">
+									<p>{{ recentStd.created_at_format }}</p>
+								</div>
+								<div v-else>
+									<p>Not Created</p>
+								</div>
+							</b-card-body>
+						</b-card>
+
+						<b-button class="mt-2" v-b-modal.generate-std block :disabled="(recentStd) ? true : false">Generate</b-button>
+					</b-col>
+					<b-col>
+						<b-card class="custom no-margin" no-body>
+							<b-card-title>
+								Sent on
+							</b-card-title>
+							<b-card-body>
+								<div v-if="recentStd && recentStd.sent_at">
+									<p>{{ recentStd.sent_at_format }}</p>
+								</div>
+								<div v-else>
+									<p>Not Sent</p>
+								</div>
+							</b-card-body>
+						</b-card>
+
+						<b-button class="mt-2" block @click="previewSTD" :disabled="!recentStd">Preview</b-button>
+					</b-col>
+					<b-col>
+						<b-card class="custom no-margin" no-body>
+							<b-card-title>
+								Recipients
+							</b-card-title>
+							<b-card-body>
+								<div v-if="recentStd">
+									
+								</div>
+								<div v-else>
+									<p>Not Sent</p>
+								</div>
+							</b-card-body>
+						</b-card>
+						
+						<b-button class="mt-2" block :disabled="!recentStd">Send</b-button>
+					</b-col>
+				</b-row>
+				
+			</b-card-body>
+		</b-card>
+
+		<b-card class="custom" no-body>
+			<b-card-title>
 				Functions
 			</b-card-title>
 
@@ -197,7 +261,7 @@
 						<b-button block variant="primary" @click="sendInvite">Send</b-button>
 					</b-col>
 					<b-col sm="2">
-						<b-button block variant="primary" @click="sendInvite">Preview STD</b-button>
+						<b-button block variant="primary" @click="previewSTD">Preview STD</b-button>
 					</b-col>
 				</b-row>
 			</b-card-body>
@@ -429,8 +493,49 @@
 		    </b-form-group>
 		</b-modal>
 
-		<b-modal id="send-std" title="Send Save The Date" ok-title="Send" ok-variant="success" hide-footer>
-			<save-std :invite-id="inviteId" @sent="stdSent"></save-std>
+		<b-modal id="generate-std" title="Generate Save The Date" ok-title="Generate" ok-variant="success" @ok="generateSTD">
+			<div class="send-std" v-if="invite">
+				<h2>Main guest</h2>
+				<p>The main guest will always be sent this email.</p>
+				<b-form-group v-if="invite.main_guest">
+					<b-container>
+						<b-row>
+							<b-col>
+								{{ invite.main_guest.person.first_name }} {{ invite.main_guest.person.last_name }}
+							</b-col>
+				      	</b-row>
+						<b-row>
+				    		<b-col>
+					     		<b-form-radio v-model="save_the_dates.form.main_guest" name="std-main-guest" :disabled="true" value="1">Yes</b-form-radio>
+					     	</b-col>
+					     	<b-col>
+					      		<b-form-radio v-model="save_the_dates.form.main_guest" name="std-main-guest" :disabled="true" value="0">No</b-form-radio>
+					      	</b-col>
+				      	</b-row>
+					</b-container>
+			    </b-form-group>
+				
+				<div v-if="invite.additional_guests.length > 0">
+					<h2>Additional guest(s)</h2>
+				    <b-form-group v-if="invite.additional_guests">
+						<b-container v-for="(additional, index) in invite.additional_guests" :key="'additional_'+index">
+							<b-row>
+								<b-col>
+									{{ additional.person.first_name }} {{ additional.person.last_name }}
+								</b-col>
+					      	</b-row>
+							<b-row>
+					    		<b-col>
+						     		<b-form-radio v-model="save_the_dates.form.additional_guest[additional.person_id]" :name="'std-main-guest-'+index" value="1">Yes</b-form-radio>
+						     	</b-col>
+						     	<b-col>
+						      		<b-form-radio v-model="save_the_dates.form.additional_guest[additional.person_id]" :name="'std-main-guest-'+index" value="0">No</b-form-radio>
+						      	</b-col>
+					      	</b-row>
+						</b-container>
+				    </b-form-group>
+			    </div>
+		    </div>
 		</b-modal>
 	</section>
 </template>
@@ -645,6 +750,15 @@
 				}
 
 				return updates;
+			},
+			recentStd() {
+				var recent = false;
+
+				if(this.invite && this.invite.save_the_dates.length > 0) {
+					recent = this.invite.save_the_dates[0];
+				}
+
+				return recent;
 			}
 		},
 		methods: {
@@ -899,8 +1013,45 @@
 					 	}
 					 })
 			},
-			stdSent() {
-				console.log('sent');
+			generateSTD() {
+				const self = this;
+
+				// structure data
+				let saveTheDateData = {
+					inviteId: this.inviteId,
+					additional: this.save_the_dates.form.additional_guest
+				};
+
+				axios.post(this.baseUrl+"/api/save_the_date/generate/"+self.inviteId, saveTheDateData)
+					 .then((resp) => {
+					 	if(resp.data) {
+				 			if(resp.data.success) {
+				 				self.toast('Updated', resp.data.message);
+
+				 				// refresh data
+				 				self.getInvite();
+					 		} else {
+					 			self.toast('Error', resp.data.message, 'danger');
+					 		}
+					 	}
+					 })
+			},
+			previewSTD() {
+				const self = this;
+
+				axios.get(this.baseUrl+"/api/save_the_date/preview/"+self.recentStd.id)
+					 .then((resp) => {
+					 	if(resp.data) {
+				 			if(resp.data.success) {
+				 				self.toast('Updated', resp.data.message);
+
+				 				// refresh data
+				 				self.getInvite();
+					 		} else {
+					 			self.toast('Error', resp.data.message, 'danger');
+					 		}
+					 	}
+					 })
 			}
 		},
 		mounted() {
