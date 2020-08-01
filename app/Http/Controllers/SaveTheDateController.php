@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Validator;
 use App\SaveTheDate;
 use App\STD_Seen;
 
+// Load libaries
+use Auth;
+
 class SaveTheDateController extends Controller
 {
     public function form($code) {
@@ -64,5 +67,25 @@ class SaveTheDateController extends Controller
 	    }
 
     	return redirect(route('std.seen', $code));
+    }
+
+    /**
+     * Send preview of STD.
+     */
+    public function preview($id) {
+
+        // get SaveTheDate
+        $std = SaveTheDate::find($id);
+
+        // get logged in User
+        $email = Auth::user()->email;
+
+        // send SaveTheDate to logged in User
+        $std->send($email);
+
+        return response()->json([
+            'success' => true,
+            'message'   => 'Save the date has been sent to you'
+        ]);
     }
 }

@@ -193,9 +193,9 @@
 
 			<b-card-body>
 				
-				<b-row v-if="invite">
+				<b-row class="row-eq-height" v-if="invite">
 					<b-col>
-						<b-card class="custom no-margin" no-body>
+						<b-card class="custom no-margin full-height" no-body>
 							<b-card-title>
 								Created on
 							</b-card-title>
@@ -208,11 +208,9 @@
 								</div>
 							</b-card-body>
 						</b-card>
-
-						<b-button class="mt-2" v-b-modal.generate-std block :disabled="(recentStd) ? true : false">Generate</b-button>
 					</b-col>
 					<b-col>
-						<b-card class="custom no-margin" no-body>
+						<b-card class="custom no-margin full-height" no-body>
 							<b-card-title>
 								Sent on
 							</b-card-title>
@@ -225,25 +223,48 @@
 								</div>
 							</b-card-body>
 						</b-card>
-
-						<b-button class="mt-2" block @click="previewSTD" :disabled="!recentStd">Preview</b-button>
 					</b-col>
 					<b-col>
-						<b-card class="custom no-margin" no-body>
+						<b-card class="custom no-margin full-height" no-body>
 							<b-card-title>
 								Recipients
 							</b-card-title>
 							<b-card-body>
 								<div v-if="recentStd">
-									
+									<p class="no-margin">
+										<span>{{ recentStd.to_array.email }}</span>
+										<span>
+											<i class="fas fa-check-circle" v-if="recentStd.to_array.seen"></i>
+											<i class="fas fa-times-circle" v-else></i>
+										</span>
+									</p>
+									<p class="no-margin" v-for="cc in recentStd.CC_array">
+										<span>{{ cc.email }}</span>
+										<span>
+											<i class="fas fa-check-circle" v-if="cc.seen"></i>
+											<i class="fas fa-times-circle" v-else></i>
+										</span>
+									</p>
 								</div>
 								<div v-else>
 									<p>Not Sent</p>
 								</div>
 							</b-card-body>
 						</b-card>
-						
-						<b-button class="mt-2" block :disabled="!recentStd">Send</b-button>
+					</b-col>
+				</b-row>
+
+				<b-row>
+					<b-col>
+						<b-button class="mt-2" v-b-modal.generate-std block :disabled="(recentStd) ? true : false">Generate</b-button>
+					</b-col>
+
+					<b-col>
+						<b-button class="mt-2" block @click="previewSTD" :disabled="!recentStd">Preview</b-button>
+					</b-col>
+
+					<b-col>
+						<b-button class="mt-2" block @click="sendSTD" :disabled="!recentStd">Send</b-button>
 					</b-col>
 				</b-row>
 				
@@ -1039,7 +1060,24 @@
 			previewSTD() {
 				const self = this;
 
-				axios.get(this.baseUrl+"/api/save_the_date/preview/"+self.recentStd.id)
+				axios.get(this.baseUrl+"/save_the_date/preview/"+self.recentStd.id)
+					 .then((resp) => {
+					 	if(resp.data) {
+				 			if(resp.data.success) {
+				 				self.toast('Updated', resp.data.message);
+
+				 				// refresh data
+				 				self.getInvite();
+					 		} else {
+					 			self.toast('Error', resp.data.message, 'danger');
+					 		}
+					 	}
+					 })
+			},
+			sendSTD() {
+				const self = this;
+
+				axios.get(this.baseUrl+"/api/save_the_date/send/"+self.recentStd.id)
 					 .then((resp) => {
 					 	if(resp.data) {
 				 			if(resp.data.success) {

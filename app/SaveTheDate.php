@@ -45,7 +45,7 @@ class SaveTheDate extends Model
     }
 
     public function getSentAtFormatAttribute() {
-        return Carbon::parse($this->sent_at)->format('d/m/Y H:i:s');
+        return Carbon::parse($this->sent_at)->format('d/m/Y');
     }
 
     public function getCCFormatAttribute() {

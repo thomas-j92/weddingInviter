@@ -99932,6 +99932,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -100388,7 +100409,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		previewSTD: function previewSTD() {
 			var self = this;
 
-			axios.get(this.baseUrl + "/api/save_the_date/preview/" + self.recentStd.id).then(function (resp) {
+			axios.get(this.baseUrl + "/save_the_date/preview/" + self.recentStd.id).then(function (resp) {
+				if (resp.data) {
+					if (resp.data.success) {
+						self.toast('Updated', resp.data.message);
+
+						// refresh data
+						self.getInvite();
+					} else {
+						self.toast('Error', resp.data.message, 'danger');
+					}
+				}
+			});
+		},
+		sendSTD: function sendSTD() {
+			var self = this;
+
+			axios.get(this.baseUrl + "/api/save_the_date/send/" + self.recentStd.id).then(function (resp) {
 				if (resp.data) {
 					if (resp.data.success) {
 						self.toast('Updated', resp.data.message);
@@ -101193,6 +101230,7 @@ var render = function() {
               _vm.invite
                 ? _c(
                     "b-row",
+                    { staticClass: "row-eq-height" },
                     [
                       _c(
                         "b-col",
@@ -101200,7 +101238,7 @@ var render = function() {
                           _c(
                             "b-card",
                             {
-                              staticClass: "custom no-margin",
+                              staticClass: "custom no-margin full-height",
                               attrs: { "no-body": "" }
                             },
                             [
@@ -101227,25 +101265,6 @@ var render = function() {
                               ])
                             ],
                             1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "b-button",
-                            {
-                              directives: [
-                                {
-                                  name: "b-modal",
-                                  rawName: "v-b-modal.generate-std",
-                                  modifiers: { "generate-std": true }
-                                }
-                              ],
-                              staticClass: "mt-2",
-                              attrs: {
-                                block: "",
-                                disabled: _vm.recentStd ? true : false
-                              }
-                            },
-                            [_vm._v("Generate")]
                           )
                         ],
                         1
@@ -101257,7 +101276,7 @@ var render = function() {
                           _c(
                             "b-card",
                             {
-                              staticClass: "custom no-margin",
+                              staticClass: "custom no-margin full-height",
                               attrs: { "no-body": "" }
                             },
                             [
@@ -101280,16 +101299,6 @@ var render = function() {
                               ])
                             ],
                             1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "b-button",
-                            {
-                              staticClass: "mt-2",
-                              attrs: { block: "", disabled: !_vm.recentStd },
-                              on: { click: _vm.previewSTD }
-                            },
-                            [_vm._v("Preview")]
                           )
                         ],
                         1
@@ -101301,7 +101310,7 @@ var render = function() {
                           _c(
                             "b-card",
                             {
-                              staticClass: "custom no-margin",
+                              staticClass: "custom no-margin full-height",
                               attrs: { "no-body": "" }
                             },
                             [
@@ -101313,20 +101322,63 @@ var render = function() {
                               _vm._v(" "),
                               _c("b-card-body", [
                                 _vm.recentStd
-                                  ? _c("div")
+                                  ? _c(
+                                      "div",
+                                      [
+                                        _c("p", { staticClass: "no-margin" }, [
+                                          _c("span", [
+                                            _vm._v(
+                                              _vm._s(
+                                                _vm.recentStd.to_array.email
+                                              )
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("span", [
+                                            _vm.recentStd.to_array.seen
+                                              ? _c("i", {
+                                                  staticClass:
+                                                    "fas fa-check-circle"
+                                                })
+                                              : _c("i", {
+                                                  staticClass:
+                                                    "fas fa-times-circle"
+                                                })
+                                          ])
+                                        ]),
+                                        _vm._v(" "),
+                                        _vm._l(_vm.recentStd.CC_array, function(
+                                          cc
+                                        ) {
+                                          return _c(
+                                            "p",
+                                            { staticClass: "no-margin" },
+                                            [
+                                              _c("span", [
+                                                _vm._v(_vm._s(cc.email))
+                                              ]),
+                                              _vm._v(" "),
+                                              _c("span", [
+                                                cc.seen
+                                                  ? _c("i", {
+                                                      staticClass:
+                                                        "fas fa-check-circle"
+                                                    })
+                                                  : _c("i", {
+                                                      staticClass:
+                                                        "fas fa-times-circle"
+                                                    })
+                                              ])
+                                            ]
+                                          )
+                                        })
+                                      ],
+                                      2
+                                    )
                                   : _c("div", [_c("p", [_vm._v("Not Sent")])])
                               ])
                             ],
                             1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "b-button",
-                            {
-                              staticClass: "mt-2",
-                              attrs: { block: "", disabled: !_vm.recentStd }
-                            },
-                            [_vm._v("Send")]
                           )
                         ],
                         1
@@ -101334,7 +101386,70 @@ var render = function() {
                     ],
                     1
                   )
-                : _vm._e()
+                : _vm._e(),
+              _vm._v(" "),
+              _c(
+                "b-row",
+                [
+                  _c(
+                    "b-col",
+                    [
+                      _c(
+                        "b-button",
+                        {
+                          directives: [
+                            {
+                              name: "b-modal",
+                              rawName: "v-b-modal.generate-std",
+                              modifiers: { "generate-std": true }
+                            }
+                          ],
+                          staticClass: "mt-2",
+                          attrs: {
+                            block: "",
+                            disabled: _vm.recentStd ? true : false
+                          }
+                        },
+                        [_vm._v("Generate")]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-col",
+                    [
+                      _c(
+                        "b-button",
+                        {
+                          staticClass: "mt-2",
+                          attrs: { block: "", disabled: !_vm.recentStd },
+                          on: { click: _vm.previewSTD }
+                        },
+                        [_vm._v("Preview")]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-col",
+                    [
+                      _c(
+                        "b-button",
+                        {
+                          staticClass: "mt-2",
+                          attrs: { block: "", disabled: !_vm.recentStd },
+                          on: { click: _vm.sendSTD }
+                        },
+                        [_vm._v("Send")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
             ],
             1
           )

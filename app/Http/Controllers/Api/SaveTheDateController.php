@@ -82,6 +82,12 @@ class SaveTheDateController extends Controller
             $saveTheDate->invite()->associate($invite);
             $saveTheDate->save();
 
+             // generate pdf
+            $saveTheDate->generatePdf();
+
+            // send email
+            $this->send($saveTheDate->id);
+
             // update response
             $response = array(
                 'response'  => true,
@@ -272,15 +278,23 @@ class SaveTheDateController extends Controller
     }
 
     /**
-     * Send preview of STD.
+     * Send STD.
      */
-    public function preview($id) {
+    public function send($id) {
 
         // get SaveTheDate
         $std = SaveTheDate::find($id);
 
-        // send SaveTheDate to logged in User
-        $std->send('test@test.com');
+        // update sent on date
+        $std->sent_at = date('Y-m-d');
+        $std->save();
 
+        // send SaveTheDate to User
+        $std->send();
+
+        return response()->json([
+            'success' => true,
+            'message'   => 'Save the date has been sent'
+        ]);
     }
 }
