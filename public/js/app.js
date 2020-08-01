@@ -48864,6 +48864,7 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
 		path: '/admin',
 		component: __webpack_require__(344),
 		name: 'admin',
+		redirect: { name: 'people.all' },
 		children: [{
 			path: 'dashboard',
 			name: 'admin.dashboard',
@@ -93318,31 +93319,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 // visibleOnCollapse: true
                 // class: ''
                 // attributes: {}
-            }, {
-                href: '/admin/dashboard',
-                title: 'Dashboard',
-                icon: 'fa fa-th-list'
-                /* 
-                // custom icon
-                icon: {
-                    element: 'span',
-                    class: 'fa fa-user',
-                    attributes: {}
-                }
-                */
-                // disabled: true
-                // class: ''
-                // attributes: {}
-                // alias: '/path'
-                /*
-                badge: {
-                    text: 'new',
-                    class: 'default-badge'
-                    // attributes: {}
-                    // element: 'span'
-                }
-                */
-            }, {
+            },
+            // {
+            //     href: '/admin/dashboard',
+            //     title: 'Dashboard',
+            //     icon: 'fa fa-th-list',
+            // },
+            {
                 href: '/admin/people/all',
                 title: 'People',
                 icon: 'fa fa-users'
@@ -93381,11 +93364,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 href: '/admin/saveTheDates/all',
                 title: 'Save the dates',
                 icon: 'fas fa-envelope-open-text'
-            }, {
-                href: '/admin/reports',
-                title: 'Reports',
-                icon: 'fa fa-chart-pie'
-            }, {
+            },
+            // {
+            //     href: '/admin/reports',
+            //     title: 'Reports',
+            //     icon: 'fa fa-chart-pie',
+            // },
+            {
                 href: '/admin/emails',
                 title: 'Emails',
                 icon: 'fa fa-envelope'

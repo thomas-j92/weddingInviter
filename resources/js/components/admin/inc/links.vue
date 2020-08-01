@@ -18,31 +18,11 @@
                         // class: ''
                         // attributes: {}
                     },
-                    {
-                        href: '/admin/dashboard',
-                        title: 'Dashboard',
-                        icon: 'fa fa-th-list',
-                        /* 
-                        // custom icon
-                        icon: {
-                            element: 'span',
-                            class: 'fa fa-user',
-                            attributes: {}
-                        }
-                        */
-                        // disabled: true
-                        // class: ''
-                        // attributes: {}
-                        // alias: '/path'
-                        /*
-                        badge: {
-                            text: 'new',
-                            class: 'default-badge'
-                            // attributes: {}
-                            // element: 'span'
-                        }
-                        */
-                    },
+                    // {
+                    //     href: '/admin/dashboard',
+                    //     title: 'Dashboard',
+                    //     icon: 'fa fa-th-list',
+                    // },
                     {
                         href: '/admin/people/all',
                         title: 'People',
@@ -85,11 +65,11 @@
                         title: 'Save the dates',
                         icon: 'fas fa-envelope-open-text',
                     },
-                    {
-                        href: '/admin/reports',
-                        title: 'Reports',
-                        icon: 'fa fa-chart-pie',
-                    },
+                    // {
+                    //     href: '/admin/reports',
+                    //     title: 'Reports',
+                    //     icon: 'fa fa-chart-pie',
+                    // },
                     {
                         href: '/admin/emails',
                         title: 'Emails',
