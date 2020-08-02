@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid no-padding h-100">
     <div class="row h-100">
-        <div class="col-sm-5 left-section">
+        <div class="col-sm-5 left-section pull-right">
             <div class="row">
                 <div class="col-sm-8 offset-sm-2 pt-3">
                    
@@ -48,7 +48,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-7 right-section">
+        <div class="col-sm-7 right-section d-none d-sm-block">
             <div class="cover"></div>
         </div>
     </div>

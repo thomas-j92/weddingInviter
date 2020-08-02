@@ -20,11 +20,11 @@
   src: url('/fonts/RothmanPlain.ttf');
 }
 
-// Main settings
-@import 'main';
-
 // Screen size settings
 @import 'screen-sizes';
+
+// Main settings
+@import 'main';
 
 // Under construction page
 @import 'under_construction';

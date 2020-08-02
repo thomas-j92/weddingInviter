@@ -73,7 +73,7 @@
 								</b-card-header>
 								<b-table :items="data.item.additional_guests" :fields="additionalFields">
 									<template v-slot:cell(name)="row">
-										{{ row.item.person.first_name }} {{ row.item.person.first_name}}
+										{{ row.item.person.first_name }} {{ row.item.person.last_name}}
 									</template>
 
 									<template v-slot:cell(attending_day)="row">
