@@ -95882,6 +95882,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'saveTheDates.all',
@@ -96040,7 +96041,10 @@ var render = function() {
     [
       _c(
         "b-card",
+        { staticClass: "custom", attrs: { "no-body": "" } },
         [
+          _c("b-card-title", [_vm._v("Save The Dates")]),
+          _vm._v(" "),
           _c(
             "b-card-body",
             [
@@ -98858,14 +98862,15 @@ var render = function() {
     "section",
     { attrs: { id: "createInvite" } },
     [
+      _c("b-breadcrumb", { attrs: { items: _vm.breadcrumbs } }),
+      _vm._v(" "),
       _c(
         "b-card",
+        { staticClass: "custom", attrs: { "no-body": "" } },
         [
-          _c("b-breadcrumb", { attrs: { items: _vm.breadcrumbs } }),
-          _vm._v(" "),
           _c("b-card-title", [_vm._v("Setup Invite")]),
           _vm._v(" "),
-          _c("b-card-text", [
+          _c("b-card-body", [
             _vm._v(
               "\n\t\t\t\tSetup a new invite. You can assign multiple guests to the same invite using the 'Additional Guests' section. Only the main guest will be able to RSVP for everyone assigned to the invite.\n\t\t\t"
             )
@@ -98876,8 +98881,9 @@ var render = function() {
       _vm._v(" "),
       _c(
         "b-card",
+        { staticClass: "custom", attrs: { "no-body": "" } },
         [
-          _c("b-card-header", [_vm._v("Guest")]),
+          _c("b-card-title", [_vm._v("Guest")]),
           _vm._v(" "),
           _c("b-card-body", [
             !_vm.personLoading
@@ -98998,8 +99004,9 @@ var render = function() {
       _vm._v(" "),
       _c(
         "b-card",
+        { staticClass: "custom", attrs: { "no-body": "" } },
         [
-          _c("b-card-header", [_vm._v("\n\t\t\t\tAdditional Guests\n\t\t\t")]),
+          _c("b-card-title", [_vm._v("\n\t\t\t\tAdditional Guests\n\t\t\t")]),
           _vm._v(" "),
           _c("b-card-body", [
             !_vm.additional.loading
@@ -99072,8 +99079,9 @@ var render = function() {
       _vm._v(" "),
       _c(
         "b-card",
+        { staticClass: "custom", attrs: { "no-body": "" } },
         [
-          _c("b-card-header", [_vm._v("\n\t\t\t\tPlus Ones\n\t\t\t")]),
+          _c("b-card-title", [_vm._v("\n\t\t\t\tPlus Ones\n\t\t\t")]),
           _vm._v(" "),
           _c(
             "b-card-body",

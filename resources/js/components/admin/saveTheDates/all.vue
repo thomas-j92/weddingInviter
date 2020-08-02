@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<b-card>
+		<b-card class="custom" no-body>
+			<b-card-title>Save The Dates</b-card-title>
 			<b-card-body>
 				<b-tabs content-class="mt-3">
 					<b-tab :title="'Sent'+ ((isLoaded) ? ' ('+saveTheDates.length+')' : '')" active>

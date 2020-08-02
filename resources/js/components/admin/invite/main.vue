@@ -1,15 +1,15 @@
 <template>
 	<section id="createInvite">
-		<b-card>
-			<b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
+		<b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
+		<b-card class="custom" no-body>
 			<b-card-title>Setup Invite</b-card-title>
-			<b-card-text>
+			<b-card-body>
 				Setup a new invite. You can assign multiple guests to the same invite using the 'Additional Guests' section. Only the main guest will be able to RSVP for everyone assigned to the invite.
-			</b-card-text>
+			</b-card-body>
 		</b-card>
 
-		<b-card>
-			<b-card-header>Guest</b-card-header>
+		<b-card class="custom" no-body>
+			<b-card-title>Guest</b-card-title>
 
 			<b-card-body>
 				<div v-if="!personLoading">
@@ -45,10 +45,10 @@
 			</b-card-body>
 		</b-card>
 
-		<b-card>
-			<b-card-header>
+		<b-card class="custom" no-body>
+			<b-card-title>
 				Additional Guests
-			</b-card-header>
+			</b-card-title>
 
 			<b-card-body>
 				<div v-if="!additional.loading">
@@ -80,10 +80,10 @@
 			</b-card-body>
 		</b-card>
 
-		<b-card>
-			<b-card-header>
+		<b-card class="custom" no-body>
+			<b-card-title>
 				Plus Ones
-			</b-card-header>
+			</b-card-title>
 
 			<b-card-body>
 				<div class="plus-ones">
