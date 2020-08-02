@@ -1068,6 +1068,7 @@
 
 				 				// refresh data
 				 				self.getInvite();
+				 				self.getEmails();
 					 		} else {
 					 			self.toast('Error', resp.data.message, 'danger');
 					 		}
@@ -1085,6 +1086,7 @@
 
 				 				// refresh data
 				 				self.getInvite();
+				 				self.getEmails();
 					 		} else {
 					 			self.toast('Error', resp.data.message, 'danger');
 					 		}

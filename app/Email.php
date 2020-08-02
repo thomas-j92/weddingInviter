@@ -6,11 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Email extends Model
 {
-	protected $appends = ['created_at_uk'];
+	protected $appends = ['created_at_uk', 'cc_format'];
 
     public function getCreatedAtUkAttribute()
     {
         return date('d/m/Y H:i:s', strtotime($this->created_at));
+    }
+
+    public function getCCFormatAttribute()
+    {
+        return unserialize($this->cc);
     }
 
     public function invite() {
@@ -19,5 +24,9 @@ class Email extends Model
 
     public function save_the_date() {
     	return $this->hasOne('App\SaveTheDate');
+    }
+
+    public function attachments() {
+        return $this->hasMany('App\EmailAttachment');
     }
 }

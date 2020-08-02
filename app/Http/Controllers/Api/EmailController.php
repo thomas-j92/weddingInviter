@@ -49,7 +49,7 @@ class EmailController extends Controller
      */
     public function show($id)
     {
-        $email = Email::find($id);
+        $email = Email::with(['attachments'])->find($id);
 
         return response()->json($email);
     }

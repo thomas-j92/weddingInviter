@@ -5,30 +5,41 @@
 			<b-card-body>
 				<div v-if="isLoaded">
 					<b-row>
-						<b-col>
+						<b-col cols="4">
 							<h2>Subject</h2> 
 							<p>{{ email.subject }}</p>
 						</b-col>
 
-						<b-col>
+						<b-col cols="4">
 							<h2>Sent on</h2> 
 							<p>{{ email.created_at_uk }}</p>
 						</b-col>
 
-						<b-col>
+						<b-col cols="4">
 							<h2>To</h2> 
 							<p>{{ email.email_address }}</p>
 						</b-col>
 
-						<b-col>
+						<b-col cols="4">
 							<h2>CC</h2> 
-							<p v-if="email.cc">{{ email.cc }}</p>
+							<p v-if="email.cc_format">
+								<span v-for="cc in email.cc_format">
+									{{ cc }}
+								</span>
+							</p>
 							<p v-else>N/A</p>
 						</b-col>
 
-						<b-col>
+						<b-col cols="4">
 							<h2>Invite</h2> 
 							<b-link :to="{'name': 'invite.view', 'params': {'inviteId': email.invite_id}}">View Invite</b-link>
+						</b-col>
+
+						<b-col cols="4">
+							<h2>Attachments</h2>
+							<span class="attachment" v-for="attachment in email.attachments">
+								<a :href="'/email/attachment/'+attachment.id">{{ attachment.file_path }}</a>
+							</span>
 						</b-col>
 					</b-row>
 					<b-row>

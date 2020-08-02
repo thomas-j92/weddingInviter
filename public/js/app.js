@@ -100401,6 +100401,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 						// refresh data
 						self.getInvite();
+						self.getEmails();
 					} else {
 						self.toast('Error', resp.data.message, 'danger');
 					}
@@ -100417,6 +100418,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 						// refresh data
 						self.getInvite();
+						self.getEmails();
 					} else {
 						self.toast('Error', resp.data.message, 'danger');
 					}
@@ -102918,6 +102920,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'email.view',
@@ -102989,13 +103002,13 @@ var render = function() {
                           _c(
                             "b-row",
                             [
-                              _c("b-col", [
+                              _c("b-col", { attrs: { cols: "4" } }, [
                                 _c("h2", [_vm._v("Subject")]),
                                 _vm._v(" "),
                                 _c("p", [_vm._v(_vm._s(_vm.email.subject))])
                               ]),
                               _vm._v(" "),
-                              _c("b-col", [
+                              _c("b-col", { attrs: { cols: "4" } }, [
                                 _c("h2", [_vm._v("Sent on")]),
                                 _vm._v(" "),
                                 _c("p", [
@@ -103003,7 +103016,7 @@ var render = function() {
                                 ])
                               ]),
                               _vm._v(" "),
-                              _c("b-col", [
+                              _c("b-col", { attrs: { cols: "4" } }, [
                                 _c("h2", [_vm._v("To")]),
                                 _vm._v(" "),
                                 _c("p", [
@@ -103011,16 +103024,29 @@ var render = function() {
                                 ])
                               ]),
                               _vm._v(" "),
-                              _c("b-col", [
+                              _c("b-col", { attrs: { cols: "4" } }, [
                                 _c("h2", [_vm._v("CC")]),
                                 _vm._v(" "),
-                                _vm.email.cc
-                                  ? _c("p", [_vm._v(_vm._s(_vm.email.cc))])
+                                _vm.email.cc_format
+                                  ? _c(
+                                      "p",
+                                      _vm._l(_vm.email.cc_format, function(cc) {
+                                        return _c("span", [
+                                          _vm._v(
+                                            "\n\t\t\t\t\t\t\t\t" +
+                                              _vm._s(cc) +
+                                              "\n\t\t\t\t\t\t\t"
+                                          )
+                                        ])
+                                      }),
+                                      0
+                                    )
                                   : _c("p", [_vm._v("N/A")])
                               ]),
                               _vm._v(" "),
                               _c(
                                 "b-col",
+                                { attrs: { cols: "4" } },
                                 [
                                   _c("h2", [_vm._v("Invite")]),
                                   _vm._v(" "),
@@ -103040,6 +103066,37 @@ var render = function() {
                                   )
                                 ],
                                 1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "b-col",
+                                { attrs: { cols: "4" } },
+                                [
+                                  _c("h2", [_vm._v("Attachments")]),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.email.attachments, function(
+                                    attachment
+                                  ) {
+                                    return _c(
+                                      "span",
+                                      { staticClass: "attachment" },
+                                      [
+                                        _c(
+                                          "a",
+                                          {
+                                            attrs: {
+                                              href:
+                                                "/email/attachment/" +
+                                                attachment.id
+                                            }
+                                          },
+                                          [_vm._v(_vm._s(attachment.file_path))]
+                                        )
+                                      ]
+                                    )
+                                  })
+                                ],
+                                2
                               )
                             ],
                             1

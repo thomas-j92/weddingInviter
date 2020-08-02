@@ -181,6 +181,12 @@ class SaveTheDate extends Model
         $emailLog->invite_id        = $this->invite_id;
         $emailLog->save();
 
+        // make Email attachment
+        $emailAttachment            = new emailAttachment;
+        $emailAttachment->file_path = $this->file_path;
+        $emailLog->attachments()->save($emailAttachment);
+        $emailAttachment->save();
+
         // update email ID
         $this->email()->associate($emailLog);
     }
