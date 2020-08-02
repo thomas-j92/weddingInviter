@@ -39,7 +39,7 @@ class SaveTheDateController extends Controller
     	if($std) {
 	    	$emailAllowed = false;
 	    	foreach($std->invite->guests as $guest) {
-	    		if($guest->person->email == $request->email) {
+	    		if(strtolower($guest->person->email) == strtolower($request->email)) {
 	    			$emailAllowed = true;
 	    		}
 	    	}
