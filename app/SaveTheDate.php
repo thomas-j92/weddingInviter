@@ -182,7 +182,7 @@ class SaveTheDate extends Model
         $emailLog->save();
 
         // make Email attachment
-        $emailAttachment            = new emailAttachment;
+        $emailAttachment            = new EmailAttachment;
         $emailAttachment->file_path = $this->file_path;
         $emailLog->attachments()->save($emailAttachment);
         $emailAttachment->save();
