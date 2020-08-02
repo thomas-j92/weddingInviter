@@ -61,7 +61,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-7 right-section">
+        <div class="col-sm-7 right-section d-none d-sm-block">
             <div class="cover"></div>
         </div>
     </div>
