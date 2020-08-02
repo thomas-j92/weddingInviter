@@ -99944,8 +99944,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -100501,71 +100499,35 @@ var render = function() {
                         _c("b-col", { attrs: { sm: "5" } }, [
                           _c("h5", [_vm._v("Save the date")]),
                           _vm._v(" "),
-                          !_vm.invite.save_the_dates
-                            ? _c(
-                                "div",
-                                [
-                                  _c(
-                                    "h4",
-                                    { staticClass: "d-inline" },
-                                    [
-                                      _c(
-                                        "b-badge",
-                                        { attrs: { variant: "danger" } },
-                                        [_vm._v("Not Sent")]
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "b-link",
-                                    {
-                                      directives: [
-                                        {
-                                          name: "b-modal",
-                                          rawName: "v-b-modal.send-std",
-                                          modifiers: { "send-std": true }
-                                        }
-                                      ]
-                                    },
-                                    [_vm._v("Send")]
-                                  )
-                                ],
-                                1
-                              )
-                            : _c(
-                                "div",
-                                [
-                                  _c(
-                                    "h4",
-                                    { staticClass: "d-inline" },
-                                    [
-                                      _c(
-                                        "b-badge",
-                                        { attrs: { variant: "success" } },
-                                        [_vm._v("Sent")]
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "b-link",
-                                    {
-                                      directives: [
-                                        {
-                                          name: "b-modal",
-                                          rawName: "v-b-modal.send-std",
-                                          modifiers: { "send-std": true }
-                                        }
-                                      ]
-                                    },
-                                    [_vm._v("Resend")]
-                                  )
-                                ],
-                                1
-                              )
+                          _vm.invite.save_the_dates.length == 0
+                            ? _c("div", [
+                                _c(
+                                  "h4",
+                                  { staticClass: "d-inline" },
+                                  [
+                                    _c(
+                                      "b-badge",
+                                      { attrs: { variant: "danger" } },
+                                      [_vm._v("Not Sent")]
+                                    )
+                                  ],
+                                  1
+                                )
+                              ])
+                            : _c("div", [
+                                _c(
+                                  "h4",
+                                  { staticClass: "d-inline" },
+                                  [
+                                    _c(
+                                      "b-badge",
+                                      { attrs: { variant: "success" } },
+                                      [_vm._v("Sent")]
+                                    )
+                                  ],
+                                  1
+                                )
+                              ])
                         ])
                       ],
                       1

@@ -16,17 +16,15 @@
 						</b-col>
 						<b-col sm="5">
 							<h5>Save the date</h5>
-							<div v-if="!invite.save_the_dates">
+							<div v-if="invite.save_the_dates.length == 0">
 								<h4 class="d-inline">
 									<b-badge variant="danger">Not Sent</b-badge>
 								</h4>
-								<b-link v-b-modal.send-std>Send</b-link>
 							</div>
 							<div v-else>
 								<h4 class="d-inline">
 									<b-badge variant="success">Sent</b-badge>
 								</h4>
-								<b-link v-b-modal.send-std>Resend</b-link>
 							</div>
 						</b-col>
 					</b-row>
