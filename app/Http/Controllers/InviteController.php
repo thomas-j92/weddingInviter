@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Mail;
+use Validator;
+use Session;
 use App\Mail\Invite;
+
+use App\Invite as InviteModel;
 
 class InviteController extends Controller
 {
@@ -148,7 +152,63 @@ class InviteController extends Controller
         return redirect('Invite/view/'.$invite_id);
     }
 
-    public function guestView($code) {
+    public function errorPage() {
+        return view('invitation.error');
+    }
+
+    public function verify(Request $request, $inviteCode) {
+        $parts = explode("/", $request->path());
+
+        return view('invitation.verify')->withCode($parts[1]);
+    }
+
+    public function verifySubmit(Request $request) {
+
+        $validator = Validator::make($request->all(), [
+            'code'      => 'required',
+            'email'     => 'required',
+        ]);
+
+        // ensure all required data has been provided
+        if(!$validator->fails()) {
+
+            // Find Invite
+            $invite = InviteModel::where('code', $request->code);
+            if($invite->count() == 1) {
+                $invite = $invite->first();
+
+                // Find main guest
+                $mainGuest = $invite->main_guest->person;
+
+                // Verified, set session and proceed
+                if($mainGuest->email == $request->email) {
+                    Session::put('verify', $mainGuest->email);
+                    
+                    return redirect('invitation/'.$request->code.'/view');
+                } else {
+                    Session::flash('status', "Oi, Hackerman 5000! Emails don't match up");
+                }
+
+                // dd($mainGuest);
+            } else {
+                Session::flash('status', "Invite couldn't be found. Maybe it got lost in the mail...");
+            }
+
+            return redirect('invitation/'.$request->code . '/verify');
+        } else {
+
+            if($request->code) {
+                Session::flash('status', "If you want free drinks, top being lazy and fill out the form!");
+
+                return redirect('invitation/'.$request->code.'/verify');
+            }
+        }
+
+        return redirect('invitation');
+
+    }
+
+    public function guestView($section, $code) {
 
         $invite = \App\Invite::where('code', $code)
                              ->with(['guests.person', 'plus_ones'])

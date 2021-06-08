@@ -35,6 +35,12 @@
 	}
 /* End of all pages */
 
+/* Google Maps */
+	#map {
+		@apply h-full;
+	}
+/* End of Google Maps */
+
 /* Nav */
 	#admin-header {
 		background-color: #FFF;
@@ -482,3 +488,29 @@
 		}
 	}
 /* End of Modal */
+
+/* Home page */
+	.home-page {
+		.home-countdown {
+			@apply bg-gray-100 py-16;
+			.countdown {
+				@apply px-5 mt-3;
+				@screen sm {
+					@apply px-0 mt-0;
+				}
+				.countdown-container {
+					@apply grid grid-cols-4 gap-4;
+					.countdown-element {
+						@apply w-full bg-pink py-4 rounded-md;
+						span {
+							@apply block text-center text-white;
+							&.number {
+								@apply text-4xl;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+/* End of home page */

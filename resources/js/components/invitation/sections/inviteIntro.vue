@@ -1,12 +1,12 @@
 <template>
 	<div>
-		<div class="invite-details" v-if="editable">
-			<div class="guests">
-				<h2 class="main-guests">{{ mainGuest.first_name }} {{ mainGuest.last_name }}</h2>
-			</div>
+		<div class="invite-details ribbon">
+
+			<span class="inner-ribbon">{{ mainGuest.first_name }} {{ mainGuest.last_name }}</span>
+			<div class="divider"></div>
 
 			<div class="invited-by">
-				<p>Are invited to celebrate the marriage of</p>
+				<p>You are invited to celebrate the marriage of</p>
 			</div>
 
 			<div class="bride-and-groom">
@@ -14,22 +14,8 @@
 				<p class="and">&</p>
 				<p class="groom">Thomas Jinks</p>
 			</div>
-
-			<div class="wedding-details">
-				<p>Wednesday, October 27, 2021</p>
-				<p>At halfpast 1 o'clock in the afternoon</p>
-				<p>The mill barns</p>
-				<p>Allum Bridge</p>
-				<p>Alveley</p>
-				<p>Bridgnorth</p>
-				<p>WV15 6HL</p>
-			</div>
-
-			<div class="reception-to-follow">
-				<p>Reception to follow</p>
-			</div>
 		</div>
-		<div v-else>
+		<div v-if="false">
 			<h2 class="m-4">Thank you for letting us know</h2>
 
 			<b-list-group class="pb-4">

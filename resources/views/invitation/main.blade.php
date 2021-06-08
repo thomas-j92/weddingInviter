@@ -2,10 +2,8 @@
 
 @section('title', 'Invitation')
 
-
-<!-- JavaScript -->
 @section('content')
 
-  This is the dashboard
+	<router-view></router-view>
         
 @stop

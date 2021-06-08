@@ -1,3 +1,7 @@
+// Tailwind
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
@@ -9,6 +13,12 @@
 @import '~bootstrap/scss/bootstrap';
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~bootstrap-vue/dist/bootstrap-vue.css";
+
+// Icons
+@import '~@fortawesome/fontawesome-pro/scss/fontawesome';
+@import '~@fortawesome/fontawesome-pro/scss/regular';
+@import '~@fortawesome/fontawesome-pro/scss/solid';
+@import '~@fortawesome/fontawesome-pro/scss/brands';
 
 // Fonts
 @font-face {

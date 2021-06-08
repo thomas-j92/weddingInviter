@@ -238,10 +238,15 @@ import VueRouter from 'vue-router'
 import VueAxios from 'vue-axios'
 import BootstrapVue from 'bootstrap-vue'
 import VueCountdownTimer from 'vuejs-countdown-timer'
+import VueCarousel from 'vue-carousel';
+var VueScrollTo = require('vue-scrollto');
+
 Vue.use(VueRouter)
 Vue.use(VueAxios, axios)
 Vue.use(BootstrapVue)
 Vue.use(VueCountdownTimer)
+Vue.use(VueCarousel);
+Vue.use(VueScrollTo)
 
 // Sidebar
 import VueSidebarMenu from 'vue-sidebar-menu'
@@ -250,12 +255,23 @@ Vue.use(VueSidebarMenu)
 
 // Loading gif
 import loading from './components/useful/loading'
-
-// No data text
 import no_data from './components/useful/no-data'
-
-// Countdown
 import countdown from './components/admin/dashboard/countdown'
+import navbar from './components/web/navbar'
+import heroSection from './components/web/hero'
+import location from './components/web/location'
+import faqs from './components/web/faqs'
+import timeline from './components/web/timeline'
+import homePage from './components/web/home-page'
+
+// Global components
+Vue.component('countdown', countdown);
+Vue.component('navbar', navbar);
+Vue.component('heroSection', heroSection);
+Vue.component('location', location);
+Vue.component('faqs', faqs);
+Vue.component('timeline', timeline);
+Vue.component('homePage', homePage);
 
 // Mixin
 if(document.head.querySelector('meta[name="api-base-url"]')) {
@@ -377,13 +393,33 @@ const router = new VueRouter({
 	        ]
 		},
 		{
-			path: '/invitation/view/:code',
-			component: require('./components/invitation/view')
-		}
+			path: '/invitation/:code',
+			component: require('./components/invitation/layout'),
+			redirect: {name: 'invite.start'},
+			children: [
+				{
+					path: 'view',
+					name: 'invite.start',
+					component: require('./components/invitation/start')
+				},
+				{
+					path: 'rsvp',
+					name: 'invite.rsvp',
+					component: require('./components/invitation/rsvp')
+				}
+			]
+			
+		},	
 	]
 })
 
 const app = new Vue({
 	el:'#app',
     router: router,
+});
+
+$(document).on('click', ".envelope-btn", function(){
+  $('.envelope').toggleClass('open');
+  $(".back").toggleClass("animate");
+  $(".note").toggleClass("animate");
 });

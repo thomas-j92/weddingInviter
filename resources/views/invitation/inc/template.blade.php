@@ -21,7 +21,7 @@
 	<div class="container-fluid p-0 ">
 		
 		<div id="app">
-			<router-view :invite="{{ $invite }}"></router-view>
+			@yield('content')
 		</div>
 	
 	</div>
@@ -46,9 +46,6 @@
 				@component('components.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
 				@endcomponent
 			@endif
-			<div id="app2">
-				@yield('content')
-			</div>
 		</div>
 	</div>
 	<script type="text/javascript" src="{{ URL::asset('js/app.js') }}"></script>

@@ -12,10 +12,6 @@ use App\PlusOne;
 use App\InviteGuests;
 use App\Email;
 
-// Load Mail
-use Mail;
-use App\Mail\Invite as MailInvite;
-
 // Load libaries 
 use Carbon\Carbon;
 use Validator;
@@ -205,24 +201,8 @@ class InviteController extends Controller
         // get Invite
         $invite = Invite::find($id);
 
-        // get main guest of Invite
-        $mainGuest = $invite->main_guest->person;
-
-        // send Invite notification
-        $emailSubject   = 'Online Invite';
-        $emailInvite    = new MailInvite($mainGuest, $invite, $emailSubject);
-        Mail::to($mainGuest->email)->send($emailInvite);
-
-        // html render
-        $emailHtml = ($emailInvite)->render();
-
-        // make Email log
-        $emailLog                   = new Email();
-        $emailLog->subject          = $emailSubject;
-        $emailLog->html             = $emailHtml;
-        $emailLog->email_address    = $mainGuest->email;
-        $emailLog->invite_id        = $id;
-        $emailLog->save();
+        // Send Invite
+        $invite->send();
 
         return response()->json([
             'success' => true
@@ -497,5 +477,53 @@ class InviteController extends Controller
 
         return response()->json($invites);
 
+    }
+
+    /**
+     * Get Invite By Code.
+     */
+    public function getByCode($code) {
+
+        $invite = Invite::with(['plus_ones', 'guests.person'])
+                        ->where('code', $code)
+                        ->first();
+
+        return response()->json($invite);
+
+    }
+
+    /**
+     * RSVP via web.
+     */
+    public function webRsvp(Request $request, $id) {
+
+        switch($request->guest_type) {
+            case 'main':
+            case 'additional':
+                // Find Guest
+                $guest = InviteGuests::find($request->id);
+
+            break;
+        }
+
+        // Update RSVP details
+        $guest->attending_day   = ($request['rsvp']['day'] == 'true') ? true : false;
+        $guest->attending_night = ($request['rsvp']['night'] == 'true') ? true : false;
+        $guest->rsvp            = true;
+        $guest->save();
+
+        // Update diet details
+        $person                         = $guest->person;
+        $person->vegetarian             = ($request['diet']['requirement'] == 'vegetarian') ? true : false;
+        $person->vegan                  = ($request['diet']['requirement'] == 'vegan') ? true : false;
+        if($request['diet']['requirement'] == 'other') {
+            $person->dietary_requirements =  $request['diet']['details'];
+        }
+        $person->save();
+
+        return response()->json([
+            'success'   => true,
+            'feedback'  => "Guest has RSVP'ed"
+        ]);
     }
 }

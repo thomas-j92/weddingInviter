@@ -16,31 +16,261 @@
     src: url('/fonts/invite/ChopinScript.otf');
 }
 
+/* Ribbon */
+.ribbon {
+  width: 100%;
+  position: relative;
+  float: left;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  color: white;
+  .inner-ribbon {
+	display: block;
+	width: calc(100% + 61px);
+	height: 60px;
+	line-height: 60px;
+	text-align: center;
+	margin-left: -31px;
+	margin-right: -31px;
+	font-size: 1.2em;
+	background: #db928a;
+	position: relative;
+	top: 20px;
+	&:before,
+	&:after {
+		content: "";
+  		position: absolute;
+	}
+	&:before {
+		height: 0;
+		width: 0;
+		bottom: -10px;
+		left: 0;
+		border-top: 10px solid #924d45;
+		border-left: 10px solid transparent;
+	}
+	&:after {
+		height: 0;
+		width: 0;
+		right: 0;
+		bottom: -10px;
+		border-top: 10px solid #924d45;
+		border-right: 10px solid transparent;
+	}
+  }
+}
+
+.envelope-btn {
+	@apply cursor-pointer;
+}
+.email {
+  display: block;
+  position: relative;
+  width:100%;
+  overflow: hidden;
+		
+	.envelope {
+		display: block;
+		height: 400px;
+		margin: 0 auto;
+		position: relative;
+		width: 500px;
+		  
+		.paper {
+		  display: block;
+		  left: 0;
+		  position: absolute;
+		  top: 0;
+		}
+			  
+		.back {
+		  &:before {
+		    content: "";
+		    display: block;
+
+		    border-style: solid;
+		    border-width: 200px 250px 0px 250px;
+		    border-color: transparent transparent #cebca3 transparent;
+		    height: 0px;
+		    width: 0px;
+		  }
+		  &:after {
+		    content: "";
+		    display: block;
+
+		    background-color: #deccb6;
+		    width: 500px;
+		    height: 200px;
+		  }
+		  &.animate:before {
+		    transition: border-width;
+		    transition-duration: 1s;
+		    transition-delay: 1s;
+		    border-width: 0 250px 200px 250px;
+		  }
+		}
+			  
+		.front {
+		 top: 200px;  
+		 &:after {
+		   content: "";
+		   display: block;
+
+		   background-color: #e8d9c6;
+		   height: 100px;
+		   width: 500px;
+		 }
+		  &:before {
+		    content: "";
+		    display: block;
+
+		    border-style: solid;
+		    border-width: 200px 250px 0px 250px;
+		    border-color: transparent #e8d9c6;
+		    height: 0px;
+		    width: 0px;
+		  }
+		}
+			  
+		.note {
+		  opacity: 0;
+		  display: block;
+		  height: 280px;
+		  margin: 0 auto;
+		  position: relative;
+		  top: 200px;
+		  width: 500px;
+			    
+		  &.animate {
+		    transition-property: top, opacity;
+		    transition-duration: 2s;
+		    transition-delay:2s;
+		    opacity:1;
+		    top: -370px;
+		  }
+		}
+
+		.form-wrapper {
+		  background: #fff;
+		  height: auto;
+		  margin: 10px auto 0 auto;
+		  width: 90%;
+		  form {
+		    border: 1px dotted #000;
+		    height: 210px;
+		    padding: 20px;
+		  }
+		  label {
+		    display: block;
+		    font-family: Helvetica, Arial, sans-serif;
+		    margin-bottom: 5px;
+		  }
+		  textarea {
+		    display: block;
+		    float: left;
+		    min-height: 100px;
+		    overflow: scroll;
+		    width: 100%;
+		  }
+		}
+
+		.seal {
+			@apply flex;
+			background-color: #db928a;
+		    border-radius: 4em;
+		    border-bottom-left-radius: 3em;
+    		border-top-right-radius: 3em;
+		    width: 6em;
+		    height: 6em;
+		    z-index: 9999;
+		    margin: 0 auto;
+		    position: absolute;
+		    bottom: -2em;
+    		left: 40%;
+		    .inner-seal {
+		    	@apply self-center mx-auto flex;
+				font-size: 1.3em;
+			    font-weight: bold;
+			    border: 2px solid #bf6c62;
+			    border-radius: 5em;
+			    height: 3em;
+			    width: 3em;
+			    color: #a55c52;
+			    .seal-text {
+			    	@apply mx-auto self-center;
+			    }
+		    }
+		}
+
+		&.open {
+			margin-top: 25em;
+			transition-property: margin;
+		    transition-duration: 1s;
+		    // transition-delay:1s;
+		    .envelope-btn {
+		    	@apply opacity-0 transition-opacity duration-100;
+		    }
+		}
+	}
+}
+
+
+html {
+   height: 100%;
+}
+
+body {
+   min-height: 100%;
+}
+
+
+
 /* Invite - Web View */
+
 .web-invite {
-	// background-image: url('/images/invite/background.jpg');
-	background-position: center;
-  	background-repeat: no-repeat;
-  	background-size: cover;
-	// background-color: #FFFAF4;
-	background-color: #748c73;
+	@apply bg-white;
+	background: url('/images/invite/welcome-bg.jpg')  no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 	.invite-container {
+		@apply border-white p-0;
+		border-width: 21px;
 		text-align: center;
-		background-color: #FFFAF4;
+		background-color: #003452;
+		.invite-header {
+			// width: 47.1em;
+			@apply w-full;
+    		height: 18em;
+			background-image: url('/images/invite/confetti.png');
+			background-repeat: no-repeat;
+			background-size: cover;
+			margin-left: auto;
+			margin-right: auto
+		}
 		.invite-details {
 			.guests {
 				padding: 2em 0em;
 				h2 {
+					@apply text-pink;
 					font-family: Quicksand;
-					color: #191918;
 					font-size: 32px;
 					text-transform: uppercase;
+					margin-top: 1em;
 				}
+			}
+			.divider {
+				background-image: url('/images/invite/mill-barn-pink.png');
+				background-size: cover;
+				width: 5em;
+				height: 5em;
+			    margin: 3em auto;
 			}
 			.invited-by {
 				p {
+					@apply text-pink-light;
 					font-family: Cinzel;
-				    color: #B0ADA8;
 				    font-size: 15px;
 				    line-height: 2em;
 				    letter-spacing: 2px;
@@ -52,9 +282,9 @@
 			.bride-and-groom {
 				margin: 2em 0em;
 				p {
+					@apply text-pink;
 					font-family: QuicksandBold;
 				    text-transform: uppercase;
-				    color: #191918;
 				    margin: 0;
 				    font-size: 30px;
 				    letter-spacing: 6px;
@@ -67,9 +297,9 @@
 		}
 		.wedding-details {
 			p {
+				@apply text-pink-light;
 				text-transform: uppercase;
 				font-family: Cinzel;
-				color: #B0ADA8;
 				margin: 0;
 				line-height: 16px;
 				letter-spacing: 2px;
@@ -82,7 +312,90 @@
     			margin-top: 1em;
 			}
 		}
+		.buttons {
+			@apply mt-3 mx-3; //grid grid-cols-2;
+			button {
+				@apply text-xl mb-3 py-3 w-full;
+			}
+			.rsvp-btn {
+				@apply bg-pink text-white;
+			}
+			&.all-buttons {
+				button {
+					@apply col-start-auto;
+				}
+			}
+			button {
+				@apply bg-blue-light text-white col-start-2;
+				&.secondary {
+					@apply bg-blue-lightest;
+				}
+			}
+		}
+		.form-group {
+			.col-form-label {
+				@apply text-white text-lg;
+			}
+			.btn-group-toggle {
+				label {
+					@apply border-pink text-pink;
+					&:hover {
+						@apply bg-pink text-white;
+					}
+					&.active {
+						@apply bg-pink text-white;
+					}
+					&.focus {
+						@apply shadow-none;
+					}
+				}
+			}
+		}
 	}
+}
+.web-invite-container {
+	.invite-container {
+		&.rsvp-invite {
+			.buttons {
+				@apply grid grid-cols-2;
+			}
+		}
+	}
+}
+/* Slides */
+.rsvp-slides {
+	@apply relative overflow-hidden;
+	.back-btn-container {
+		height: 3em;
+	}
+	.slides {
+		height: 10em;
+		fieldset {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+		}
+	}
+}
+/* End of Slides */
+
+/* Paper Effect */
+.paper-header {
+  background: #fff;
+  box-shadow:
+    /* The top layer shadow */
+    0 -1px 1px rgba(0,0,0,0.15),
+    /* The second layer */
+    0 -10px 0 -5px #eee,
+    /* The second layer shadow */
+    0 -10px 1px -4px rgba(0,0,0,0.15),
+     /* The third layer */
+    0 -20px 0 -10px #eee,
+    /* The third layer shadow */
+    0 -20px 1px -9px rgba(0,0,0,0.15);
+    /* Padding for demo purposes */
+    padding: 30px;
 }
 
 /* Transitions */ 
@@ -96,4 +409,14 @@
 .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
   opacity: 0;
   transform: translateY(30px);
+}
+.slide-leave-active,
+.slide-enter-active {
+  transition: 1s;
+}
+.slide-enter {
+  transform: translate(100%, 0);
+}
+.slide-leave-to {
+  transform: translate(-100%, 0);
 }

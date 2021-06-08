@@ -1,5 +1,6 @@
 <template>
 	<div class="countdown">
+		<!-- <flip-clock :options="{}" /> -->
 		<vue-countdown-timer
 		      :start-time="'2018-10-10 00:00:00'"
 		      :end-time="1635339600"
@@ -9,7 +10,8 @@
 		      :day-txt="'days'"
 		      :hour-txt="'hours'"
 		      :minutes-txt="'minutes'"
-		      :seconds-txt="'seconds'">
+		      :seconds-txt="'seconds'"
+		      class="countdown-container">
 		  <template slot="countdown" slot-scope="scope">
 		  	<div class="countdown-element days fadeIn speed-2">
 	        	<span class="number">{{scope.props.days}}</span>

@@ -15,7 +15,11 @@
 Auth::routes(['register' => false]);
 
 // under maintenance 
-Route::get('/', 'WebController@under_construction');
+Route::get('/', 'WebController@home');
+
+Route::get('/flush', function() {
+	Session::flush();
+});
 
 Route::get('/logout', 'Auth\LoginController@logout');
 
@@ -26,7 +30,11 @@ Route::get('user/get/', 'AuthController@get');
 Route::get('/admin/{section?}/{filter?}/{filter2?}', 'AdminController@main')->name('home');
 
 // View Invite
-Route::get('/invitation/view/{code}', 'InviteController@guestView');
+// Route::redirect('/invitation/{code}', '/invitation/{code}/view', 301);
+Route::get('/invitation/error', 'InviteController@errorPage');
+Route::get('/invitation/{code}/verify', 'InviteController@verify');
+Route::post('/invitation/verification', 'InviteController@verifySubmit');
+Route::get('/invitation/{code?}/{section?}/', 'InviteController@guestView')->middleware('invite.verify');
 
 // Save the date - mark as seen
 Route::get('/save_the_date/seen/{code}', 'SaveTheDateController@form')->name('std.seen');

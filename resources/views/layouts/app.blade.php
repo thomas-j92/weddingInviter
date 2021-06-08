@@ -6,44 +6,51 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="api-base-url" content="{{ url('') }}" />
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ mix('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+    <link href="{{ asset('webfonts/fa-solid-900.woff2') }}" crossorigin rel="preload" as="font">
+    <link href="{{ asset('webfonts/fa-regular-400.woff2') }}" crossorigin rel="preload" as="font">
+    <link href="{{ asset('webfonts/fa-brands-400.woff2') }}" crossorigin rel="preload" as="font">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-            <div class="container">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+        <main>
+            @include('inc.nav')
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <main class="py-4">
             @yield('content')
         </main>
     </div>
+
+    <script>
+        function initMap() {
+            let position = { lat: 52.46595754740831, lng: -2.3388887460223797 };
+
+            // Map
+            let map = new google.maps.Map(document.getElementById("map"), {
+                center: position,
+                zoom: 15,
+            });
+
+            const marker = new google.maps.Marker({
+                position: position,
+                map: map,
+            });
+        }
+    </script>
+     <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADY_cSSUb0IgsX7WLVe4VJYsLjzcB3bkU&callback=initMap&libraries=&v=weekly"
+      async
+    ></script>
 </body>
 </html>

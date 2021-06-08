@@ -19,11 +19,12 @@ class Invite extends Mailable
      *
      * @return void
      */
-    public function __construct(People $person, Inviter $invite, $subject)
+    public function __construct(People $person, Inviter $invite, $subject, $file_path)
     {
-        $this->person   = $person;
-        $this->invite   = $invite;
-        $this->subject  = $subject;
+        $this->person       = $person;
+        $this->invite       = $invite;
+        $this->subject      = $subject;
+        $this->file_path    = $file_path;
     }
 
     /**
@@ -33,6 +34,11 @@ class Invite extends Mailable
      */
     public function build()
     {
+        // attach file if one can be found
+        if($this->file_path) {
+             $this->attachFromStorageDisk('local', $this->file_path);
+        }
+        
         return $this->subject($this->subject)
                     ->markdown('emails.invite')
                     ->with([
