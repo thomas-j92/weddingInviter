@@ -328,68 +328,68 @@ const router = new VueRouter({
 		// dynamic segments start with a colon
 		{
 			path: '/admin', 
-			component: require('./components/admin/viewer'),
+			component: require('./components/admin/viewer').default,
 			name: 'admin',
 			redirect: {name: 'people.all'},
 			children: [
 		        {
 		         	path: 'dashboard',
 		         	name: 'admin.dashboard',
-		        	component: require('./components/admin/dashboard/main'),
+		        	component: require('./components/admin/dashboard/main').default
 		        },
 		        {
 		        	path: 'people/all',
 		        	name: 'people.all',
-		        	component: require('./components/admin/people/all')
+		        	component: require('./components/admin/people/all').default
 		        },
 		        {
 		        	path: 'people/upload/:id',
 		        	name: 'upload.process',
-		        	component: require('./components/admin/people/upload')
+		        	component: require('./components/admin/people/upload').default
 		        },
 		        {
 		        	path: 'people/view/:id',
 		        	name: 'person.view',
-		        	component: require('./components/admin/people/view')
+		        	component: require('./components/admin/people/view').default
 		        },
 		        {
 		        	path: 'saveTheDates/all',
 		        	name: 'saveTheDates.all',
-		        	component: require('./components/admin/saveTheDates/all')
+		        	component: require('./components/admin/saveTheDates/all').default
 		        },
 		        {
 		        	path: 'saveTheDates/bulk/:id',
 		        	name: 'saveTheDates.bulk',
-		        	component: require('./components/admin/saveTheDates/bulkUpload')
+		        	component: require('./components/admin/saveTheDates/bulkUpload').default
 		        },
 		        {
 		         	path: 'invites/all',
 		         	name: 'invites.all',
-		        	component: require('./components/admin/invites/all')
+		        	component: require('./components/admin/invites/all').default
 		        },
 		        {
 		        	path: 'invite/create/:personId?/',
-		        	component: require('./components/admin/invite/main'),
+		        	component: require('./components/admin/invite/main').default
 		        },
 		        {
 		        	path: 'invite/view/:inviteId/',
-		        	component: require('./components/admin/invite/view'),
-		        	name: 'invite.view'
+		        	name: 'invite.view',
+		        	component: require('./components/admin/invite/view').default
 		        },
 		        {
 		        	path: 'reports',
-		        	component: require('./components/admin/reports/main')
+		        	component: require('./components/admin/reports/main').default
 		        },
 		        {
 		        	path: 'emails',
 		        	name: 'emails.view',
-		        	component: require('./components/admin/emails/main'),
+		        	component: require('./components/admin/emails/main').default
 		        },
 		        {
 	    			path: 'emails/view/:id',
 	    			name: 'email.view',
-	    			component: require('./components/admin/emails/view')
-	    		}
+	    			component: require('./components/admin/emails/view').default
+	    			}
 	        ]
 		},
 		{
