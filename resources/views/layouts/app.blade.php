@@ -31,28 +31,5 @@
             @yield('content')
         </main>
     </div>
-
-    <script>
-        function initMap() {
-            let position = { lat: 52.46595754740831, lng: -2.3388887460223797 };
-
-            // Map
-            let map = new google.maps.Map(document.getElementById("map"), {
-                center: position,
-                zoom: 15,
-            });
-
-            console.log(map);
-
-            const marker = new google.maps.Marker({
-                position: position,
-                map: map,
-            });
-        }
-    </script>
-     <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADY_cSSUb0IgsX7WLVe4VJYsLjzcB3bkU&callback=initMap&libraries=&v=weekly"
-      async
-    ></script>
 </body>
 </html>

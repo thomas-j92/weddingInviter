@@ -59526,7 +59526,7 @@ body {
 
 /* Google Maps */
 
-#map {
+.map {
   height: 100%;
 }
 

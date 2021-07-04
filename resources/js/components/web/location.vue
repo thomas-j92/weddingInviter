@@ -33,13 +33,30 @@
 	    </div>
 	  </div>
 	  <div class="h-96 sm:h-auto">
-	    <div id="map"></div>
+	   <GmapMap
+		  :center="{lat: 52.46595754740831, lng: -2.3388887460223797}"
+		  :zoom="12"
+		  map-type-id="terrain"
+		  class="map"
+		>
+		  <GmapMarker
+		    :position="google && new google.maps.LatLng(52.46595754740831, -2.3388887460223797)"
+		    :clickable="true"
+		    :draggable="true"
+		    @click="center=m.position"
+		  />
+		</GmapMap>
 	  </div>
 	</div>
 </template>
 
 <script>
+	import {gmapApi} from 'vue2-google-maps'
+
 	export default {
-		name: 'location'
+		name: 'location',
+		computed: {
+    		google: gmapApi
+  		}
 	}
 </script>
