@@ -198,7 +198,7 @@ class InviteController extends Controller
         } else {
 
             if($request->code) {
-                Session::flash('status', "If you want free drinks, top being lazy and fill out the form!");
+                Session::flash('status', "If you want free drinks, stop being lazy and fill out the form!");
 
                 return redirect('invitation/'.$request->code.'/verify');
             }

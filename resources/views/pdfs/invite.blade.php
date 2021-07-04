@@ -61,7 +61,7 @@
 	.parent-container {
 		background-color: #003452;
 		padding: 1em;
-		background-image: url({{ asset('images/emails/save_the_dates/bg-image.jpg') }});
+		background-image: url({{ asset('images/invite/invite-bg.jpg') }});
 		background-size: cover;
 		/*background-repeat: no-repeat;*/
 		height: 100%;

@@ -1,7 +1,20 @@
 <template>
 	<div class="py-4">
 		<div>
-			<div class="email">
+			<div class="mobile-envelope d-lg-none">
+				<div class="note">
+					<div class="form-wrapper">
+						<div class="invite-container">
+							<inviteIntro :invite="invite"></inviteIntro>
+							<div class="buttons">
+								<router-link class="rsvp-btn" :to="{name: 'invite.rsvp', params: {'code': invite.code}}" tag="button">Click here to RSVP</router-link>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="email d-none d-lg-block">
 				<div class="envelope">
 					<div class="back paper"></div>
 					<div class="note">
@@ -41,6 +54,16 @@
 			}
 		},
 		mounted() {
+		},
+		computed: {
+		    isMobile() {
+                if( screen.width <= 760 ) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
 		},
 		methods: {
 			getExistingData(sectionNo) {

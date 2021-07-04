@@ -394,18 +394,18 @@ const router = new VueRouter({
 		},
 		{
 			path: '/invitation/:code',
-			component: require('./components/invitation/layout'),
+			component: require('./components/invitation/layout').default,
 			redirect: {name: 'invite.start'},
 			children: [
 				{
 					path: 'view',
 					name: 'invite.start',
-					component: require('./components/invitation/start')
+					component: require('./components/invitation/start').default
 				},
 				{
 					path: 'rsvp',
 					name: 'invite.rsvp',
-					component: require('./components/invitation/rsvp')
+					component: require('./components/invitation/rsvp').default
 				}
 			]
 			

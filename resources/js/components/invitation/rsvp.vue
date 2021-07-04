@@ -17,7 +17,7 @@
 				<button class="secondary" @click="step.number--" v-if="step.number > 0">Previous</button>
 
 				<!-- <button v-if="(step.number+1) == components.length" @click="submit">Finish</button> -->
-				<button @click="nextSlide" v-else-if="step.complete">Next</button>
+				<button @click="nextSlide">Next</button>
 			</div>
 		</div>
 </template>
@@ -106,10 +106,9 @@
 				}
 			})
 		},
+
 		methods: {
 			update(data) {
-				console.log(data);
-
 				// use complete value from component to check if component step is complete
 				this.step.complete = data.complete;
 
@@ -119,14 +118,20 @@
 			nextSlide() {
 				let currData = this.formData[this.step.number];
 
-				const self = this;
-				if(currData) {
-					axios.post(this.baseUrl+'/api/invite/rsvp/' + currData.id, currData)
-						 .then((resp) => {
-						 	if(resp.data.success) {
-						 		self.step.number++;
-						 	}
-						 })
+				if(this.step.complete) {
+					const self = this;
+					if(currData) {
+						axios.post(this.baseUrl+'/api/invite/rsvp/' + currData.id, currData)
+							 .then((resp) => {
+							 	if(resp.data.success) {
+							 		self.response.error = false;
+							 		self.step.number++;
+							 	}
+							 })
+					}
+				} else {
+					this.response.error 	= true;
+					this.response.message 	= 'Please select an option';
 				}
 			}
 		}

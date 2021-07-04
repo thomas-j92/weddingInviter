@@ -60492,6 +60492,12 @@ body {
   cursor: pointer;
 }
 
+.mobile-envelope {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 5em;
+}
+
 .email {
   display: block;
   position: relative;
@@ -60891,6 +60897,10 @@ body {
   --tw-shadow: 0 0 #0000;
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   box-shadow: none;
+}
+
+.web-invite-container .invite-container {
+  margin-top: 5em;
 }
 
 .web-invite-container .invite-container.rsvp-invite .buttons {

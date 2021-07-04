@@ -43,6 +43,8 @@ Route::get('save_the_date/preview/{id}', 'SaveTheDateController@preview')->middl
 
 // STD Print Preview
 Route::get('pdf/std/{id}', 'TestController@stdPreview')->name('std.preview');
+Route::get('test/invite/{id}', 'TestController@inviteGenerate')->name('invite.test');
+Route::get('test/inviteReceipt/{id}', 'TestController@inviteReceipt')->name('invite.receipt');
 
 // View email attachment
 Route::get('/email/attachment/{id}', 'EmailController@viewAttachment')->middleware('auth')->name('email.attachment');

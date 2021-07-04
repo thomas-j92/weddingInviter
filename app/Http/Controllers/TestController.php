@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 // Load Models
 use App\SaveTheDate;
+use App\Invite;
 
 class TestController extends Controller
 {	
@@ -17,6 +18,20 @@ class TestController extends Controller
 
         $saveTheDate = SaveTheDate::find($id);
         $saveTheDate->generatePdf(false, true);
+
+    }
+
+    public function inviteGenerate($id) {
+
+        $invite = Invite::find($id);
+        $invite->generatePdf(false, true);
+
+    }
+
+    public function inviteReceipt($id) {
+
+        $invite = Invite::find($id);
+        $invite->sendReceipt();
 
     }
 }

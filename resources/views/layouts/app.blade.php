@@ -42,6 +42,8 @@
                 zoom: 15,
             });
 
+            console.log(map);
+
             const marker = new google.maps.Marker({
                 position: position,
                 map: map,

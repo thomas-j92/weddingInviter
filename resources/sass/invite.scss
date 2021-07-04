@@ -63,6 +63,11 @@
 .envelope-btn {
 	@apply cursor-pointer;
 }
+.mobile-envelope {
+	width: 80%;
+  margin: 0 auto;
+  margin-top: 5em;
+}
 .email {
   display: block;
   position: relative;
@@ -354,7 +359,9 @@ body {
 	}
 }
 .web-invite-container {
+
 	.invite-container {
+		margin-top: 5em;
 		&.rsvp-invite {
 			.buttons {
 				@apply grid grid-cols-2;

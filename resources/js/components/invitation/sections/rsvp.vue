@@ -196,6 +196,8 @@
 					default:
 						this.step--;
 				}
+
+				this.pushValues();
 			},
 			pushValues(form) {
 				// push values back to parent

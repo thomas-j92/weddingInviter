@@ -12,6 +12,7 @@ use Mail;
 
 // Mail
 use App\Mail\Invite as MailInvite;
+use App\Mail\InviteReceipt as MailInviteReceipt;
 
 class Invite extends Model
 {
@@ -25,7 +26,8 @@ class Invite extends Model
 
 	protected $appends 	= [
 		'main_guest',
-		'additional_guests'
+		'additional_guests',
+        'rsvp',
 	];
 	
     public function guests() {
@@ -42,6 +44,19 @@ class Invite extends Model
 
     public function save_the_dates() {
         return $this->hasMany('App\SaveTheDate', 'invite_id', 'id');
+    }
+
+    public function getRsvpAttribute() {
+        $guests = $this->guests;
+
+        $hasRSVP = true;
+        foreach($guests as $guest) {
+            if($guest->rsvp == false) {
+                $hasRSVP = false;
+            }
+        }
+
+        return $hasRSVP;
     }
 
     /**
@@ -88,6 +103,8 @@ class Invite extends Model
         ];
         $pdf = PDF::loadView('pdfs.invite', $data);
 
+        // dd($testing);
+
         if($testing) {
             return $pdf->stream();
         }
@@ -114,6 +131,26 @@ class Invite extends Model
         return FALSE;
     }
 
+    public function sendReceipt() {
+
+        $mainGuest = $this->main_guest->person;
+
+        try{
+            // send Invite Receipt
+            $emailSubject   = 'RSVP Receipt';
+            $emailReceipt   = new MailInviteReceipt($mainGuest, $this, $emailSubject);
+            Mail::to('tommy_jinks@hotmail.co.uk')->send($emailReceipt);
+        }
+        catch(\Exception $e){
+            // Never reached
+            
+            dd($e);
+        }
+
+        dd($this->main_guest);
+
+    }
+
     /**
      * Send Invite
      */
@@ -123,7 +160,9 @@ class Invite extends Model
         $mainGuest = $this->main_guest->person;
 
         // generate PDF
-        $file_path = $this->generatePdf();
+        $file_path = $this->generatePdf(true, true);
+
+        die;
 
         // send Invite notification
         $emailSubject   = 'Online Invite';
