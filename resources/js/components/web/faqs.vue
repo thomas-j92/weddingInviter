@@ -59,6 +59,24 @@
 	            The venue and the monopoly guy have one thing in common - they both offer free parking. 
 	          </dd>
 	        </div>
+
+	        <div>
+	          <dt class="text-lg leading-6 font-medium text-white">
+	            I want to shower you with gifts, what can I get you?
+	          </dt>
+	          <dd class="mt-2 text-base text-gray-100">
+	           	With the last 18 months we've all had, don't feel the need to break the bank. If you really want to get us a gift, money is fine and will contribute to a nice slice of pizza in Rome on the honeymoon!
+	          </dd>
+	        </div>
+
+	        <div>
+	          <dt class="text-lg leading-6 font-medium text-white">
+	            How did you two become so awesome? 
+	          </dt>
+	          <dd class="mt-2 text-base text-gray-100">
+	            When I find the answer to this, you'll be the first to know.
+	          </dd>
+	        </div>
 	      </dl>
 	    </div>
 	  </div>
