@@ -6,7 +6,7 @@
 			<div v-if="attending.length > 0">
 				<p>We look forward to seeing you on the big day!</p>
 
-				<p>Please checkout our website on additional information you might want to know (I'm assuming you'd like to know where you're driving to!)</p>
+				<p>Please checkout the FAQ section on <a href="/" target="_blank">our website</a> for additional information that you might want to know (I'm assuming you'd like to know where you're driving to!)</p>
 			</div>
 			<div v-else>
 				<p class="text-white">We're sorry you are unable to attend. You are now dead to us! </p>
